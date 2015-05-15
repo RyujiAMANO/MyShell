@@ -35,8 +35,8 @@ if [ ! "${ANS}" = "y" -a ! "${ANS}" = "" ]; then
 fi
 
 #バックアップ
-if [ -f ${NC3SHELL}/nc3Backup.sh ]; then
-	COMMAND="bash ${NC3SHELL}/nc3Backup.sh"
+if [ -f ${NC3SHELL}/nc3Backup/nc3Backup.sh ]; then
+	COMMAND="bash ${NC3SHELL}/nc3Backup/nc3Backup.sh"
 	echo ${COMMAND}
 	${COMMAND}
 fi
@@ -58,7 +58,7 @@ COMMAND="cd ${TMPDIR}"
 echo ${COMMAND}
 ${COMMAND}
 
-COMMAND="`which curl` -O https://gist.githubusercontent.com/s-nakajima/ce316837f9c5ef000fc3/raw/.nc3plugins"
+COMMAND="`which curl` -O https://raw.githubusercontent.com/s-nakajima/MyShell/master/.nc3plugins"
 echo ${COMMAND}
 ${COMMAND}
 

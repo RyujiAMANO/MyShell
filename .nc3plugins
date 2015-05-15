@@ -68,26 +68,26 @@ LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Blogs ${NC3GITURL}")
 
 #composer.json
 if [ ! "${NODEVELOP}" = "1" ]; then
-	#NC3_COMPOSER_URL=https://gist.githubusercontent.com/s-nakajima/f54fc1bb6c680c285dc9/raw/composer.json
+	#NC3_COMPOSER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/composer.json
 	NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
 else
 	NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
 fi
-#DEV_COMPOSER_URL=https://gist.githubusercontent.com/s-nakajima/f54fc1bb6c680c285dc9/raw/composer.json
+#DEV_COMPOSER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/composer.json
 DEV_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
 
 #bower.json
 if [ ! "${NODEVELOP}" = "1" ]; then
 	if [ "${NORMALDEV}" = "2" ]; then
-		NC3_BOWER_URL=https://gist.githubusercontent.com/s-nakajima/f54fc1bb6c680c285dc9/raw/bower-mathjax.json
+		NC3_BOWER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/bower-mathjax.json
 	else
-		NC3_BOWER_URL=https://gist.githubusercontent.com/s-nakajima/f54fc1bb6c680c285dc9/raw/bower.json
+		NC3_BOWER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/bower.json
 	fi
 	#NC3_BOWER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/bower.json
 else
 	NC3_BOWER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/bower.json
 fi
-DEV_BOWER_URL=https://gist.githubusercontent.com/s-nakajima/f54fc1bb6c680c285dc9/raw/bower.json
+DEV_BOWER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/bower.json
 #DEV_BOWER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/bower.json
 
 NC3PLUGINS=(); export NC3PLUGINS
