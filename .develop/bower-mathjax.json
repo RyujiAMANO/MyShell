@@ -1,0 +1,25 @@
+{
+  "name": "NetCommons3",
+  "version": "3.0.0",
+  "homepage": "http://www.netcommons.org/",
+  "moduleType": [
+    "node"
+  ],
+  "authors": [
+    "NetCommons Community"
+  ],
+  "license": "NetCommons License",
+  "dependencies": {
+    "angular": "~1.3",
+    "angular-bootstrap": "~0.10.0",
+    "angular-ui-tinymce": "~0.0.5",
+    "tinymce": ">=4.1",
+    "mathjax": "https://github.com/mathjax/MathJax.git#v2.5-latest"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.3"
+  },
+  "resolutions": {
+    "tinymce": ">=4.1"
+  }
+}
