@@ -1,6 +1,6 @@
-# nc3PluginTest
+# テストシェル
 
-## テストシェル
+## nc3PluginTest
 （小まめに最新を取得してね）
 
 <pre>

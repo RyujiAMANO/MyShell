@@ -1,6 +1,6 @@
-# nc3Backup
+# vagrant実行にログ出力＋tailコマンドを実行するバッチファイル
 
-## vagrant実行にログ出力＋tailコマンドを実行するバッチファイル
+## nc3Backup
 
 ※windowsのバッチ(PowerShellが必要)
 
