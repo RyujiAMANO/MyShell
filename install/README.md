@@ -1,4 +1,4 @@
-# MyShell
+# install
 
 ## 環境の再構築シェル
 ※/var/www/app以下のソースを最新化するシェル
