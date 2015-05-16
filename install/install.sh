@@ -341,6 +341,18 @@ mv application.yml application.yml.org
 echo "mv application.yml2 application.yml"
 mv application.yml2 application.yml
 
+MATCHES="debug: 0"
+REPLACE="debug: 2"
+
+echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" application.yml > application.yml2"
+sed -e "s/${MATCHES}$/${REPLACE}/g" application.yml > application.yml2
+
+echo "mv application.yml application.yml.org2"
+mv application.yml application.yml.org2
+
+echo "mv application.yml2 application.yml"
+mv application.yml2 application.yml
+
 #########################
 # Admin以外のユーザ作成 #
 #########################
