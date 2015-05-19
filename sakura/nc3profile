@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+#-----------------------------------------
+# Environment variable
+#-----------------------------------------
+
+GITURL=https://github.com/NetCommons3; export GITURL
+SAKURA_USER=; export SAKURA_USER
+SAKURA_HOST=; export SAKURA_HOST
+SAKURA_SHELL=; export SAKURA_SHELL
+
+BASIC_USER=; export BASIC_USER
+BASIC_PASS=; export BASIC_PASS
+
+DBHOST=; export DBHOST
+DBNAME=; export DBNAME
+DBUSER=; export DBUSER
+DBPASS=; export DBPASS
+
+NC3URI=; export NC3URI
+#NC3PORT=9090; export NC3PORT
+NC3UID=; export NC3UID
+NC3PASS=; export NC3PASS
+NC3HANDLE=; export NC3HANDLE
