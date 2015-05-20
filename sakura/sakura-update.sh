@@ -20,41 +20,39 @@ LOCALDEV=1; export LOCALDEV
 # 環境構築 #
 ############
 
-COMMAND="rm -Rf NetCommons3"
-echo ${COMMAND}
-${COMMAND}
+if [ ! -d NetCommons3 ]; then
+	COMMAND="git clone ${GITURL}/NetCommons3.git"
+	echo ${COMMAND}
+	${COMMAND}
 
-COMMAND="git clone ${GITURL}/NetCommons3.git"
-echo ${COMMAND}
-${COMMAND}
+	COMMAND="chown www-data:www-data -R NetCommons3"
+	echo ${COMMAND}
+	${COMMAND}
 
-COMMAND="chown www-data:www-data -R NetCommons3"
-echo ${COMMAND}
-${COMMAND}
+	COMMAND="cd ${NC3DIR}/"
+	echo ${COMMAND}
+	${COMMAND}
 
-COMMAND="cd ${NC3DIR}/"
-echo ${COMMAND}
-${COMMAND}
+	COMMAND="git config --global url.'https://'.insteadOf git://"
+	echo ${COMMAND}
+	${COMMAND}
 
-COMMAND="git config --global url.'https://'.insteadOf git://"
-echo ${COMMAND}
-${COMMAND}
+	COMMAND="composer self-update"
+	echo ${COMMAND}
+	${COMMAND}
 
-COMMAND="composer self-update"
-echo ${COMMAND}
-${COMMAND}
+	COMMAND="`which composer` update"
+	echo ${COMMAND}
+	${COMMAND}
 
-COMMAND="`which composer` update"
-echo ${COMMAND}
-${COMMAND}
+	COMMAND="cp -pf ./tools/build/app/cakephp/composer.json ./"
+	echo ${COMMAND}
+	${COMMAND}
 
-COMMAND="cp -pf ./tools/build/app/cakephp/composer.json ./"
-echo ${COMMAND}
-${COMMAND}
-
-COMMAND="`which composer` update"
-echo ${COMMAND}
-${COMMAND}
+	COMMAND="`which composer` update"
+	echo ${COMMAND}
+	${COMMAND}
+fi
 
 #Githubから最新取得
 if [ -f ${CURDIR}/.nc3plugins ]; then
@@ -175,15 +173,7 @@ if [ ! "${SAKURA_USER}" = "" ]; then
 	echo ${COMMAND}
 	${COMMAND}
 
-	COMMAND="ssh -i /root/.ssh/id_rsa ${SAKURA_USER}@${SAKURA_HOST} ${SAKURA_SHELL}/sakura-nc3-all-latest.sh"
-	echo ${COMMAND}
-	${COMMAND}
-
-	COMMAND="`which node` ${CURDIR}/sakura-nc3-install.js"
-	echo ${COMMAND}
-	${COMMAND}
-
-	COMMAND="ssh -i /root/.ssh/id_rsa ${SAKURA_USER}@${SAKURA_HOST} ${SAKURA_SHELL}/sakura-nc3-all-latest-after.sh"
+	COMMAND="ssh -i /root/.ssh/id_rsa ${SAKURA_USER}@${SAKURA_HOST} ${SAKURA_SHELL}/sakura-nc3-plugin-update.sh"
 	echo ${COMMAND}
 	${COMMAND}
 fi
