@@ -24,28 +24,6 @@ COMMAND="tar czf NetCommons3.tar.gz NetCommons3"
 echo ${COMMAND}
 ${COMMAND}
 
-if [ ! "${SAKURA_USER}" = "" ]; then
-	COMMAND="scp -i /root/.ssh/id_rsa NetCommons3.tar.gz ${SAKURA_USER}@${SAKURA_HOST}:~/tmp/"
-	echo ${COMMAND}
-	${COMMAND}
-
-	COMMAND="ssh -i /root/.ssh/id_rsa ${SAKURA_USER}@${SAKURA_HOST} ${SAKURA_SHELL}/sakura-nc3-all-latest.sh"
-	echo ${COMMAND}
-	${COMMAND}
-
-	COMMAND="`which node` ${CURDIR}/sakura-nc3-install.js"
-	echo ${COMMAND}
-	${COMMAND}
-
-	COMMAND="ssh -i /root/.ssh/id_rsa ${SAKURA_USER}@${SAKURA_HOST} ${SAKURA_SHELL}/sakura-nc3-all-latest-after.sh"
-	echo ${COMMAND}
-	${COMMAND}
-fi
-
-exit
-
-
-
 
 ############
 # 環境構築 #
