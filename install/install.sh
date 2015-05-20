@@ -300,20 +300,20 @@ fi
 # インストーラファイルの修正 #
 ##############################
 
-echo "cd ${NC3DIR}/app/Plugin/Install/Controller/"
-cd ${NC3DIR}/app/Plugin/Install/Controller/
+#echo "cd ${NC3DIR}/app/Plugin/Install/Controller/"
+#cd ${NC3DIR}/app/Plugin/Install/Controller/
 
-MATCHES="private function __installPackages() {"
-REPLACE="private function __installPackages() { return true;"
+#MATCHES="private function __installPackages() {"
+#REPLACE="private function __installPackages() { return true;"
 
-echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" InstallController.php > InstallController.php2"
-sed -e "s/${MATCHES}/${REPLACE}/g" InstallController.php > InstallController.php2
+#echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" InstallController.php > InstallController.php2"
+#sed -e "s/${MATCHES}/${REPLACE}/g" InstallController.php > InstallController.php2
 
-echo "mv InstallController.php InstallController.php.org"
-mv InstallController.php InstallController.php.org
+#echo "mv InstallController.php InstallController.php.org"
+#mv InstallController.php InstallController.php.org
 
-echo "mv InstallController.php2 InstallController.php"
-mv InstallController.php2 InstallController.php
+#echo "mv InstallController.php2 InstallController.php"
+#mv InstallController.php2 InstallController.php
 
 ################
 # インストール #

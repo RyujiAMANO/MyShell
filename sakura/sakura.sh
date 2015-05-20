@@ -16,15 +16,6 @@ else
 fi
 
 
-COMMAND="rm -f NetCommons3.tar.gz"
-echo ${COMMAND}
-${COMMAND}
-
-COMMAND="tar czf NetCommons3.tar.gz NetCommons3"
-echo ${COMMAND}
-${COMMAND}
-
-
 ############
 # 環境構築 #
 ############
@@ -151,21 +142,21 @@ fi
 # インストーラファイルの修正 #
 ##############################
 
-COMMAND="cd ${NC3DIR}/app/Plugin/Install/Controller/"
-echo ${COMMAND}
-${COMMAND}
+#COMMAND="cd ${NC3DIR}/app/Plugin/Install/Controller/"
+#echo ${COMMAND}
+#${COMMAND}
 
-MATCHES="private function __installPackages() {"
-REPLACE="private function __installPackages() { return true;"
+#MATCHES="private function __installPackages() {"
+#REPLACE="private function __installPackages() { return true;"
 
-echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" InstallController.php > InstallController.php2"
-sed -e "s/${MATCHES}/${REPLACE}/g" InstallController.php > InstallController.php2
+#echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" InstallController.php > InstallController.php2"
+#sed -e "s/${MATCHES}/${REPLACE}/g" InstallController.php > InstallController.php2
 
-echo "mv InstallController.php InstallController.php.org"
-mv InstallController.php InstallController.php.org
+#echo "mv InstallController.php InstallController.php.org"
+#mv InstallController.php InstallController.php.org
 
-echo "mv InstallController.php2 InstallController.php"
-mv InstallController.php2 InstallController.php
+#echo "mv InstallController.php2 InstallController.php"
+#mv InstallController.php2 InstallController.php
 
 COMMAND="cd ${CURDIR}/"
 echo ${COMMAND}
