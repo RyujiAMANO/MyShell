@@ -59,7 +59,8 @@ INSERT INTO pages(room_id, lft, rght, permalink, slug, is_published)
 SELECT 1, (`id` * 2 + 1), (`id` * 2 + 2), concat('slug_', `key`), concat('slug_', `key`), 1
 FROM `plugins`
 WHERE plugins.type = 1
-AND plugins.key != 'menus';
+AND plugins.key != 'menus'
+AND plugins.language_id = '2';
 
 
 #-- languages_pages
@@ -68,7 +69,8 @@ SELECT plugins.language_id, pages.id, plugins.name
 FROM pages, plugins
 WHERE pages.slug = concat('slug_', plugins.key)
 AND plugins.type = 1
-AND plugins.key != 'menus';
+AND plugins.key != 'menus'
+AND plugins.language_id = '2';
 
 
 #-- containers 
@@ -76,7 +78,8 @@ INSERT INTO containers(type, modified_user)
 SELECT 3, plugins.id
 FROM plugins
 WHERE plugins.type = 1
-AND plugins.key != 'menus';
+AND plugins.key != 'menus'
+AND plugins.language_id = '2';
 
 
 #-- containers_pages 
@@ -117,4 +120,5 @@ FROM plugins
 INNER JOIN pages ON (pages.slug = concat('slug_', plugins.key))
 INNER JOIN boxes ON (pages.id = boxes.page_id)
 WHERE boxes.type = 4 AND boxes.id != 3
-AND plugins.key != 'menus';
+AND plugins.key != 'menus'
+AND plugins.language_id = '2';
