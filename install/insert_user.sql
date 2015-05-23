@@ -112,7 +112,7 @@ INNER JOIN containers_pages ON (boxes.container_id = containers_pages.container_
 
 #-- frames 
 INSERT INTO frames (language_id, room_id, box_id, plugin_key, `key`, name, header_type)
-SELECT plugins.language_id, 1, boxes.id, plugins.key, MD5(plugins.key), plugins.name, 'default'
+SELECT plugins.language_id, 1, boxes.id, plugins.key, MD5(plugins.key), CONCAT('ƒ^ƒCƒgƒ‹-', plugins.name), 'default'
 FROM plugins
 INNER JOIN pages ON (pages.slug = concat('slug_', plugins.key))
 INNER JOIN boxes ON (pages.id = boxes.page_id)
