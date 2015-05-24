@@ -1,3 +1,5 @@
+SET NAMES utf8;
+
 #-- users
 INSERT INTO users (username, password, role_key)
 SELECT 'chief_editor', password, 'chief_editor' FROM users WHERE id = 1;
