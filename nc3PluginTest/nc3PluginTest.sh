@@ -273,14 +273,14 @@ do
 			${execCommand}
 
 			if [ "${plugin}" = "NetCommons3" ]; then
-				execCommand="sh lib/Cake/Console/cake test AllTest --coverage-html app/webroot/coverage/${plugin} --stderr"
+				execCommand="sh app/Console/cake test AllTest --coverage-html app/webroot/coverage/${plugin} --stderr"
 			else
 				#if [ -f app/Plugin/${plugin}/phpunit.xml.dist ]; then
 				#	execOption="--bootstrap ./ --configuration app/Plugin/${plugin}/phpunit.xml.dist --coverage-html app/webroot/coverage/${plugin} --stderr"
 				#else
 					execOption="--coverage-html app/webroot/coverage/${plugin} --stderr"
 				#fi
-				execCommand="sh lib/Cake/Console/cake test ${plugin} All${plugin} ${execOption}"
+				execCommand="sh app/Console/cake test ${plugin} All${plugin} ${execOption}"
 			fi
 			echo ${execCommand}
 			${execCommand}
