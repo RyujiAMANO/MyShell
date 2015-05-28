@@ -40,5 +40,34 @@ bash nc3PluginTest.sh プラグイン名(キャメル記法)
 | (テストファイル名) | 個別にテストを実施する         |
 | 上記以外、省略     | プラグインの全テストを実施する |
 
+（個別で実行例）
+<pre>
+# cd /var/www/MyShell/nc3PluginTest
+# bash nc3PluginTest.sh Announcements phpunit Model/Announcement
+</pre>
 
+（list例）
+<pre>
+# cd /var/www/MyShell/nc3PluginTest
+# bash nc3PluginTest.sh Announcements phpunit list
 
+Welcome to CakePHP v2.6.5 Console
+---------------------------------------------------------------
+App : app
+Path: /var/www/app/app/
+---------------------------------------------------------------
+CakePHP Test Shell
+---------------------------------------------------------------
+Announcements Test Cases:
+[1] AllAnnouncements
+[2] Controller/AnnouncementsApp
+[3] Controller/AnnouncementsController
+[4] Controller/AnnouncementsControllerError
+[5] Controller/AnnouncementsControllerValidateError
+[6] Model/Announcement
+[7] Model/AnnouncementAppModel
+[8] Model/AnnouncementError
+[9] Model/AnnouncementValidateError
+What test case would you like to run?  
+[q] > 
+</pre>
