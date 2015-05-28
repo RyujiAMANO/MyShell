@@ -2,6 +2,7 @@
 
 cd /var/www/app/
 #cd /var/www/NetCommons3/
+export PATH=$PATH:./vendors/bin
 
 PLUGIN_NAME=$1
 CHECKEXEC=$2
@@ -9,6 +10,7 @@ if [ "${PLUGIN_NAME}" = "" ]; then
 	echo "please input plugin."
 	exit 1
 fi
+CMDPARAM=$3
 
 if [ "${PLUGIN_NAME}" = "pear_install" ]; then
 	#Javascript checker install
@@ -274,16 +276,39 @@ do
 
 			if [ "${plugin}" = "NetCommons3" ]; then
 				execCommand="sh app/Console/cake test AllTest --coverage-html app/webroot/coverage/${plugin} --stderr"
+				echo ${execCommand}
+				${execCommand}
 			else
 				#if [ -f app/Plugin/${plugin}/phpunit.xml.dist ]; then
-				#	execOption="--bootstrap ./ --configuration app/Plugin/${plugin}/phpunit.xml.dist --coverage-html app/webroot/coverage/${plugin} --stderr"
+				#	execCommand="cp -pf app/Plugin/${plugin}/phpunit.xml.dist ./${plugin}-phpunit.xml.dist"
+				#	echo ${execCommand}
+				#	${execCommand}
+				#
+				#	execOption="--coverage-html app/webroot/coverage/${plugin} --stderr --configuration ${plugin}-phpunit.xml.dist"
 				#else
 					execOption="--coverage-html app/webroot/coverage/${plugin} --stderr"
 				#fi
-				execCommand="sh app/Console/cake test ${plugin} All${plugin} ${execOption}"
+				
+				if [ "${CHECKEXEC}" = "phpunit" ]; then
+					if [ "${CMDPARAM}" = "list" ]; then
+						execCommand="sh app/Console/cake test ${plugin} ${execOption}"
+					elif [ ! "${CMDPARAM}" = "" ]; then
+						execCommand="sh app/Console/cake test ${plugin} ${CMDPARAM} ${execOption}"
+					else
+						execCommand="sh app/Console/cake test ${plugin} All${plugin} ${execOption}"
+					fi
+				else
+					execCommand="sh app/Console/cake test ${plugin} All${plugin} ${execOption}"
+				fi
+				echo ${execCommand}
+				${execCommand}
+
+				#if [ -f app/Plugin/${plugin}/phpunit.xml.dist ]; then
+				#	execCommand="rm -f ./${plugin}-phpunit.xml.dist"
+				#	echo ${execCommand}
+				#	${execCommand}
+				#fi
 			fi
-			echo ${execCommand}
-			${execCommand}
 		fi
 
 		if [ "${CHECKEXEC}" = "all" -o "${CHECKEXEC}" = "phpunit" ]; then
@@ -294,8 +319,11 @@ do
 			if [ "${CHECKEXEC}" = "all" -o "${CHECKEXEC}" = "phpunit" ]; then
 				echo ""
 				echo "[MySQL coverage report]"
-				echo "http://app.local:9090/coverage/${plugin}/Plugin.html"
-
+				if [ -f app/Plugin/${plugin}/phpunit.xml.dist ]; then
+					echo "http://app.local:9090/coverage/${plugin}/index.html"
+				else
+					echo "http://app.local:9090/coverage/${plugin}/Plugin.html"
+				fi
 				php -q << _EOF_
 <?php
 function html_truncate(\$html) {
@@ -317,8 +345,11 @@ function html_truncate(\$html) {
 
 define('PAD_SPACE_LEN', 21);
 
-\$file = file_get_contents('/var/www/app/app/webroot/coverage/${plugin}/Plugin_${plugin}.html'); 
-
+//if (file_exists('/var/www/app/app/webroot/coverage/${plugin}/Plugin_${plugin}.html')) {
+	\$file = file_get_contents('/var/www/app/app/webroot/coverage/${plugin}/Plugin_${plugin}.html'); 
+//} else 
+//	\$file = file_get_contents('/var/www/app/app/webroot/coverage/${plugin}/index.html'); 
+//}
 \$matches = array();
 \$title = preg_match('/<title.+title>/iUus', \$file, \$matches);
 \$title = \$matches[0];
