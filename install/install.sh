@@ -189,7 +189,7 @@ fi
 ######################
 # Githubから最新取得 #
 ######################
-if [ ! "${NORMALDEV}" = "1" ]; then
+#if [ ! "${NORMALDEV}" = "1" ]; then
 	for sPlugin in "${NC3PLUGINS[@]}"
 	do
 		aPlugin=(${sPlugin})
@@ -232,7 +232,7 @@ if [ ! "${NORMALDEV}" = "1" ]; then
 			${COMMAND}
 		fi
 	done
-fi
+#fi
 
 ##########################
 # フレームファイルの修正 #
