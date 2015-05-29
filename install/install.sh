@@ -4,11 +4,13 @@
 
 CURDIR=`pwd`
 #NODEVELOP=1; export NODEVELOP
-LOCALDEV=1; export LOCALDEV
+#LOCALDEV=1; export LOCALDEV
 if [ "$1" = "mathjax" ]; then
 	NORMALDEV=2; export NORMALDEV
 elif [ "$1" = "develop" -o "$1" = "dev" ]; then
 	NORMALDEV=0; export NORMALDEV
+elif [ "$1" = "composer" -o "$1" = "comp" ]; then
+	NORMALDEV=3; export NORMALDEV
 else
 	NORMALDEV=1; export NORMALDEV
 fi
@@ -18,10 +20,13 @@ else
 	SKIPDOCS=1; export SKIPDOCS
 fi
 
-
 ymdhis=`date +%y%m%d%H%M%S`
 BKFILE=all-${ymdhis}
 BKDIR=/var/www/backup/${BKFILE}
+
+OWNER=`ls -ld /var/www/app | awk '{ print $3 '}`
+GROUP=`ls -ld /var/www/app | awk '{ print $4 '}`
+
 
 ################
 # バックアップ #
@@ -55,8 +60,11 @@ echo "mysql -u${DBUSER} -p${DBPASS} -e 'show databases;'"
 mysql -u${DBUSER} -p${DBPASS} -e 'show databases;'
 
 
-echo "mv ${NC3DIR} ./"
-mv ${NC3DIR} ./
+echo "cp -Rpf ${NC3DIR} ./"
+cp -Rpf ${NC3DIR} ./
+
+echo "rm -Rf ${NC3DIR}/*"
+rm -Rf ${NC3DIR}/*
 
 if [ ! "${SKIPDOCS}" = "1" ]; then
 	if [ -d /var/www/docs ]; then
@@ -82,27 +90,33 @@ mv ${BKFILE}.tar.gz /vagrant/backup/
 # 環境構築 #
 ############
 
-echo "cd /var/www/"
-cd /var/www/
+echo "rm -Rf ${CURDIR}/NetCommons3"
+rm -Rf ${CURDIR}/NetCommons3
+
+echo "cd ${CURDIR}"
+cd ${CURDIR}
 
 echo "git clone ${GITURL}/NetCommons3.git"
 git clone ${GITURL}/NetCommons3.git
 
+echo "cd /var/www/"
+cd /var/www/
+
 if [ ! "${SKIPDOCS}" = "1" ]; then
-	echo "git clone ${GITURL}/NetCommons3Docs.git"
-	git clone ${GITURL}/NetCommons3Docs.git
+	echo "git clone ${GITURL}/NetCommons3Docs.git docs"
+	git clone ${GITURL}/NetCommons3Docs.git docs
 fi
 
-echo "mv NetCommons3 app"
-mv NetCommons3 app
+echo "cp -Rf ${CURDIR}/NetCommons3/* app/"
+cp -Rf ${CURDIR}/NetCommons3/* app/
 
 if [ ! "${SKIPDOCS}" = "1" ]; then
 	echo "mv NetCommons3Docs docs"
 	mv NetCommons3Docs docs
 fi
 
-echo "chown www-data:www-data -R app"
-chown www-data:www-data -R app
+echo "chown ${OWNER}:${GROUP} -R app"
+chown ${OWNER}:${GROUP} -R app
 
 echo "cd ${NC3DIR}/"
 cd ${NC3DIR}/
@@ -163,23 +177,13 @@ cd ${NC3DIR}/
 echo "`which composer` update"
 `which composer` update
 
-echo "bower --allow-root cache clean"
-bower --allow-root cache clean
+#echo "bower --allow-root cache clean"
+#bower --allow-root cache clean
 
 #echo "alias bower='bower --allow-root'"
 #alias bower='bower --allow-root'
 echo "bower --allow-root update"
 bower --allow-root update
-
-if [ -d ${NC3DIR}/vendors/bower_components/mathjax ]; then
-	COMMAND="cd ${NC3DIR}/app/webroot"
-	echo ${COMMAND}
-	${COMMAND}
-
-	COMMAND="ln -s ../../vendors/bower_components/mathjax mathjax"
-	echo ${COMMAND}
-	${COMMAND}
-fi
 
 if [ -d ${BKDIR}/app/nbproject ]; then
 	echo "cp -Rpf ${BKDIR}/app/nbproject ${NC3DIR}/"
@@ -189,7 +193,19 @@ fi
 ######################
 # Githubから最新取得 #
 ######################
-#if [ ! "${NORMALDEV}" = "1" ]; then
+if [ "${NORMALDEV}" = "3" ]; then
+	COMMAND="cd ${NC3DIR}/app/Plugin"
+	echo ${COMMAND}
+	${COMMAND}
+	
+	COMMAND="rm -Rf Install"
+	echo ${COMMAND}
+	${COMMAND}
+
+	COMMAND="`which git` clone https://github.com/s-nakajima/Install.git"
+	echo ${COMMAND}
+	${COMMAND}
+else
 	for sPlugin in "${NC3PLUGINS[@]}"
 	do
 		aPlugin=(${sPlugin})
@@ -217,12 +233,25 @@ fi
 			continue
 		fi
 
-		#NetCommons3プロジェクトから最新取得
-		if [ "${aPlugin[2]}" = "" ]; then
-			COMMAND="`which git` clone ${aPlugin[1]}/${aPlugin[0]}.git"
-		else
-			COMMAND="`which git` clone -b ${aPlugin[2]} ${aPlugin[1]}/${aPlugin[0]}.git"
-		fi
+		case "${aPlugin[0]}" in
+			"empty" ) continue ;;
+			"BoostCake" ) continue ;;
+			"DebugKit" ) continue ;;
+			"HtmlPurifier" ) continue ;;
+			"M17n" ) continue ;;
+			"Migrations" ) COMMAND="`which git` clone ${aPlugin[1]} ${aPlugin[0]}" ;;
+			"MobileDetect" ) continue ;;
+			"Sandbox" ) continue ;;
+			"TinyMCE" ) continue ;;
+			* )
+			#NetCommons3プロジェクトから最新取得
+			if [ "${aPlugin[2]}" = "" ]; then
+				COMMAND="`which git` clone ${aPlugin[1]}/${aPlugin[0]}.git"
+			else
+				COMMAND="`which git` clone -b ${aPlugin[2]} ${aPlugin[1]}/${aPlugin[0]}.git"
+			fi
+		esac
+
 		echo ${COMMAND}
 		${COMMAND}
 
@@ -232,88 +261,7 @@ fi
 			${COMMAND}
 		fi
 	done
-#fi
-
-##########################
-# フレームファイルの修正 #
-##########################
-
-if [ -d ${NC3DIR}/vendors/bower_components/angular-dialog-service ]; then
-	COMMAND="cd ${NC3DIR}/app/Plugin/NetCommons/webroot"
-	echo ${COMMAND}
-	${COMMAND}
-
-	COMMAND="ln -s ../../../../vendors/bower_components/angular-dialog-service angular-dialog-service"
-	echo ${COMMAND}
-	${COMMAND}
 fi
-
-if [ -d ${NC3DIR}/vendors/bower_components/angular-sanitize ]; then
-	COMMAND="cd ${NC3DIR}/app/Plugin/NetCommons/webroot"
-	echo ${COMMAND}
-	${COMMAND}
-
-	COMMAND="ln -s ../../../../vendors/bower_components/angular-sanitize angular-sanitize"
-	echo ${COMMAND}
-	${COMMAND}
-fi
-
-if [ -d ${NC3DIR}/vendors/bower_components/angular-sanitize ]; then
-	COMMAND="cd ${NC3DIR}/app/Plugin/Frames/View/Elements"
-	echo ${COMMAND}
-	${COMMAND}
-
-	MATCHES="echo \$this->Html->script('http:\\/\\/rawgit.com\\/angular\\/bower-angular-sanitize\\/v1.2.25\\/angular-sanitize.js', false);"
-	REPLACE="echo \$this->Html->script('\\/net_commons\\/angular-sanitize\\/angular-sanitize.min.js', false);"
-	REPLACE_FILE="render_frames.ctp"
-
-	echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" ${REPLACE_FILE} > ${REPLACE_FILE}2"
-	sed -e "s/${MATCHES}/${REPLACE}/g" ${REPLACE_FILE} > ${REPLACE_FILE}2
-
-	echo "mv ${REPLACE_FILE} ${REPLACE_FILE}.org.1"
-	mv ${REPLACE_FILE} ${REPLACE_FILE}.org.1
-
-	echo "mv ${REPLACE_FILE}2 ${REPLACE_FILE}"
-	mv ${REPLACE_FILE}2 ${REPLACE_FILE}
-fi
-
-if [ -d ${NC3DIR}/vendors/bower_components/angular-dialog-service ]; then
-	COMMAND="cd ${NC3DIR}/app/Plugin/Frames/View/Elements"
-	echo ${COMMAND}
-	${COMMAND}
-
-	MATCHES="echo \$this->Html->script('http:\\/\\/rawgit.com\\/m-e-conroy\\/angular-dialog-service\\/v5.2.0\\/src\\/dialogs.js', false);"
-	REPLACE="echo \$this->Html->script('\\/net_commons\\/angular-dialog-service\\/dist\\/dialogs.min.js', false);"
-	REPLACE_FILE="render_frames.ctp"
-
-	echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" ${REPLACE_FILE} > ${REPLACE_FILE}2"
-	sed -e "s/${MATCHES}/${REPLACE}/g" ${REPLACE_FILE} > ${REPLACE_FILE}2
-
-	echo "mv ${REPLACE_FILE} ${REPLACE_FILE}.org.2"
-	mv ${REPLACE_FILE} ${REPLACE_FILE}.org.2
-
-	echo "mv ${REPLACE_FILE}2 ${REPLACE_FILE}"
-	mv ${REPLACE_FILE}2 ${REPLACE_FILE}
-fi
-
-##############################
-# インストーラファイルの修正 #
-##############################
-
-#echo "cd ${NC3DIR}/app/Plugin/Install/Controller/"
-#cd ${NC3DIR}/app/Plugin/Install/Controller/
-
-#MATCHES="private function __installPackages() {"
-#REPLACE="private function __installPackages() { return true;"
-
-#echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" InstallController.php > InstallController.php2"
-#sed -e "s/${MATCHES}/${REPLACE}/g" InstallController.php > InstallController.php2
-
-#echo "mv InstallController.php InstallController.php.org"
-#mv InstallController.php InstallController.php.org
-
-#echo "mv InstallController.php2 InstallController.php"
-#mv InstallController.php2 InstallController.php
 
 ################
 # インストール #
@@ -363,9 +311,14 @@ mysql -u${DBUSER} -p${DBPASS} ${DBNAME} < ${CURDIR}/insert_user.sql
 echo "cd ${NC3DIR}/"
 cd ${NC3DIR}/
 
-echo "chown www-data:www-data -R app"
-chown www-data:www-data -R app
+echo "chown ${OWNER}:${GROUP} -R app"
+chown ${OWNER}:${GROUP} -R app
 
+if [ ! "${NORMALDEV}" = "0" ]; then
+	echo "cd ${NC3DIR}/"
+	cd ${NC3DIR}/
+	exit
+fi
 
 ########################
 # 旧NetCommons3環境構築
@@ -442,7 +395,6 @@ fi
 APPNAME="nc2"
 
 if [ ! -d /var/www/${APPNAME} ]; then
-	echo "NetCommons2環境を構築しますか。ただしPHP5.3以降は動作しません。"
 	echo "php --version"
 	php --version
 	echo -n "y(es)/n(o) [n]> "
