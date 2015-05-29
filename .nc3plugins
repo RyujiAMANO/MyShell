@@ -26,6 +26,7 @@ DEV_PLUGINS=()
 #DEV_PLUGINS=("${DEV_PLUGINS[@]}" "ContentComments ${NC3GITURL}")
 #DEV_PLUGINS=("${DEV_PLUGINS[@]}" "Files https://github.com/s-nakajima prototype")
 #DEV_PLUGINS=("${DEV_PLUGINS[@]}" "Files https://github.com/s-nakajima develop")
+DEV_PLUGINS=("${DEV_PLUGINS[@]}" "Install https://github.com/s-nakajima")
 #DEV_PLUGINS=("${DEV_PLUGINS[@]}" "Likes ${NC3GITURL}")
 #DEV_PLUGINS=("${DEV_PLUGINS[@]}" "Links ${NC3GITURL}")
 #DEV_PLUGINS=("${DEV_PLUGINS[@]}" "NetCommons https://github.com/s-nakajima")
@@ -58,8 +59,8 @@ LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Containers https://github.com/s-naka
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Files ${NC3GITURL}")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Files https://github.com/s-nakajima")
 LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Frames https://github.com/s-nakajima")
-LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Install https://github.com/s-nakajima")
-##LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Likes https://github.com/s-nakajima")
+#LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Install https://github.com/s-nakajima")
+#LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Likes https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Links https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "NetCommons ${NC3GITURL}")
 LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "NetCommons https://github.com/s-nakajima")
@@ -76,28 +77,21 @@ LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Questionnaires https://github.com/s-
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Wysiwyg https://github.com/s-nakajima develop")
 
 #composer.json
-if [ ! "${NODEVELOP}" = "1" ]; then
+if [ "${NORMALDEV}" = "0" -o "${NORMALDEV}" = "2" ]; then
 	#NC3_COMPOSER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/composer.json
 	NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
 else
 	NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
 fi
-#DEV_COMPOSER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/composer.json
-DEV_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
 
 #bower.json
-if [ ! "${NODEVELOP}" = "1" ]; then
-	if [ "${NORMALDEV}" = "2" ]; then
-		NC3_BOWER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/bower-mathjax.json
-	else
-		NC3_BOWER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/bower.json
-	fi
-	#NC3_BOWER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/bower.json
+if [ "${NORMALDEV}" = "2" ]; then
+	NC3_BOWER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/bower-mathjax.json
+elif [ "${NORMALDEV}" = "0" ]; then
+	NC3_BOWER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/bower.json
 else
 	NC3_BOWER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/bower.json
 fi
-DEV_BOWER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/bower.json
-#DEV_BOWER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/bower.json
 
 NC3PLUGINS=(); export NC3PLUGINS
 
@@ -122,17 +116,19 @@ do
 			;;
 	esac
 
-	#開発中プラグイン
-	for dev0 in "${DEV_PLUGINS[@]}"
-	do
-		dev=(${dev0})
-		if [ "${plugin}" = "${dev}" ]; then
-			continue 2
-		fi
-	done
+	#開発中(業者)プラグイン
+	if [ ! "${NORMALDEV}" = "3" ]; then
+		for dev0 in "${DEV_PLUGINS[@]}"
+		do
+			dev=(${dev0})
+			if [ "${plugin}" = "${dev}" ]; then
+				continue 2
+			fi
+		done
+	fi
 
-	#開発中プラグイン(ローカルのみ)
-	if [ "${LOCALDEV}" = "1" ]; then
+	#開発中プラグイン(中島開発)
+	if [ "${NORMALDEV}" = "0" -o "${NORMALDEV}" = "2" ]; then
 		for dev0 in "${LOCALDEV_PLUGINS[@]}"
 		do
 			dev=(${dev0})
@@ -146,8 +142,8 @@ do
 	NC3PLUGINS=("${NC3PLUGINS[@]}" "${plugin} ${NC3GITURL}")
 done
 
-#開発中プラグイン
-if [ ! "${NODEVELOP}" = "1" ]; then
+#開発中(業者)プラグイン
+if [ ! "${NORMALDEV}" = "3" ]; then
 	for dev in "${DEV_PLUGINS[@]}"
 	do
 		NC3PLUGINS=("${NC3PLUGINS[@]}" "${dev}")
@@ -155,7 +151,7 @@ if [ ! "${NODEVELOP}" = "1" ]; then
 fi
 
 #開発中プラグイン(ローカルのみ)
-if [ "${LOCALDEV}" = "1" ]; then
+if [ "${NORMALDEV}" = "0" -o "${NORMALDEV}" = "2" ]; then
 	for dev in "${LOCALDEV_PLUGINS[@]}"
 	do
 		NC3PLUGINS=("${NC3PLUGINS[@]}" "${dev}")
@@ -163,50 +159,43 @@ if [ "${LOCALDEV}" = "1" ]; then
 fi
 
 #開発bower, composerのダウンロード
-if [ ! "${NORMALDEV}" = "1" ]; then
-	if [ ! -d ${NC3DIR}/tmp ]; then
-		COMMAND="mkdir ${NC3DIR}/tmp"
-		echo ${COMMAND}
-		${COMMAND}
-	fi
-	
-	COMMAND="cd ${NC3DIR}/tmp"
-	echo ${COMMAND}
-	${COMMAND}
-	
-	if [ -f bower.json ]; then
-		COMMAND="rm -f bower.json"
-		echo ${COMMAND}
-		${COMMAND}
-	fi
-	
-	if [ -f composer.json ]; then
-		COMMAND="rm -f composer.json"
-		echo ${COMMAND}
-		${COMMAND}
-	fi
-	
-	if [ "${LOCALDEV}" = "1" ]; then
-		COMPOSER_URL=${DEV_COMPOSER_URL}
-		BOWER_URL=${DEV_BOWER_URL}
-	else
-		COMPOSER_URL=${NC3_COMPOSER_URL}
-		BOWER_URL=${NC3_BOWER_URL}
-	fi
-
-	COMMAND="`which curl` -O ${COMPOSER_URL}"
-	echo ${COMMAND}
-	${COMMAND}
-	
-	COMMAND="`which curl` -O ${BOWER_URL}"
-	echo ${COMMAND}
-	${COMMAND}
-	
-	COMMAND="cp -pf composer.json ${NC3DIR}/"
-	echo ${COMMAND}
-	${COMMAND}
-	
-	COMMAND="cp -pf bower.json ${NC3DIR}/"
+if [ ! -d ${NC3DIR}/tmp ]; then
+	COMMAND="mkdir ${NC3DIR}/tmp"
 	echo ${COMMAND}
 	${COMMAND}
 fi
+
+COMMAND="cd ${NC3DIR}/tmp"
+echo ${COMMAND}
+${COMMAND}
+
+if [ -f bower.json ]; then
+	COMMAND="rm -f bower.json"
+	echo ${COMMAND}
+	${COMMAND}
+fi
+
+if [ -f composer.json ]; then
+	COMMAND="rm -f composer.json"
+	echo ${COMMAND}
+	${COMMAND}
+fi
+
+COMPOSER_URL=${NC3_COMPOSER_URL}
+BOWER_URL=${NC3_BOWER_URL}
+
+COMMAND="`which curl` -O ${COMPOSER_URL}"
+echo ${COMMAND}
+${COMMAND}
+
+COMMAND="`which curl` -O ${BOWER_URL}"
+echo ${COMMAND}
+${COMMAND}
+
+COMMAND="cp -pf composer.json ${NC3DIR}/"
+echo ${COMMAND}
+${COMMAND}
+
+COMMAND="cp -pf bower.json ${NC3DIR}/"
+echo ${COMMAND}
+${COMMAND}
