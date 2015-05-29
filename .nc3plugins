@@ -39,6 +39,7 @@ DEV_PLUGINS=("${DEV_PLUGINS[@]}" "Migrations https://github.com/s-nakajima/migra
 #開発中プラグイン(ローカルのみ)
 LOCALDEV_PLUGINS=()
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Announcements ${NC3GITURL}")
+LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "AccessCounters https://github.com/s-nakajima")
 LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Announcements https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Banners DELETE")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "B2bses https://github.com/s-nakajima")
