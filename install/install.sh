@@ -215,19 +215,19 @@ else
 		echo ${COMMAND}
 		${COMMAND}
 
-		if [ "${aPlugin[0]}" = "NetCommons" ]; then
-			COMMAND="rm -Rf ${aPlugin[0]}.bk"
-			echo ${COMMAND}
-			${COMMAND}
-
-			COMMAND="mv ${aPlugin[0]} ${aPlugin[0]}.bk"
-			echo ${COMMAND}
-			${COMMAND}
-		else
+		#if [ "${aPlugin[0]}" = "NetCommons" ]; then
+		#	COMMAND="rm -Rf ${aPlugin[0]}.bk"
+		#	echo ${COMMAND}
+		#	${COMMAND}
+		#
+		#	COMMAND="mv ${aPlugin[0]} ${aPlugin[0]}.bk"
+		#	echo ${COMMAND}
+		#	${COMMAND}
+		#else
 			COMMAND="rm -Rf ${aPlugin[0]}"
 			echo ${COMMAND}
 			${COMMAND}
-		fi
+		#fi
 
 		if [ "${aPlugin[1]}" = "DELETE" ]; then
 			continue
@@ -255,11 +255,11 @@ else
 		echo ${COMMAND}
 		${COMMAND}
 
-		if [ "${aPlugin[0]}" = "NetCommons" ]; then
-			COMMAND="rm -Rf ${aPlugin[0]}.bk"
-			echo ${COMMAND}
-			${COMMAND}
-		fi
+		#if [ "${aPlugin[0]}" = "NetCommons" ]; then
+		#	COMMAND="rm -Rf ${aPlugin[0]}.bk"
+		#	echo ${COMMAND}
+		#	${COMMAND}
+		#fi
 	done
 fi
 
