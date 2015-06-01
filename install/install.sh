@@ -239,7 +239,7 @@ else
 			"DebugKit" ) continue ;;
 			"HtmlPurifier" ) continue ;;
 			"M17n" ) continue ;;
-			"Migrations" ) COMMAND="`which git` clone ${aPlugin[1]} ${aPlugin[0]}" ;;
+			"Migrations" ) continue ;;
 			"MobileDetect" ) continue ;;
 			"Sandbox" ) continue ;;
 			"TinyMCE" ) continue ;;
