@@ -92,19 +92,19 @@ do
 	echo ${COMMAND}
 	${COMMAND}
 
-	if [ "${aPlugin[0]}" = "NetCommons" ]; then
-		COMMAND="rm -Rf ${aPlugin[0]}.bk"
-		echo ${COMMAND}
-		${COMMAND}
-
-		COMMAND="mv ${aPlugin[0]} ${aPlugin[0]}.bk"
-		echo ${COMMAND}
-		${COMMAND}
-	else
+	#if [ "${aPlugin[0]}" = "NetCommons" ]; then
+	#	COMMAND="rm -Rf ${aPlugin[0]}.bk"
+	#	echo ${COMMAND}
+	#	${COMMAND}
+	#
+	#	COMMAND="mv ${aPlugin[0]} ${aPlugin[0]}.bk"
+	#	echo ${COMMAND}
+	#	${COMMAND}
+	#else
 		COMMAND="rm -Rf ${aPlugin[0]}"
 		echo ${COMMAND}
 		${COMMAND}
-	fi
+	#fi
 
 	if [ "${aPlugin[1]}" = "DELETE" ]; then
 		continue
@@ -119,77 +119,15 @@ do
 	echo ${COMMAND}
 	${COMMAND}
 
-	if [ "${aPlugin[0]}" = "NetCommons" ]; then
-		COMMAND="rm -Rf ${aPlugin[0]}.bk"
-		echo ${COMMAND}
-		${COMMAND}
-	fi
+	#if [ "${aPlugin[0]}" = "NetCommons" ]; then
+	#	COMMAND="rm -Rf ${aPlugin[0]}.bk"
+	#	echo ${COMMAND}
+	#	${COMMAND}
+	#fi
 done
 
 #後処理
 echo "==== Terminate ===="
-
-##########################
-# フレームファイルの修正 #
-##########################
-
-if [ -d ${NC3DIR}/vendors/bower_components/angular-dialog-service ]; then
-	COMMAND="cd ${NC3DIR}/app/Plugin/NetCommons/webroot"
-	echo ${COMMAND}
-	${COMMAND}
-
-	COMMAND="ln -s ../../../../vendors/bower_components/angular-dialog-service angular-dialog-service"
-	echo ${COMMAND}
-	${COMMAND}
-fi
-
-if [ -d ${NC3DIR}/vendors/bower_components/angular-sanitize ]; then
-	COMMAND="cd ${NC3DIR}/app/Plugin/NetCommons/webroot"
-	echo ${COMMAND}
-	${COMMAND}
-
-	COMMAND="ln -s ../../../../vendors/bower_components/angular-sanitize angular-sanitize"
-	echo ${COMMAND}
-	${COMMAND}
-fi
-
-if [ -d ${NC3DIR}/vendors/bower_components/angular-sanitize ]; then
-	COMMAND="cd ${NC3DIR}/app/Plugin/Frames/View/Elements"
-	echo ${COMMAND}
-	${COMMAND}
-
-	MATCHES="echo \$this->Html->script('http:\\/\\/rawgit.com\\/angular\\/bower-angular-sanitize\\/v1.2.25\\/angular-sanitize.js', false);"
-	REPLACE="echo \$this->Html->script('\\/net_commons\\/angular-sanitize\\/angular-sanitize.min.js', false);"
-	REPLACE_FILE="render_frames.ctp"
-
-	echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" ${REPLACE_FILE} > ${REPLACE_FILE}2"
-	sed -e "s/${MATCHES}/${REPLACE}/g" ${REPLACE_FILE} > ${REPLACE_FILE}2
-
-	echo "mv ${REPLACE_FILE} ${REPLACE_FILE}.org.1"
-	mv ${REPLACE_FILE} ${REPLACE_FILE}.org.1
-
-	echo "mv ${REPLACE_FILE}2 ${REPLACE_FILE}"
-	mv ${REPLACE_FILE}2 ${REPLACE_FILE}
-fi
-
-if [ -d ${NC3DIR}/vendors/bower_components/angular-dialog-service ]; then
-	COMMAND="cd ${NC3DIR}/app/Plugin/Frames/View/Elements"
-	echo ${COMMAND}
-	${COMMAND}
-
-	MATCHES="echo \$this->Html->script('http:\\/\\/rawgit.com\\/m-e-conroy\\/angular-dialog-service\\/v5.2.0\\/src\\/dialogs.js', false);"
-	REPLACE="echo \$this->Html->script('\\/net_commons\\/angular-dialog-service\\/dist\\/dialogs.min.js', false);"
-	REPLACE_FILE="render_frames.ctp"
-
-	echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" ${REPLACE_FILE} > ${REPLACE_FILE}2"
-	sed -e "s/${MATCHES}/${REPLACE}/g" ${REPLACE_FILE} > ${REPLACE_FILE}2
-
-	echo "mv ${REPLACE_FILE} ${REPLACE_FILE}.org.2"
-	mv ${REPLACE_FILE} ${REPLACE_FILE}.org.2
-
-	echo "mv ${REPLACE_FILE}2 ${REPLACE_FILE}"
-	mv ${REPLACE_FILE}2 ${REPLACE_FILE}
-fi
 
 COMMAND="cd ${NC3DIR}/app"
 echo ${COMMAND}
