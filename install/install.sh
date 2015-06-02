@@ -99,6 +99,14 @@ cd ${CURDIR}
 echo "git clone ${GITURL}/NetCommons3.git"
 git clone ${GITURL}/NetCommons3.git
 
+if [ "${NORMALDEV}" = "2" -o "${NORMALDEV}" = "0" ]; then
+	echo "rm -Rf ${CURDIR}/Themed"
+	rm -Rf ${CURDIR}/Themed
+
+	echo "git clone https://github.com/s-nakajima/Themed.git"
+	git clone https://github.com/s-nakajima/Themed.git
+fi
+
 echo "cd /var/www/"
 cd /var/www/
 
@@ -113,6 +121,11 @@ cp -Rf ${CURDIR}/NetCommons3/* app/
 if [ ! "${SKIPDOCS}" = "1" ]; then
 	echo "mv NetCommons3Docs docs"
 	mv NetCommons3Docs docs
+fi
+
+if [ "${NORMALDEV}" = "2" -o "${NORMALDEV}" = "0" ]; then
+	echo "cp -Rf ${CURDIR}/Themed/* app/app/View/Themed/"
+	cp -Rf ${CURDIR}/Themed/* app/app/View/Themed/
 fi
 
 echo "chown ${OWNER}:${GROUP} -R app"
