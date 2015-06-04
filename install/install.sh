@@ -66,6 +66,9 @@ cp -Rpf ${NC3DIR} ./
 echo "rm -Rf ${NC3DIR}/*"
 rm -Rf ${NC3DIR}/*
 
+echo "rm -Rf ${NC3DIR}/.git"
+rm -Rf ${NC3DIR}/.git
+
 if [ ! "${SKIPDOCS}" = "1" ]; then
 	if [ -d /var/www/docs ]; then
 		echo "mv /var/www/docs ./"
@@ -117,6 +120,9 @@ fi
 
 echo "cp -Rf ${CURDIR}/NetCommons3/* app/"
 cp -Rf ${CURDIR}/NetCommons3/* app/
+
+echo "cp -Rf ${CURDIR}/NetCommons3/.git app/"
+cp -Rf ${CURDIR}/NetCommons3/.git app/
 
 if [ ! "${SKIPDOCS}" = "1" ]; then
 	echo "mv NetCommons3Docs docs"
