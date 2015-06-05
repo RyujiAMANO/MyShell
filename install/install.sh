@@ -27,6 +27,23 @@ BKDIR=/var/www/backup/${BKFILE}
 OWNER=`ls -ld /var/www/app | awk '{ print $3 '}`
 GROUP=`ls -ld /var/www/app | awk '{ print $4 '}`
 
+if [ "${NORMALDEV}" = "2" -o "${NORMALDEV}" = "0" ]; then
+	echo "ffmpeg -version"
+	ret="`ffmpeg -version`"
+#	if [ "$ret" = "" ]; then
+		COMMAND="apt-get -y install libav-tools"
+		echo ${COMMAND}
+		${COMMAND}
+
+		COMMAND="apt-get -y install libavcodec-extra-53"
+		echo ${COMMAND}
+		${COMMAND}
+#	fi
+
+	COMMAND="ffmpeg -version"
+	echo ${COMMAND}
+	${COMMAND}
+fi
 
 ################
 # バックアップ #
