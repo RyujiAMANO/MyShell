@@ -94,8 +94,8 @@ fi
 if [ "${NORMALDEV}" = "2" ]; then
 	NC3_BOWER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/bower-mathjax.json
 elif [ "${NORMALDEV}" = "0" ]; then
-	#NC3_BOWER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/bower.json
-	NC3_BOWER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/bower.json
+	NC3_BOWER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/bower.json
+	#NC3_BOWER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/bower.json
 else
 	NC3_BOWER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/bower.json
 fi
