@@ -113,6 +113,11 @@ mv ${BKFILE}.tar.gz /vagrant/backup/
 echo "rm -Rf ${CURDIR}/NetCommons3"
 rm -Rf ${CURDIR}/NetCommons3
 
+if [ -d ${BKDIR}/app/nbproject ]; then
+	echo "cp -Rpf ${BKDIR}/app/nbproject ${NC3DIR}/"
+	cp -Rpf ${BKDIR}/app/nbproject ${NC3DIR}/
+fi
+
 echo "cd ${CURDIR}"
 cd ${CURDIR}
 
@@ -220,11 +225,6 @@ echo "`which composer` update"
 #alias bower='bower --allow-root'
 echo "bower --allow-root update"
 bower --allow-root update
-
-if [ -d ${BKDIR}/app/nbproject ]; then
-	echo "cp -Rpf ${BKDIR}/app/nbproject ${NC3DIR}/"
-	cp -Rpf ${BKDIR}/app/nbproject ${NC3DIR}/
-fi
 
 ######################
 # Githubから最新取得 #

@@ -158,6 +158,29 @@ fi
 #echo "mv InstallController.php2 InstallController.php"
 #mv InstallController.php2 InstallController.php
 
+################
+# Videosの修正 #
+################
+
+COMMAND="cd ${NC3DIR}/app/Plugin/Videos/Model/"
+echo ${COMMAND}
+${COMMAND}
+
+FILENAME="Video.php"
+MATCHES="const FFMPEG_ENABLE = true;"
+REPLACE="const FFMPEG_ENABLE = false;"
+
+echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" ${FILENAME} > ${FILENAME}2"
+sed -e "s/${MATCHES}/${REPLACE}/g" ${FILENAME} > ${FILENAME}2
+
+echo "mv ${FILENAME} ${FILENAME}.org"
+mv ${FILENAME} ${FILENAME}.org
+
+echo "mv ${FILENAME}2 ${FILENAME}"
+mv ${FILENAME}2 ${FILENAME}
+
+
+
 COMMAND="cd ${CURDIR}/"
 echo ${COMMAND}
 ${COMMAND}
