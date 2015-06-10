@@ -20,6 +20,10 @@ else
 	SKIPDOCS=1; export SKIPDOCS
 fi
 
+CMDCMPOSER="php composer.phar"
+#CMDCMPOSER="`which composer`"
+
+
 ymdhis=`date +%y%m%d%H%M%S`
 BKFILE=all-${ymdhis}
 BKDIR=/var/www/backup/${BKFILE}
@@ -169,28 +173,28 @@ if [ -f ${BKDIR}/app/composer.phar ]; then
 	echo "cp ${BKDIR}/app/composer.phar ${NC3DIR}/"
 	cp ${BKDIR}/app/composer.phar ${NC3DIR}/
 
-	echo "php composer.phar self-update"
-	php composer.phar self-update
+	echo "${CMDCMPOSER} self-update"
+	${CMDCMPOSER} self-update
 else
 	echo "curl -s http://getcomposer.org/installer | php"
 	curl -s http://getcomposer.org/installer | php
 fi
 
-echo "composer self-update"
-composer self-update
+echo "${CMDCMPOSER} self-update"
+${CMDCMPOSER} self-update
 
 #echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc `which composer` update"
 #hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc `which composer` update
-echo "`which composer` update"
-`which composer` update
+echo "${CMDCMPOSER} update"
+${CMDCMPOSER} update
 
 echo "cp -pf ./tools/build/app/cakephp/composer.json ./"
 cp -pf ./tools/build/app/cakephp/composer.json ./
 
 #echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc `which composer` update"
 #hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc `which composer` update
-echo "`which composer` update"
-`which composer` update
+echo "${CMDCMPOSER} update"
+${CMDCMPOSER} update
 
 #Githubから最新取得
 if [ -f ${CURDIR}/.nc3plugins ]; then
@@ -215,8 +219,8 @@ ${COMMAND}
 echo "cd ${NC3DIR}/"
 cd ${NC3DIR}/
 
-echo "`which composer` update"
-`which composer` update
+echo "${CMDCMPOSER} update"
+${CMDCMPOSER} update
 
 #echo "bower --allow-root cache clean"
 #bower --allow-root cache clean
