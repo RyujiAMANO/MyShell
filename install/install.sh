@@ -125,8 +125,13 @@ fi
 echo "cd ${CURDIR}"
 cd ${CURDIR}
 
-echo "git clone ${GITURL}/NetCommons3.git"
-git clone ${GITURL}/NetCommons3.git
+if [ "${NORMALDEV}" = "2" -o "${NORMALDEV}" = "0" ]; then
+	echo "git clone https://github.com/s-nakajima/NetCommons3.git"
+	git clone https://github.com/s-nakajima/NetCommons3.git
+else
+	echo "git clone ${GITURL}/NetCommons3.git"
+	git clone ${GITURL}/NetCommons3.git
+fi
 
 if [ "${NORMALDEV}" = "2" -o "${NORMALDEV}" = "0" ]; then
 	echo "rm -Rf ${CURDIR}/Themed"
