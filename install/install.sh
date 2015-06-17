@@ -283,7 +283,7 @@ else
 			"BoostCake" ) continue ;;
 			"DebugKit" ) continue ;;
 			"HtmlPurifier" ) continue ;;
-			"M17n" ) continue ;;
+			#"M17n" ) continue ;;
 			"Migrations" ) continue ;;
 			"MobileDetect" ) continue ;;
 			"Sandbox" ) continue ;;
