@@ -1,4 +1,5 @@
 #!/bin/bash -ex
+CURDIR=`pwd`
 
 cd /var/www/app/
 #cd /var/www/NetCommons3/
@@ -59,7 +60,7 @@ BINDIR=/var/www/app/vendors/bin
 if [ "${PLUGIN_NAME}" = "All.Plugin" ]; then
 	PLUGIN_NAME=`ls app/Plugin`
 else
-	if [ "${CHECKEXEC}" = "all" -o "${CHECKEXEC}" = "remove" ]; then
+	if [ "${CHECKEXEC}" = "remove" ]; then
 		echo ""
 		echo "##################################"
 		echo "Line feed remove"
@@ -90,12 +91,13 @@ do
 		"BoostCake" ) continue ;;
 		"DebugKit" ) continue ;;
 		"HtmlPurifier" ) continue ;;
-		"M17n" ) continue ;;
+		#"M17n" ) continue ;;
 		"Migrations" ) continue ;;
 		"MobileDetect" ) continue ;;
 		"Sandbox" ) continue ;;
 		"Install" ) continue ;;
 		"TinyMCE" ) continue ;;
+		"Upload" ) continue ;;
 		* )
 		echo ""
 		echo ""
@@ -290,9 +292,9 @@ do
 				#fi
 				
 				if [ "${CHECKEXEC}" = "phpunit" ]; then
-					if [ "${CMDPARAM}" = "list" ]; then
+					if [ "${CMDPARAM}" = "list" -o "${CMDPARAM}" = "list.caverageAll" ]; then
 						execCommand="sh app/Console/cake test ${plugin} ${execOption}"
-					elif [ ! "${CMDPARAM}" = "" ]; then
+					elif [ ! "${CMDPARAM}" = "" -a ! "${CMDPARAM}" = "caverageAll" ]; then
 						execCommand="sh app/Console/cake test ${plugin} ${CMDPARAM} ${execOption}"
 					else
 						execCommand="sh app/Console/cake test ${plugin} All${plugin} ${execOption}"
@@ -324,75 +326,34 @@ do
 				else
 					echo "http://app.local:9090/coverage/${plugin}/Plugin.html"
 				fi
-				php -q << _EOF_
-<?php
-function html_truncate(\$html) {
-	\$html = strip_tags(\$html);
-	\$html = preg_replace("/[ ]{2,}/ius", "", \$html);
+				echo ""
+				echo "php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}.html 0"
+				php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}.html 0
 
-	\$html = preg_replace('/&nbsp;' . preg_quote('/', '/') . '&nbsp;/iu', '/', \$html);
-	\$html = preg_replace("/&nbsp;\n\n&nbsp;/iu", '-.--% (-/-)', \$html);
+				if [ "${CMDPARAM}" = "caverageAll" -o "${CMDPARAM}" = "list.caverageAll" ]; then
+					for act1 in `ls app`
+					do
+						if [ -d app/Plugin/${plugin}/${act1} ]; then
+							if [ "${act1}" = "Test" ]; then
+								continue;
+							fi
 
-	\$html = preg_replace('/&nbsp;/iu', '', \$html);
-	\$html = preg_replace("/\n+/ius", "\n", \$html);
-
-	\$html = preg_replace("/\n([0-9]+)" . preg_quote('/', '/') . "([0-9]+)/ius", " (\\\\1/\\\\2)", \$html);
-	\$html = preg_replace("/\n([0-9]+)/ius", "    \\\\1", \$html);
-	\$html = preg_replace("/\n-/ius", "    -", \$html);
-
-	return trim(\$html);
-}
-
-define('PAD_SPACE_LEN', 21);
-
-//if (file_exists('/var/www/app/app/webroot/coverage/${plugin}/Plugin_${plugin}.html')) {
-	\$file = file_get_contents('/var/www/app/app/webroot/coverage/${plugin}/Plugin_${plugin}.html'); 
-//} else 
-//	\$file = file_get_contents('/var/www/app/app/webroot/coverage/${plugin}/index.html'); 
-//}
-\$matches = array();
-\$title = preg_match('/<title.+title>/iUus', \$file, \$matches);
-\$title = \$matches[0];
-\$title = html_truncate(\$title);
-
-\$matches = array();
-\$head = preg_match('/<thead.+thead>/iUus', \$file, \$matches);
-\$head = \$matches[0];
-\$head = html_truncate(\$head);
-
-\$hashHead = explode("\n", \$head);
-\$headValue1 = '';
-\$headValue2 = '';
-\$headValue3 = '';
-
-foreach (\$hashHead as \$i => \$value) {
-	\$headValue1 .= '+-' . str_pad('', PAD_SPACE_LEN, '-') . '-';
-	\$headValue2 .= '| ' . str_pad(\$value, PAD_SPACE_LEN) . ' ';
-	\$headValue3 .= '+-' . str_pad('', PAD_SPACE_LEN, '-') . '-';
-}
-\$head = \$headValue1 . "-+\n" . \$headValue2 . " |\n" . \$headValue3 . "-+";
-\$footValue = \$headValue1;
-
-\$file = preg_replace('/<title.+title>/iUus', '', \$file);
-\$file = preg_replace('/<header.+header>/iUus', '', \$file);
-\$file = preg_replace('/<footer.+footer>/iUus', '', \$file);
-\$file = preg_replace('/<thead.+thead>/iUus', '', \$file);
-
-\$file = html_truncate(\$file);
-
-\$hashFile = explode("\n", \$file);
-foreach (\$hashFile as \$i => \$value) {
-	\$hashFile2 = explode('    ', \$value);
-	foreach (\$hashFile2 as \$j => \$value2) {
-		\$hashFile2[\$j] = '| ' . str_pad(\$value2, PAD_SPACE_LEN) . ' ';
-	}
-	\$hashFile[\$i] = implode('', \$hashFile2);
-}
-\$file = implode(" |\n", \$hashFile) . ' ';
-
-echo(\$title . "\n" . \$head . "\n" . \$file . "|\n" . \$footValue . "-+" . "\n");
-_EOF_
-
+							if [ -f app/webroot/coverage/${plugin}/Plugin_${plugin}_${act1}.html ]; then
+								#echo "php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}_${act1}.html 2"
+								php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}_${act1}.html 2
+								for act2 in `ls app/Plugin/${plugin}/${act1}`
+								do
+									if [ -d app/Plugin/${plugin}/${act1}/${act2} ] ; then
+										if [ -f app/webroot/coverage/${plugin}/Plugin_${plugin}_${act1}_${act2}.html ]; then
+											#echo "php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}_${act1}_${act2}.html 4"
+											php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}_${act1}_${act2}.html 4
+										fi
+									fi
+								done
+							fi
+						fi
+					done
+				fi
 			fi
 		fi
 
