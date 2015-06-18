@@ -331,8 +331,9 @@ do
 				php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}.html 0
 
 				if [ "${CMDPARAM}" = "caverageAll" -o "${CMDPARAM}" = "list.caverageAll" ]; then
-					for act1 in `ls app`
+					for act1 in [`ls app` "Error"]
 					do
+echo "app/Plugin/${plugin}/${act1}"
 						if [ -d app/Plugin/${plugin}/${act1} ]; then
 							if [ "${act1}" = "Test" ]; then
 								continue;
