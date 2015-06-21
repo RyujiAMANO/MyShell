@@ -20,8 +20,10 @@ else
 	SKIPDOCS=1; export SKIPDOCS
 fi
 
-CMDCMPOSER="php composer.phar"
-#CMDCMPOSER="`which composer`"
+CMDCMPOSER="`which composer`"
+if [ "${CMDCMPOSER}" = "" ]; then
+	CMDCMPOSER="php composer.phar"
+fi
 
 
 ymdhis=`date +%y%m%d%H%M%S`
@@ -117,21 +119,26 @@ mv ${BKFILE}.tar.gz /vagrant/backup/
 echo "rm -Rf ${CURDIR}/NetCommons3"
 rm -Rf ${CURDIR}/NetCommons3
 
-if [ -d ${BKDIR}/app/nbproject ]; then
+if
+ [ -d ${BKDIR}/app/nbproject ]; then
 	echo "cp -Rpf ${BKDIR}/app/nbproject ${NC3DIR}/"
 	cp -Rpf ${BKDIR}/app/nbproject ${NC3DIR}/
+fi
+if [ -d ${BKDIR}/app/cache ]; then
+	echo "cp -Rpf ${BKDIR}/app/cache ${NC3DIR}/"
+	cp -Rpf ${BKDIR}/app/cache ${NC3DIR}/
 fi
 
 echo "cd ${CURDIR}"
 cd ${CURDIR}
 
-if [ "${NORMALDEV}" = "2" -o "${NORMALDEV}" = "0" ]; then
-	echo "git clone https://github.com/s-nakajima/NetCommons3.git"
-	git clone https://github.com/s-nakajima/NetCommons3.git
-else
+#if [ "${NORMALDEV}" = "2" -o "${NORMALDEV}" = "0" ]; then
+#	echo "git clone https://github.com/s-nakajima/NetCommons3.git"
+#	git clone https://github.com/s-nakajima/NetCommons3.git
+#else
 	echo "git clone ${GITURL}/NetCommons3.git"
 	git clone ${GITURL}/NetCommons3.git
-fi
+#fi
 
 if [ "${NORMALDEV}" = "2" -o "${NORMALDEV}" = "0" ]; then
 	echo "rm -Rf ${CURDIR}/Themed"
@@ -188,18 +195,45 @@ fi
 echo "${CMDCMPOSER} self-update"
 ${CMDCMPOSER} self-update
 
-#echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc `which composer` update"
-#hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc `which composer` update
-echo "${CMDCMPOSER} update"
-${CMDCMPOSER} update
+if [ "`which composer`" = "${CMDCMPOSER}" ]; then
+	echo "${CMDCMPOSER} update"
+	${CMDCMPOSER} update
+else
+	echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} update"
+	hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} update
+fi
 
-echo "cp -pf ./tools/build/app/cakephp/composer.json ./"
-cp -pf ./tools/build/app/cakephp/composer.json ./
+COMMAND="cd ${NC3DIR}/app/Plugin"
+echo ${COMMAND}
+${COMMAND}
 
-#echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc `which composer` update"
-#hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc `which composer` update
-echo "${CMDCMPOSER} update"
-${CMDCMPOSER} update
+COMMAND="rm -Rf Install"
+echo ${COMMAND}
+${COMMAND}
+
+COMMAND="`which git` clone https://github.com/s-nakajima/Install.git"
+echo ${COMMAND}
+${COMMAND}
+
+echo "cd ${NC3DIR}/"
+cd ${NC3DIR}/
+
+dev=""
+for plugin in `cat ${NC3DIR}/app/Plugin/Install/vendors.txt`
+do
+	if [ "${plugin}" = "--dev" ]; then
+		dev="${plugin} "
+	else 
+		if [ "`which composer`" = "${CMDCMPOSER}" ]; then
+			echo "${CMDCMPOSER} require ${dev}${plugin}"
+			${CMDCMPOSER} require ${dev}${plugin}
+		else
+			echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} require ${dev}${plugin}"
+			hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} require ${dev}${plugin}
+		fi
+		dev=""
+	fi
+done
 
 #Githubから最新取得
 if [ -f ${CURDIR}/.nc3plugins ]; then
@@ -238,75 +272,61 @@ bower --allow-root update
 ######################
 # Githubから最新取得 #
 ######################
-if [ "${NORMALDEV}" = "3" ]; then
+for sPlugin in "${NC3PLUGINS[@]}"
+do
+	aPlugin=(${sPlugin})
+	echo "==== ${aPlugin[0]} ===="
+
 	COMMAND="cd ${NC3DIR}/app/Plugin"
 	echo ${COMMAND}
 	${COMMAND}
-	
-	COMMAND="rm -Rf Install"
-	echo ${COMMAND}
-	${COMMAND}
 
-	COMMAND="`which git` clone https://github.com/s-nakajima/Install.git"
-	echo ${COMMAND}
-	${COMMAND}
-else
-	for sPlugin in "${NC3PLUGINS[@]}"
-	do
-		aPlugin=(${sPlugin})
-		echo "==== ${aPlugin[0]} ===="
-
-		COMMAND="cd ${NC3DIR}/app/Plugin"
+	#if [ "${aPlugin[0]}" = "NetCommons" ]; then
+	#	COMMAND="rm -Rf ${aPlugin[0]}.bk"
+	#	echo ${COMMAND}
+	#	${COMMAND}
+	#
+	#	COMMAND="mv ${aPlugin[0]} ${aPlugin[0]}.bk"
+	#	echo ${COMMAND}
+	#	${COMMAND}
+	#else
+		COMMAND="rm -Rf ${aPlugin[0]}"
 		echo ${COMMAND}
 		${COMMAND}
+	#fi
 
-		#if [ "${aPlugin[0]}" = "NetCommons" ]; then
-		#	COMMAND="rm -Rf ${aPlugin[0]}.bk"
-		#	echo ${COMMAND}
-		#	${COMMAND}
-		#
-		#	COMMAND="mv ${aPlugin[0]} ${aPlugin[0]}.bk"
-		#	echo ${COMMAND}
-		#	${COMMAND}
-		#else
-			COMMAND="rm -Rf ${aPlugin[0]}"
-			echo ${COMMAND}
-			${COMMAND}
-		#fi
+	if [ "${aPlugin[1]}" = "DELETE" ]; then
+		continue
+	fi
 
-		if [ "${aPlugin[1]}" = "DELETE" ]; then
-			continue
+	case "${aPlugin[0]}" in
+		"empty" ) continue ;;
+		"BoostCake" ) continue ;;
+		"DebugKit" ) continue ;;
+		"HtmlPurifier" ) continue ;;
+		#"M17n" ) continue ;;
+		"Migrations" ) continue ;;
+		"MobileDetect" ) continue ;;
+		"Sandbox" ) continue ;;
+		"TinyMCE" ) continue ;;
+		* )
+		#NetCommons3プロジェクトから最新取得
+		if [ "${aPlugin[2]}" = "" ]; then
+			COMMAND="`which git` clone ${aPlugin[1]}/${aPlugin[0]}.git"
+		else
+			COMMAND="`which git` clone -b ${aPlugin[2]} ${aPlugin[1]}/${aPlugin[0]}.git"
 		fi
+	esac
 
-		case "${aPlugin[0]}" in
-			"empty" ) continue ;;
-			"BoostCake" ) continue ;;
-			"DebugKit" ) continue ;;
-			"HtmlPurifier" ) continue ;;
-			#"M17n" ) continue ;;
-			"Migrations" ) continue ;;
-			"MobileDetect" ) continue ;;
-			"Sandbox" ) continue ;;
-			"TinyMCE" ) continue ;;
-			* )
-			#NetCommons3プロジェクトから最新取得
-			if [ "${aPlugin[2]}" = "" ]; then
-				COMMAND="`which git` clone ${aPlugin[1]}/${aPlugin[0]}.git"
-			else
-				COMMAND="`which git` clone -b ${aPlugin[2]} ${aPlugin[1]}/${aPlugin[0]}.git"
-			fi
-		esac
+	echo ${COMMAND}
+	${COMMAND}
 
-		echo ${COMMAND}
-		${COMMAND}
-
-		#if [ "${aPlugin[0]}" = "NetCommons" ]; then
-		#	COMMAND="rm -Rf ${aPlugin[0]}.bk"
-		#	echo ${COMMAND}
-		#	${COMMAND}
-		#fi
-	done
-fi
+	#if [ "${aPlugin[0]}" = "NetCommons" ]; then
+	#	COMMAND="rm -Rf ${aPlugin[0]}.bk"
+	#	echo ${COMMAND}
+	#	${COMMAND}
+	#fi
+done
 
 ################
 # インストール #
