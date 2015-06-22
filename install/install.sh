@@ -195,13 +195,13 @@ fi
 echo "${CMDCMPOSER} self-update"
 ${CMDCMPOSER} self-update
 
-if [ "`which composer`" = "${CMDCMPOSER}" ]; then
-	echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} update"
-	hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} update
-else
+#if [ "`which composer`" = "${CMDCMPOSER}" ]; then
+#	echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} update"
+#	hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} update
+#else
 	echo "${CMDCMPOSER} update"
 	${CMDCMPOSER} update
-fi
+#fi
 
 COMMAND="cd ${NC3DIR}/app/Plugin"
 echo ${COMMAND}
@@ -219,21 +219,30 @@ echo "cd ${NC3DIR}/"
 cd ${NC3DIR}/
 
 dev=""
+plugins=""
 for plugin in `cat ${NC3DIR}/app/Plugin/Install/vendors.txt`
 do
 	if [ "${plugin}" = "--dev" ]; then
 		dev="${plugin} "
-	else 
-		if [ "`which composer`" = "${CMDCMPOSER}" ]; then
-			echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} require ${dev}${plugin}"
-			hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} require ${dev}${plugin}
-		else
-			echo "${CMDCMPOSER} require ${dev}${plugin}"
-			${CMDCMPOSER} require ${dev}${plugin}
-		fi
-		dev=""
+	else
+		plugins="${plugins} ${plugin}"
+#		if [ "`which composer`" = "${CMDCMPOSER}" ]; then
+#			echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} require ${dev}${plugin}"
+#			hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} require ${dev}${plugin}
+#		else
+#			echo "${CMDCMPOSER} require ${dev}${plugin}"
+#			${CMDCMPOSER} require ${dev}${plugin}
+#		fi
+#		dev=""
 	fi
 done
+if [ "`which composer`" = "${CMDCMPOSER}" ]; then
+	echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} require ${dev}${plugins}"
+	hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} require ${dev}${plugins}
+else
+	echo "${CMDCMPOSER} require ${dev}${plugins}"
+	${CMDCMPOSER} require ${dev}${plugins}
+fi
 
 #Githubから最新取得
 if [ -f ${CURDIR}/.nc3plugins ]; then
@@ -258,8 +267,8 @@ ${COMMAND}
 echo "cd ${NC3DIR}/"
 cd ${NC3DIR}/
 
-echo "${CMDCMPOSER} update"
-${CMDCMPOSER} update
+#echo "${CMDCMPOSER} update"
+#${CMDCMPOSER} update
 
 #echo "bower --allow-root cache clean"
 #bower --allow-root cache clean
@@ -354,17 +363,17 @@ mv application.yml application.yml.org
 echo "mv application.yml2 application.yml"
 mv application.yml2 application.yml
 
-MATCHES="debug: 0"
-REPLACE="debug: 2"
+#MATCHES="debug: 0"
+#REPLACE="debug: 2"
 
-echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" application.yml > application.yml2"
-sed -e "s/${MATCHES}$/${REPLACE}/g" application.yml > application.yml2
+#echo "sed -e \"s/${MATCHES}$/${REPLACE}/g\" application.yml > application.yml2"
+#sed -e "s/${MATCHES}$/${REPLACE}/g" application.yml > application.yml2
 
-echo "mv application.yml application.yml.org2"
-mv application.yml application.yml.org2
+#echo "mv application.yml application.yml.org2"
+#mv application.yml application.yml.org2
 
-echo "mv application.yml2 application.yml"
-mv application.yml2 application.yml
+#echo "mv application.yml2 application.yml"
+#mv application.yml2 application.yml
 
 #########################
 # Admin以外のユーザ作成 #
