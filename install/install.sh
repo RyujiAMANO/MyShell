@@ -196,11 +196,11 @@ echo "${CMDCMPOSER} self-update"
 ${CMDCMPOSER} self-update
 
 if [ "`which composer`" = "${CMDCMPOSER}" ]; then
-	echo "${CMDCMPOSER} update"
-	${CMDCMPOSER} update
-else
 	echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} update"
 	hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} update
+else
+	echo "${CMDCMPOSER} update"
+	${CMDCMPOSER} update
 fi
 
 COMMAND="cd ${NC3DIR}/app/Plugin"
@@ -225,11 +225,11 @@ do
 		dev="${plugin} "
 	else 
 		if [ "`which composer`" = "${CMDCMPOSER}" ]; then
-			echo "${CMDCMPOSER} require ${dev}${plugin}"
-			${CMDCMPOSER} require ${dev}${plugin}
-		else
 			echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} require ${dev}${plugin}"
 			hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} require ${dev}${plugin}
+		else
+			echo "${CMDCMPOSER} require ${dev}${plugin}"
+			${CMDCMPOSER} require ${dev}${plugin}
 		fi
 		dev=""
 	fi
