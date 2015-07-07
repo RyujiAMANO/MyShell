@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. nc3profile
+. ./nc3profile
 
 CURDIR=`pwd`
 #NODEVELOP=1; export NODEVELOP
