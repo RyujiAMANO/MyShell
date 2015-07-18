@@ -80,7 +80,8 @@ if [ "${NORMALDEV}" = "0" -o "${NORMALDEV}" = "2" ]; then
 	#NC3_COMPOSER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/composer.json
 	NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
 else
-	NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
+	#NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
+	NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/composer.json
 fi
 
 #bower.json
