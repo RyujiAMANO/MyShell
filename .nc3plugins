@@ -76,13 +76,13 @@ LOCALDEV_PLUGINS=()
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Wysiwyg https://github.com/s-nakajima develop")
 
 #composer.json
-if [ "${NORMALDEV}" = "0" -o "${NORMALDEV}" = "2" ]; then
-	#NC3_COMPOSER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/composer.json
-	NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
-else
-	#NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
-	NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/composer.json
-fi
+#if [ "${NORMALDEV}" = "0" -o "${NORMALDEV}" = "2" ]; then
+#	#NC3_COMPOSER_URL=https://raw.githubusercontent.com/s-nakajima/MyShell/master/conf/composer.json
+#	NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
+#else
+#	#NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/tools/build/app/cakephp/composer.json
+#	NC3_COMPOSER_URL=https://raw.githubusercontent.com/NetCommons3/NetCommons3/master/composer.json
+#fi
 
 #bower.json
 if [ "${NORMALDEV}" = "2" ]; then
@@ -176,26 +176,26 @@ if [ -f bower.json ]; then
 	${COMMAND}
 fi
 
-if [ -f composer.json ]; then
-	COMMAND="rm -f composer.json"
-	echo ${COMMAND}
-	${COMMAND}
-fi
+#if [ -f composer.json ]; then
+#	COMMAND="rm -f composer.json"
+#	echo ${COMMAND}
+#	${COMMAND}
+#fi
 
-COMPOSER_URL=${NC3_COMPOSER_URL}
+#COMPOSER_URL=${NC3_COMPOSER_URL}
 BOWER_URL=${NC3_BOWER_URL}
 
-COMMAND="`which curl` -O ${COMPOSER_URL}"
-echo ${COMMAND}
-${COMMAND}
+#COMMAND="`which curl` -O ${COMPOSER_URL}"
+#echo ${COMMAND}
+#${COMMAND}
 
 COMMAND="`which curl` -O ${BOWER_URL}"
 echo ${COMMAND}
 ${COMMAND}
 
-COMMAND="cp -pf composer.json ${NC3DIR}/"
-echo ${COMMAND}
-${COMMAND}
+#COMMAND="cp -pf composer.json ${NC3DIR}/"
+#echo ${COMMAND}
+#${COMMAND}
 
 COMMAND="cp -pf bower.json ${NC3DIR}/"
 echo ${COMMAND}
