@@ -211,7 +211,7 @@ COMMAND="rm -Rf Install"
 echo ${COMMAND}
 ${COMMAND}
 
-COMMAND="`which git` clone https://github.com/s-nakajima/Install.git"
+COMMAND="`which git` clone -b myshell https://github.com/s-nakajima/Install.git"
 echo ${COMMAND}
 ${COMMAND}
 
@@ -236,6 +236,8 @@ do
 #		dev=""
 	fi
 done
+
+dev="--dev "
 if [ "`which composer`" = "${CMDCMPOSER}" ]; then
 	echo "hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} require ${dev}${plugins}"
 	hhvm -vRepo.Central.Path=/var/run/hhvm/hhvm.hhbc ${CMDCMPOSER} require ${dev}${plugins}
@@ -283,6 +285,10 @@ bower --allow-root update
 ######################
 for sPlugin in "${NC3PLUGINS[@]}"
 do
+	if [ "${NORMALDEV}" = "1" ]; then
+		continue
+	fi
+
 	aPlugin=(${sPlugin})
 	echo "==== ${aPlugin[0]} ===="
 
@@ -340,6 +346,9 @@ done
 ################
 # インストール #
 ################
+
+echo "chown ${OWNER}:${GROUP} -R ${NC3DIR}"
+chown ${OWNER}:${GROUP} -R ${NC3DIR}
 
 echo "`which node` ${CURDIR}/install.js"
 `which node` ${CURDIR}/install.js
