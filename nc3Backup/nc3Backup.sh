@@ -1,7 +1,9 @@
 #!/bin/bash -ex
- 
+
+CURDIR=`pwd`
+
 cd /var/www/
- 
+
 if [ ! -d /var/www/backup ]; then
 	echo "mkdir /var/www/backup"
 	mkdir /var/www/backup
@@ -13,23 +15,24 @@ fi
  
 EXECTYPE=$1
 if [ "${EXECTYPE}" = "all" ]; then
-	CURDIR=all-`date +%y%m%d%H%M%S`
+	BACKUPDIR=all-`date +%y%m%d%H%M%S`
 else
-	CURDIR=diff-`date +%y%m%d%H%M%S`
+	BACKUPDIR=diff-`date +%y%m%d%H%M%S`
 fi
+
+echo "mkdir /var/www/backup/${BACKUPDIR}"
+mkdir /var/www/backup/${BACKUPDIR}
  
-echo "mkdir /var/www/backup/${CURDIR}"
-mkdir /var/www/backup/${CURDIR}
- 
-echo "cd /var/www/backup/${CURDIR}"
-cd /var/www/backup/${CURDIR}
- 
+echo "cd /var/www/backup/${BACKUPDIR}"
+cd /var/www/backup/${BACKUPDIR}
+
+
 echo "mysqldump -uroot -proot nc3 > nc3.sql"
 mysqldump -uroot -proot nc3 > nc3.sql
  
 if [ "${EXECTYPE}" = "all" ]; then
-	echo "find /var/www/backup/ -type d -ctime +30 -exec rm -Rf {} \;"
-	find /var/www/backup/ -type d -ctime +30 -exec rm -Rf {} \;
+	#echo "find /var/www/backup/ -type d -ctime +30 -exec rm -Rf {} \;"
+	#find /var/www/backup/ -type d -ctime +30 -exec rm -Rf {} \;
  
 	echo "cp -rpf /var/www/app ./"
 	cp -rpf /var/www/app ./
@@ -46,7 +49,32 @@ if [ "${EXECTYPE}" = "all" ]; then
 		echo "cp -rpf /var/www/MyShell ./"
 		cp -rpf /var/www/MyShell ./
 	fi
- 
+
+	if [ -d ${CURDIR}/github-cmd ]; then
+		echo "rm -Rf cd ${CURDIR}/github-cmd/issues/*"
+		rm -Rf ${CURDIR}/github-cmd/issues/*
+
+		echo "cd ${CURDIR}/github-cmd"
+		cd ${CURDIR}/github-cmd
+
+		echo "./github-issues NetCommons3 | tee issues/github-issues.log"
+		./github-issues NetCommons3 | tee issues/github-issues.log
+
+		for url in `cat issues_url.txt`
+		do
+			filename=`echo $url | cut -c 32-`
+			filename=`echo $filename | sed -e "s#/#_#g"`
+
+			echo "curl $url > issues/$filename.html"
+			curl $url > issues/$filename.html
+		done
+
+		echo "cd /var/www/backup/${BACKUPDIR}"
+		cd /var/www/backup/${BACKUPDIR}
+
+		echo "cp -rpf ${CURDIR}/github-cmd/issues ./"
+		cp -rpf ${CURDIR}/github-cmd/issues ./
+	fi
 else
 	echo "cp -rpf /var/www/app/app/Config ./"
 	cp -rpf /var/www/app/app/Config ./
@@ -58,11 +86,11 @@ fi
 echo "cd /var/www/backup/"
 cd /var/www/backup/
  
-echo "tar czf ${CURDIR}.tar.gz ${CURDIR}"
-tar czf ${CURDIR}.tar.gz ${CURDIR}
+echo "tar czf ${BACKUPDIR}.tar.gz ${BACKUPDIR}"
+tar czf ${BACKUPDIR}.tar.gz ${BACKUPDIR}
  
-echo "mv ${CURDIR}.tar.gz /vagrant/backup/"
-mv ${CURDIR}.tar.gz /vagrant/backup/
+echo "mv ${BACKUPDIR}.tar.gz /vagrant/backup/"
+mv ${BACKUPDIR}.tar.gz /vagrant/backup/
  
 echo ""
  
