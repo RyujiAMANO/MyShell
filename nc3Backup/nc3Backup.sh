@@ -12,7 +12,7 @@ if [ ! -d /vagrant/backup ]; then
 	echo "mkdir /vagrant/backup"
 	mkdir /vagrant/backup
 fi
- 
+
 EXECTYPE=$1
 if [ "${EXECTYPE}" = "all" ]; then
 	BACKUPDIR=all-`date +%y%m%d%H%M%S`
@@ -22,21 +22,21 @@ fi
 
 echo "mkdir /var/www/backup/${BACKUPDIR}"
 mkdir /var/www/backup/${BACKUPDIR}
- 
+
 echo "cd /var/www/backup/${BACKUPDIR}"
 cd /var/www/backup/${BACKUPDIR}
 
 
 echo "mysqldump -uroot -proot nc3 > nc3.sql"
 mysqldump -uroot -proot nc3 > nc3.sql
- 
+
 if [ "${EXECTYPE}" = "all" ]; then
 	#echo "find /var/www/backup/ -type d -ctime +30 -exec rm -Rf {} \;"
 	#find /var/www/backup/ -type d -ctime +30 -exec rm -Rf {} \;
- 
+
 	echo "cp -rpf /var/www/app ./"
 	cp -rpf /var/www/app ./
- 
+
 	if [ -d /var/www/docs ]; then
 		echo "cp -rpf /var/www/docs ./"
 		cp -rpf /var/www/docs ./
@@ -50,12 +50,12 @@ if [ "${EXECTYPE}" = "all" ]; then
 		cp -rpf /var/www/MyShell ./
 	fi
 
-	if [ -d ${CURDIR}/github-cmd ]; then
-		echo "rm -Rf cd ${CURDIR}/github-cmd/issues/*"
-		rm -Rf ${CURDIR}/github-cmd/issues/*
+	if [ -d ${CURDIR}/github-cmd2 ]; then
+		echo "rm -Rf cd ${CURDIR}/github-cmd2/issues/*"
+		rm -Rf ${CURDIR}/github-cmd2/issues/*
 
-		echo "cd ${CURDIR}/github-cmd"
-		cd ${CURDIR}/github-cmd
+		echo "cd ${CURDIR}/github-cmd2"
+		cd ${CURDIR}/github-cmd2
 
 		echo "./github-issues NetCommons3 | tee issues/github-issues.log"
 		./github-issues NetCommons3 | tee issues/github-issues.log
@@ -72,27 +72,27 @@ if [ "${EXECTYPE}" = "all" ]; then
 		echo "cd /var/www/backup/${BACKUPDIR}"
 		cd /var/www/backup/${BACKUPDIR}
 
-		echo "cp -rpf ${CURDIR}/github-cmd/issues ./"
-		cp -rpf ${CURDIR}/github-cmd/issues ./
+		echo "cp -rpf ${CURDIR}/github-cmd2/issues ./"
+		cp -rpf ${CURDIR}/github-cmd2/issues ./
 	fi
 else
 	echo "cp -rpf /var/www/app/app/Config ./"
 	cp -rpf /var/www/app/app/Config ./
- 
+
 	echo "cp -rpf /var/www/app/app/Plugin ./"
 	cp -rpf /var/www/app/app/Plugin ./
 fi
- 
+
 echo "cd /var/www/backup/"
 cd /var/www/backup/
- 
+
 echo "tar czf ${BACKUPDIR}.tar.gz ${BACKUPDIR}"
 tar czf ${BACKUPDIR}.tar.gz ${BACKUPDIR}
- 
+
 echo "mv ${BACKUPDIR}.tar.gz /vagrant/backup/"
 mv ${BACKUPDIR}.tar.gz /vagrant/backup/
- 
+
 echo ""
- 
+
 #
 #-- end of file --

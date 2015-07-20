@@ -1,0 +1,175 @@
+#!/usr/bin/env ruby
+require 'args_parser'
+require 'highline/import'
+require 'octokit'
+require 'time'
+
+args = ArgsParser.parse ARGV do
+  arg :all, 'show all repos'
+  arg :day, 'filter by last modified at', :default => 90
+  arg :conf, 'config file', :default => "#{ENV['HOME']}/.github-cmd"
+  arg :help, 'show help', :alias => :h
+end
+
+if args.has_option? :help
+  STDERR.puts "show issues on GitHub.com"
+  STDERR.puts args.help
+  STDERR.puts
+  STDERR.puts "e.g."
+  STDERR.puts "  github-issues"
+  STDERR.puts "  github-issues shokai"
+  STDERR.puts "  github-issues shokai zakuni masuilab --all"
+  exit
+end
+
+if File.exists? args[:conf]
+  token = File.open(args[:conf]).read.strip
+else
+  token = ""
+end
+
+if token.empty?
+  login = ask("username: ")
+  exit 1 if login.empty?
+
+  password = ask("password: "){|q| q.echo = "*" }
+  exit 1 if password.empty?
+
+  client = Octokit::Client.new :login => login, :password => password
+
+  def client.get_oauth_token(one_time_password=nil)
+    args = {:scope => ["user"], :note => "github-cmd #{Time.now.to_i}"}
+    args[:headers] = { "X-GitHub-OTP" => one_time_password } if one_time_password
+    create_authorization args
+  end
+
+  res =
+    begin
+      client.get_oauth_token
+    rescue Octokit::OneTimePasswordRequired
+      puts "Two-Factor Auth required."
+      one_time_password = ask("onetime password: ")
+      client.get_oauth_token one_time_password
+    end
+  token = res[:token]
+  if token.empty?
+    STDERR.puts "token missing"
+    STDERR.puts res
+    exit 1
+  end
+
+  File.open args[:conf], "w+" do |f|
+    f.write token
+  end
+end
+
+
+client = Octokit::Client.new :access_token => token
+repos = []
+users = args.argv.empty? ? [nil] : args.argv.uniq
+users.each do |name|
+  user = client.user name
+  pages = (user.public_repos + user.total_private_repos.to_i)/100 + 1
+
+  1.upto(pages).each do |page|
+    print "reading github.com/#{user.login} page #{page} ... "
+    repos_in_page = client.repos(user.login, :per_page => 100, :page => page)
+    puts "#{repos_in_page.size} repos"
+    repos_in_page.reject{|repo|
+      repo.open_issues_count < 1
+    }.each{|repo|
+      repos.push repo
+    }
+  end
+end
+
+unless args.has_option? :all
+  repos.delete_if do |repo|
+    repo.updated_at < Time.now - 60*60*24*args[:day]
+  end
+end
+
+repos.sort!{|a,b|
+  b.updated_at <=> a.updated_at
+}
+
+File.open "issues_url.txt", "w+" do |f|
+end
+
+repos.each_with_index do |repo, i|
+  #issues = client.issues(repo.full_name, :per_page => 1, :page => 1)
+  issues = client.issues(repo.full_name, :per_page => 1, :page => 1, :state => "all")
+  pages = (issues[0].number)/50 + 1
+  puts "[#{i+1}/#{repos.size}] https://github.com/#{repo.full_name} (#{repo.open_issues_count} open issues in #{issues[0].number}) [#{repo.updated_at}]"
+
+  1.upto(pages).each do |page|
+    #issues = client.issues(repo.full_name, :per_page => 50, :page => page)
+    issues = client.issues(repo.full_name, :per_page => 50, :page => 1, :state => "all")
+
+    issues.each do |i|
+      if i.pull_request
+        lblState = "pull"
+      else
+        lblState = "issues"
+      end
+      if i.state == "closed"
+        #puts " - ##{i.number}<#{lblState}:#{i.state}>\t#{i.title}\n"
+      else
+        puts " - ##{i.number}<#{lblState}:#{i.state}>\t#{i.title}\n"
+      end
+
+      File.open "issues_url.txt", "a+" do |f|
+        f.write "#{i.html_url}\n"
+      end
+
+      comments = client.issue_comments(repo.full_name, i.number)
+      File.open "issues/#{repo.name}_#{lblState}_#{i.number}_#{i.state}.log", "w+" do |f|
+        f.write " - ##{i.number}<#{lblState}:#{i.state}>\t#{i.title}\n"
+        label = ""
+        i.labels do |l|
+          label << l.name
+          label << "\t"
+        end
+        unless label == ""
+          f.write " - labels:[#{label}]\n"
+        end
+        f.write " - body:----------------------------------------------------\n"
+        f.write "\n"
+        f.write "#{i.body}\n\n"
+
+        if comments.count > 0
+          f.write " - comments:------------------------------------------------\n"
+          f.write "\n"
+          comments.each do |c|
+            f.write " - comment: #{c.updated_at} #{c.user.login}\n\n"
+            f.write "#{c.body}"
+            f.write "\n\n"
+          end
+        end
+        f.write "------------------------------------------------------------\n"
+        f.write i.marshal_dump
+        f.write "\n\n"
+        if comments.count > 0
+          f.write " - comments:------------------------------------------------\n"
+          f.write "\n"
+          comments.each do |c|
+            f.write c.marshal_dump
+            f.write "\n\n"
+          end
+        end
+      end
+
+      File.open "issues/#{repo.name}_#{lblState}_#{i.number}.dmp", "w+" do |f|
+        f.write Marshal.dump(i)
+      end
+
+      if comments.count > 0
+          comments.each do |c|
+            File.open "issues/#{repo.name}_#{lblState}_#{i.number}_#{c.id}.dmp", "w+" do |f|
+              f.write Marshal.dump(c)
+            end
+          end
+      end
+    end
+  end
+end

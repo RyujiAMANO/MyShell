@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'octokit'
+
+begin
+  token = File.open("#{ENV['HOME']}/.github-cmd").read.strip
+rescue
+  STDERR.puts "token not found"
+  STDERR.puts "run github-issues command"
+  exit 1
+end
+
+p token
+client = Octokit::Client.new :access_token => token
+issues = client.issues
+
+issues.each_with_index do |issue, i|
+  puts "[#{i+1}/#{issues.size}] #{issue.html_url}"
+  puts " - ##{issue.number}\t#{issue.title}"
+end
