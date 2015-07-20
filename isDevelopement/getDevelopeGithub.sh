@@ -12,7 +12,7 @@ fi
 
 GITURL=https://github.com/NetCommons3; export GITURL
 
-LOCALDEV=1
+NORMALDEV=0; export NORMALDEV
 
 ALL_YES=$1
 
