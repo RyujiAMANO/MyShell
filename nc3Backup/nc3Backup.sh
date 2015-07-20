@@ -50,12 +50,12 @@ if [ "${EXECTYPE}" = "all" ]; then
 		cp -rpf /var/www/MyShell ./
 	fi
 
-	if [ -d ${CURDIR}/github-cmd2 ]; then
-		echo "rm -Rf cd ${CURDIR}/github-cmd2/issues/*"
-		rm -Rf ${CURDIR}/github-cmd2/issues/*
+	if [ -d ${CURDIR}/github-cmd ]; then
+		echo "rm -Rf cd ${CURDIR}/github-cmd/issues/*"
+		rm -Rf ${CURDIR}/github-cmd/issues/*
 
-		echo "cd ${CURDIR}/github-cmd2"
-		cd ${CURDIR}/github-cmd2
+		echo "cd ${CURDIR}/github-cmd"
+		cd ${CURDIR}/github-cmd
 
 		echo "./github-issues NetCommons3 | tee issues/github-issues.log"
 		./github-issues NetCommons3 | tee issues/github-issues.log
@@ -72,8 +72,8 @@ if [ "${EXECTYPE}" = "all" ]; then
 		echo "cd /var/www/backup/${BACKUPDIR}"
 		cd /var/www/backup/${BACKUPDIR}
 
-		echo "cp -rpf ${CURDIR}/github-cmd2/issues ./"
-		cp -rpf ${CURDIR}/github-cmd2/issues ./
+		echo "cp -rpf ${CURDIR}/github-cmd/issues ./"
+		cp -rpf ${CURDIR}/github-cmd/issues ./
 	fi
 else
 	echo "cp -rpf /var/www/app/app/Config ./"
