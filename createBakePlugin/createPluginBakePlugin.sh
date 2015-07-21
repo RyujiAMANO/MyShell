@@ -65,7 +65,8 @@ before_script:
   - git clone git://github.com/NetCommons3/NetCommons3 \$NETCOMMONS_BUILD_DIR
   - cd \$NETCOMMONS_BUILD_DIR
   - git checkout \$NETCOMMONS_VERSION
-  - . tools/build/plugins/cakephp/travis/pre.sh
+  - travis_wait . tools/build/plugins/cakephp/travis/pre.sh
+  - . tools/build/plugins/cakephp/travis/environment.sh
 
 script:
   - . tools/build/plugins/cakephp/travis/main.sh
@@ -99,19 +100,23 @@ cat << _EOF_ > $createFile
         }
     },
     "require": {
-        "cakephp/cakephp":              "~2.4",
+        "cakephp/cakephp":              "~2.6.9",
         "cakephp/debug_kit":            "~2.2",
         "cakedc/migrations":            "~2.2",
-        "twbs/bootstrap":               "~3.1",
-        "components/jquery":            "~2.1"
+        "phpunit/phpunit":              "~3.7.38",
+        "sebastian/phpcpd":             "~2.0"
     },
     "require-dev": {
         "mustangostang/spyc":           "dev-master",
-        "satooshi/php-coveralls":       "dev-master",
-        "netcommons/net-commons":       "dev-master",
+        "netcommons/auth":              "dev-master",
         "netcommons/frames":            "dev-master",
+        "netcommons/m17n":              "dev-master",
+        "netcommons/net-commons":       "dev-master",
         "netcommons/pages":             "dev-master",
-        "netcommons/users":             "dev-master"
+        "netcommons/plugin-manager":    "dev-master",
+        "netcommons/roles":             "dev-master",
+        "netcommons/users":             "dev-master",
+        "satooshi/php-coveralls":       "dev-master"
     },
     "license": "NetCommons License",
     "authors": [

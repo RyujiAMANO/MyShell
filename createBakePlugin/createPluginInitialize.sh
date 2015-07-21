@@ -81,12 +81,12 @@ if [ "$AUTHOR_EMAIL" = "" ]; then
 fi
 
 echo "CREATE TABLEを実行してテーブルを作成していますか？ "
-echo -n "y(es)/n(o) [y]> "
+echo -n "y(es)/n(o)/q(uit) [y]> "
 read ANS
 if [ "$ANS" = "" ]; then
 	ANS="y"
 	echo ${ANS}
 fi
-if [ ! "$ANS" = "y" ]; then
+if [ "$ANS" = "q" ]; then
 	exit 0
 fi
