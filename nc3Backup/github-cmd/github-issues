@@ -104,7 +104,7 @@ repos.each_with_index do |repo, i|
 
   1.upto(pages).each do |page|
     #issues = client.issues(repo.full_name, :per_page => 50, :page => page)
-    issues = client.issues(repo.full_name, :per_page => 50, :page => 1, :state => "all")
+    issues = client.issues(repo.full_name, :per_page => 50, :page => page, :state => "all")
 
     issues.each do |i|
       if i.pull_request
