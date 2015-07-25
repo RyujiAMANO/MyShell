@@ -77,7 +77,7 @@ LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "RssReaders https://github.com/s-naka
 LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "UserAttributes https://github.com/s-nakajima")
 LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "UserManager https://github.com/s-nakajima")
 LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "UserRoles https://github.com/s-nakajima")
-LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Users https://github.com/s-nakajima develop")
+LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Users https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Videos ${NC3GITURL}")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Wysiwyg https://github.com/s-nakajima develop")
 
