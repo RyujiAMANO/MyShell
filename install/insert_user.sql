@@ -10,7 +10,7 @@ SELECT 'editor', password, 'editor', 'editor' FROM users WHERE id = 1;
 INSERT INTO users (username, password, role_key, handlename)
 SELECT 'general_user', password, 'general_user', 'general_user' FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, role_key, )
+INSERT INTO users (username, password, role_key, handlename)
 SELECT 'visitor', password, 'visitor', 'visitor' FROM users WHERE id = 1;
 
 
