@@ -1,30 +1,30 @@
 SET NAMES utf8;
 
 #-- users
-INSERT INTO users (username, password, role_key)
-SELECT 'chief_editor', password, 'chief_editor' FROM users WHERE id = 1;
+INSERT INTO users (username, password, role_key, handlename)
+SELECT 'chief_editor', password, 'chief_editor', 'chief_editor' FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, role_key)
-SELECT 'editor', password, 'editor' FROM users WHERE id = 1;
+INSERT INTO users (username, password, role_key, handlename)
+SELECT 'editor', password, 'editor', 'editor' FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, role_key)
-SELECT 'general_user', password, 'general_user' FROM users WHERE id = 1;
+INSERT INTO users (username, password, role_key, handlename)
+SELECT 'general_user', password, 'general_user', 'general_user' FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, role_key)
-SELECT 'visitor', password, 'visitor' FROM users WHERE id = 1;
+INSERT INTO users (username, password, role_key, )
+SELECT 'visitor', password, 'visitor', 'visitor' FROM users WHERE id = 1;
 
 
 #-- user_attributes_users
-INSERT INTO user_attributes_users (language_id, user_id, user_attribute_id, `key`, value)
-SELECT roles.language_id AS language_id,
-     users.id AS user_id,
-     1 AS user_attribute_id,
-     'nickname' AS 'key',
-     roles.name AS value
-FROM users
-INNER JOIN roles ON (users.role_key = roles.key)
-LEFT JOIN user_attributes_users ON (users.id = user_attributes_users.user_id AND user_attributes_users.language_id = roles.language_id)
-WHERE user_attributes_users.user_id IS NULL;
+#-- INSERT INTO user_attributes_users (language_id, user_id, user_attribute_id, `key`, value)
+#-- SELECT roles.language_id AS language_id,
+#--      users.id AS user_id,
+#--      1 AS user_attribute_id,
+#--      'nickname' AS 'key',
+#--      roles.name AS value
+#-- FROM users
+#-- INNER JOIN roles ON (users.role_key = roles.key)
+#-- LEFT JOIN user_attributes_users ON (users.id = user_attributes_users.user_id AND user_attributes_users.language_id = roles.language_id)
+#-- WHERE user_attributes_users.user_id IS NULL;
 
 
 #-- roles_rooms
