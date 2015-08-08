@@ -2,16 +2,16 @@ SET NAMES utf8;
 
 #-- users
 INSERT INTO users (username, password, role_key, handlename)
-SELECT 'chief_editor', password, 'chief_editor', 'chief_editor' FROM users WHERE id = 1;
+SELECT 'chief_editor', password, 'user_administrator', 'chief_editor' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, role_key, handlename)
-SELECT 'editor', password, 'editor', 'editor' FROM users WHERE id = 1;
+SELECT 'editor', password, 'chief_user', 'editor' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, role_key, handlename)
-SELECT 'general_user', password, 'general_user', 'general_user' FROM users WHERE id = 1;
+SELECT 'general_user', password, 'common_user', 'general_user' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, role_key, handlename)
-SELECT 'visitor', password, 'visitor', 'visitor' FROM users WHERE id = 1;
+SELECT 'visitor', password, 'guest_user', 'visitor' FROM users WHERE id = 1;
 
 
 #-- user_attributes_users
