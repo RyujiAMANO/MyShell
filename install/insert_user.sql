@@ -1,17 +1,30 @@
 SET NAMES utf8;
 
 #-- users
-INSERT INTO users (username, password, role_key, handlename)
-SELECT 'chief_editor', password, 'chief_editor', 'chief_editor' FROM users WHERE id = 1;
+#-- INSERT INTO users (username, password, role_key)
+#-- SELECT 'chief_editor', password, 'user_administrator' FROM users WHERE id = 1;
+
+#-- INSERT INTO users (username, password, role_key)
+#-- SELECT 'editor', password, 'chief_user' FROM users WHERE id = 1;
+
+#-- INSERT INTO users (username, password, role_key)
+#-- SELECT 'general_user', password, 'common_user' FROM users WHERE id = 1;
+
+#-- INSERT INTO users (username, password, role_key)
+#-- SELECT 'visitor', password, 'guest_user' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, role_key, handlename)
-SELECT 'editor', password, 'editor', 'editor' FROM users WHERE id = 1;
+SELECT 'chief_editor', password, 'user_administrator', 'chief_editor' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, role_key, handlename)
-SELECT 'general_user', password, 'general_user', 'general_user' FROM users WHERE id = 1;
+SELECT 'editor', password, 'chief_user', 'editor' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, role_key, handlename)
-SELECT 'visitor', password, 'visitor', 'visitor' FROM users WHERE id = 1;
+SELECT 'general_user', password, 'common_user', 'general_user' FROM users WHERE id = 1;
+
+INSERT INTO users (username, password, role_key, handlename)
+SELECT 'visitor', password, 'guest_user', 'visitor' FROM users WHERE id = 1;
+
 
 
 #-- user_attributes_users
@@ -20,12 +33,12 @@ SELECT 'visitor', password, 'visitor', 'visitor' FROM users WHERE id = 1;
 #--      users.id AS user_id,
 #--      1 AS user_attribute_id,
 #--      'nickname' AS 'key',
-#--      roles.name AS value
+#--  roles.name AS value
 #-- FROM users
 #-- INNER JOIN roles ON (users.role_key = roles.key)
 #-- LEFT JOIN user_attributes_users ON (users.id = user_attributes_users.user_id AND user_attributes_users.language_id = roles.language_id)
 #-- WHERE user_attributes_users.user_id IS NULL;
-
+#-- 
 
 #-- roles_rooms
 INSERT INTO roles_rooms (room_id, role_key)
