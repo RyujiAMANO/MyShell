@@ -41,21 +41,48 @@ SELECT 'visitor', password, 'guest_user', 'visitor' FROM users WHERE id = 1;
 #-- 
 
 #-- roles_rooms
-INSERT INTO roles_rooms (room_id, role_key)
-SELECT rooms.id, roles.key
-FROM (roles, rooms)
-LEFT JOIN roles_rooms ON (roles_rooms.role_key = roles.key AND roles_rooms.room_id = rooms.id)
-WHERE roles.type = 2
-AND roles_rooms.id IS NULL;
+#-- INSERT INTO roles_rooms (room_id, role_key)
+#-- SELECT rooms.id, roles.key
+#-- FROM (roles, rooms)
+#-- LEFT JOIN roles_rooms ON (roles_rooms.role_key = roles.key AND roles_rooms.room_id = rooms.id)
+#-- WHERE roles.type = 2
+#-- AND roles_rooms.id IS NULL;
 
 
 #-- roles_rooms_users
+#-- INSERT INTO roles_rooms_users (roles_room_id, user_id)
+#-- SELECT roles_rooms.id, users.id
+#-- FROM roles_rooms
+#-- INNER JOIN users ON (roles_rooms.role_key = users.role_key)
+#-- LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
+#-- WHERE roles_rooms_users.id IS NULL;
+
 INSERT INTO roles_rooms_users (roles_room_id, user_id)
 SELECT roles_rooms.id, users.id
 FROM roles_rooms
-INNER JOIN users ON (roles_rooms.role_key = users.role_key)
+INNER JOIN user_role_settings ON (roles_rooms.role_key = user_role_settings.default_room_role_key)
+INNER JOIN users ON (user_role_settings.role_key = users.role_key)
 LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
-WHERE roles_rooms_users.id IS NULL;
+WHERE roles_rooms_users.id IS NULL
+AND roles_rooms.room_id = 1;
+
+INSERT INTO roles_rooms_users (roles_room_id, user_id)
+SELECT roles_rooms.id, users.id
+FROM roles_rooms
+INNER JOIN user_role_settings ON (roles_rooms.role_key = user_role_settings.default_room_role_key)
+INNER JOIN users ON (1 = 1)
+LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
+WHERE roles_rooms_users.id IS NULL
+AND roles_rooms.room_id = 2;
+
+INSERT INTO roles_rooms_users (roles_room_id, user_id)
+SELECT roles_rooms.id, users.id
+FROM roles_rooms
+INNER JOIN user_role_settings ON (roles_rooms.role_key = user_role_settings.default_room_role_key)
+INNER JOIN users ON (user_role_settings.role_key = users.role_key)
+LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
+WHERE roles_rooms_users.id IS NULL
+AND roles_rooms.room_id = 3;
 
 
 #-- room_role_permissions
