@@ -13,18 +13,26 @@ SET NAMES utf8;
 #-- INSERT INTO users (username, password, role_key)
 #-- SELECT 'visitor', password, 'guest_user' FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, role_key, handlename)
-SELECT 'chief_editor', password, 'user_administrator', 'chief_editor' FROM users WHERE id = 1;
+INSERT INTO users (username, password, `key`, role_key, handlename)
+SELECT 'chief_editor', password, MD5('user_administrator'), 'user_administrator', 'chief_editor' FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, role_key, handlename)
-SELECT 'editor', password, 'chief_user', 'editor' FROM users WHERE id = 1;
+INSERT INTO users (username, password, `key`, role_key, handlename)
+SELECT 'editor', password, MD5('chief_user'), 'chief_user', 'editor' FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, role_key, handlename)
-SELECT 'general_user', password, 'common_user', 'general_user' FROM users WHERE id = 1;
+INSERT INTO users (username, password, `key`, role_key, handlename)
+SELECT 'general_user', password, MD5('common_user'), 'common_user', 'general_user' FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, role_key, handlename)
-SELECT 'visitor', password, 'guest_user', 'visitor' FROM users WHERE id = 1;
+INSERT INTO users (username, password, `key`, role_key, handlename)
+SELECT 'visitor', password, MD5('guest_user'), 'guest_user', 'visitor' FROM users WHERE id = 1;
 
+#-- users_languages
+INSERT INTO users_languages (user_id, language_id, name)
+SELECT users.id,
+     languages.id,
+     users.handlename AS name
+FROM (users, languages)
+LEFT JOIN users_languages ON (users.id = users_languages.user_id AND users_languages.language_id = languages.id)
+WHERE users_languages.user_id IS NULL;
 
 
 #-- user_attributes_users
