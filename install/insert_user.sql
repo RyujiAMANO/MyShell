@@ -14,16 +14,16 @@ SET NAMES utf8;
 #-- SELECT 'visitor', password, 'guest_user' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, `key`, role_key, handlename)
-SELECT 'chief_editor', password, MD5('user_administrator'), 'user_administrator', 'chief_editor' FROM users WHERE id = 1;
+SELECT 'chief_editor', password, MD5('chief_editor'), 'administrator', 'chief_editor' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, `key`, role_key, handlename)
-SELECT 'editor', password, MD5('chief_user'), 'chief_user', 'editor' FROM users WHERE id = 1;
+SELECT 'editor', password, MD5('chief_editor'), 'common_user', 'editor' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, `key`, role_key, handlename)
-SELECT 'general_user', password, MD5('common_user'), 'common_user', 'general_user' FROM users WHERE id = 1;
+SELECT 'general_user', password, MD5('general_user'), 'common_user', 'general_user' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, `key`, role_key, handlename)
-SELECT 'visitor', password, MD5('guest_user'), 'guest_user', 'visitor' FROM users WHERE id = 1;
+SELECT 'visitor', password, MD5('visitor'), 'common_user', 'visitor' FROM users WHERE id = 1;
 
 #-- users_languages
 INSERT INTO users_languages (user_id, language_id, name)
@@ -65,32 +65,86 @@ WHERE users_languages.user_id IS NULL;
 #-- LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 #-- WHERE roles_rooms_users.id IS NULL;
 
-INSERT INTO roles_rooms_users (roles_room_id, user_id)
-SELECT roles_rooms.id, users.id
-FROM roles_rooms
-INNER JOIN user_role_settings ON (roles_rooms.role_key = user_role_settings.default_room_role_key)
-INNER JOIN users ON (user_role_settings.role_key = users.role_key)
-LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
-WHERE roles_rooms_users.id IS NULL
-AND roles_rooms.room_id = 1;
+#-- INSERT INTO roles_rooms_users (roles_room_id, user_id)
+#-- SELECT roles_rooms.id, users.id
+#-- FROM roles_rooms
+#-- INNER JOIN user_role_settings ON (roles_rooms.role_key = user_role_settings.default_room_role_key)
+#-- INNER JOIN users ON (user_role_settings.role_key = users.role_key)
+#-- LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
+#-- WHERE roles_rooms_users.id IS NULL
+#-- AND roles_rooms.room_id = 1;
+
+#-- INSERT INTO roles_rooms_users (roles_room_id, user_id)
+#-- SELECT roles_rooms.id, users.id
+#-- FROM roles_rooms
+#-- INNER JOIN user_role_settings ON (roles_rooms.role_key = user_role_settings.default_room_role_key)
+#-- INNER JOIN users ON (1 = 1)
+#-- LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
+#-- WHERE roles_rooms_users.id IS NULL
+#-- AND roles_rooms.room_id = 2;
+
+#-- INSERT INTO roles_rooms_users (roles_room_id, user_id)
+#-- SELECT roles_rooms.id, users.id
+#-- FROM roles_rooms
+#-- INNER JOIN user_role_settings ON (roles_rooms.role_key = user_role_settings.default_room_role_key)
+#-- INNER JOIN users ON (user_role_settings.role_key = users.role_key)
+#-- LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
+#-- WHERE roles_rooms_users.id IS NULL
+#-- AND roles_rooms.room_id = 3;
 
 INSERT INTO roles_rooms_users (roles_room_id, user_id)
 SELECT roles_rooms.id, users.id
-FROM roles_rooms
-INNER JOIN user_role_settings ON (roles_rooms.role_key = user_role_settings.default_room_role_key)
-INNER JOIN users ON (1 = 1)
+FROM (roles_rooms, users)
 LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 WHERE roles_rooms_users.id IS NULL
-AND roles_rooms.room_id = 2;
+AND roles_rooms.role_key = 'room_administrator'
+AND roles_rooms.id = 6;
 
 INSERT INTO roles_rooms_users (roles_room_id, user_id)
 SELECT roles_rooms.id, users.id
-FROM roles_rooms
-INNER JOIN user_role_settings ON (roles_rooms.role_key = user_role_settings.default_room_role_key)
-INNER JOIN users ON (user_role_settings.role_key = users.role_key)
+FROM (roles_rooms, users)
 LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 WHERE roles_rooms_users.id IS NULL
-AND roles_rooms.room_id = 3;
+AND users.id = 1
+AND roles_rooms.role_key = 'room_administrator'
+AND roles_rooms.id != 6;
+
+INSERT INTO roles_rooms_users (roles_room_id, user_id)
+SELECT roles_rooms.id, users.id
+FROM (roles_rooms, users)
+LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
+WHERE roles_rooms_users.id IS NULL
+AND users.username = 'chief_editor'
+AND roles_rooms.role_key = 'chief_editor'
+AND roles_rooms.id != 6;
+
+INSERT INTO roles_rooms_users (roles_room_id, user_id)
+SELECT roles_rooms.id, users.id
+FROM (roles_rooms, users)
+LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
+WHERE roles_rooms_users.id IS NULL
+AND users.username = 'editor'
+AND roles_rooms.role_key = 'editor'
+AND roles_rooms.id != 6;
+
+INSERT INTO roles_rooms_users (roles_room_id, user_id)
+SELECT roles_rooms.id, users.id
+FROM (roles_rooms, users)
+LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
+WHERE roles_rooms_users.id IS NULL
+AND users.username = 'general_user'
+AND roles_rooms.role_key = 'general_user'
+AND roles_rooms.id != 6;
+
+INSERT INTO roles_rooms_users (roles_room_id, user_id)
+SELECT roles_rooms.id, users.id
+FROM (roles_rooms, users)
+LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
+WHERE roles_rooms_users.id IS NULL
+AND users.username = 'visitor'
+AND roles_rooms.role_key = 'visitor'
+AND roles_rooms.id != 6;
+
 
 
 #-- room_role_permissions
