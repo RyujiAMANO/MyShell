@@ -13,17 +13,17 @@ SET NAMES utf8;
 #-- INSERT INTO users (username, password, role_key)
 #-- SELECT 'visitor', password, 'guest_user' FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, `key`, role_key, handlename)
-SELECT 'chief_editor', password, MD5('chief_editor'), 'administrator', 'chief_editor' FROM users WHERE id = 1;
+INSERT INTO users (username, password, `key`, role_key, handlename, status)
+SELECT 'chief_editor', password, MD5('chief_editor'), 'administrator', 'chief_editor', 'status_1' FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, `key`, role_key, handlename)
-SELECT 'editor', password, MD5('chief_editor'), 'common_user', 'editor' FROM users WHERE id = 1;
+INSERT INTO users (username, password, `key`, role_key, handlename, status)
+SELECT 'editor', password, MD5('chief_editor'), 'common_user', 'editor', 'status_1' FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, `key`, role_key, handlename)
-SELECT 'general_user', password, MD5('general_user'), 'common_user', 'general_user' FROM users WHERE id = 1;
+INSERT INTO users (username, password, `key`, role_key, handlename, status)
+SELECT 'general_user', password, MD5('general_user'), 'common_user', 'general_user', 'status_1' FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, `key`, role_key, handlename)
-SELECT 'visitor', password, MD5('visitor'), 'common_user', 'visitor' FROM users WHERE id = 1;
+INSERT INTO users (username, password, `key`, role_key, handlename, status)
+SELECT 'visitor', password, MD5('visitor'), 'common_user', 'visitor', 'status_1' FROM users WHERE id = 1;
 
 #-- users_languages
 INSERT INTO users_languages (user_id, language_id, name)
