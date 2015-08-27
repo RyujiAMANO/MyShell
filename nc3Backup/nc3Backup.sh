@@ -57,8 +57,8 @@ if [ "${EXECTYPE}" = "all" ]; then
 		echo "cd ${CURDIR}/github-cmd"
 		cd ${CURDIR}/github-cmd
 
-		echo "./github-issues NetCommons3 | tee issues/github-issues.log"
-		./github-issues NetCommons3 | tee issues/github-issues.log
+		echo "./github-issues NetCommons3 --all | tee issues/github-issues.log"
+		./github-issues NetCommons3 --all | tee issues/github-issues.log
 
 		for url in `cat issues_url.txt`
 		do
