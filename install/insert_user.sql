@@ -218,8 +218,8 @@ INNER JOIN containers_pages ON (boxes.container_id = containers_pages.container_
 
 
 #-- frames 
-INSERT INTO frames (language_id, room_id, box_id, plugin_key, `key`, name, header_type, weight)
-SELECT plugins.language_id, 1, boxes.id, plugins.key, MD5(plugins.key), CONCAT('タイトル-', plugins.name), 'default', 1
+INSERT INTO frames (language_id, room_id, box_id, plugin_key, `key`, name, header_type, weight, is_deleted)
+SELECT plugins.language_id, 1, boxes.id, plugins.key, MD5(plugins.key), CONCAT('タイトル-', plugins.name), 'default', 1, 0 
 FROM plugins
 INNER JOIN pages ON (pages.slug = concat('slug_', plugins.key))
 INNER JOIN boxes ON (pages.id = boxes.page_id)
