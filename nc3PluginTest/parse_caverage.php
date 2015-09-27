@@ -5,7 +5,10 @@ $nest = $argv[3];
 define('PAD_SPACE_LEN', 21);
 
 if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin . '/' . $fileName)) {
-	exit;
+	if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin . '/' . 'app_' . $fileName)) {
+		exit;
+	}
+	$fileName = 'app_' . $fileName;
 }
 
 function html_truncate($html) {
