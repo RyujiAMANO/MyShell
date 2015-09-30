@@ -6,9 +6,14 @@ define('PAD_SPACE_LEN', 21);
 
 if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin . '/' . $fileName)) {
 	if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin . '/' . 'app_' . $fileName)) {
-		exit;
+		if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin . '/' . 'index.html')) {
+			exit;
+		} else {
+			$fileName = 'index.html';
+		}
+	} else {
+		$fileName = 'app_' . $fileName;
 	}
-	$fileName = 'app_' . $fileName;
 }
 
 function html_truncate($html) {
