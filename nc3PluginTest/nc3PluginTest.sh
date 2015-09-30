@@ -321,12 +321,12 @@ do
 			if [ "${CHECKEXEC}" = "all" -o "${CHECKEXEC}" = "phpunit" ]; then
 				echo ""
 				echo "[MySQL coverage report]"
-				if [ -f app/Plugin/${plugin}/phpunit.xml.dist ]; then
-					echo "http://app.local:9090/coverage/${plugin}/index.html"
-				else
-					echo "http://app.local:9090/coverage/${plugin}/Plugin.html"
-				fi
-				echo ""
+				#if [ -f app/Plugin/${plugin}/phpunit.xml.dist ]; then
+				#	echo "http://app.local:9090/coverage/${plugin}/index.html"
+				#else
+				#	echo "http://app.local:9090/coverage/${plugin}/Plugin.html"
+				#fi
+				#echo ""
 				echo "php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}.html"
 				php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}.html 0
 
