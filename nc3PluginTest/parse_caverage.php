@@ -15,6 +15,7 @@ if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin .
 		$fileName = 'app_' . $fileName;
 	}
 }
+echo "\nhttp://app.local:9090/coverage/${plugin}/${fileName}\n\n";
 
 function html_truncate($html) {
 	$html = strip_tags($html);
