@@ -61,9 +61,9 @@ LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Frames https://github.com/s-nakajima
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Install https://github.com/s-nakajima")
 LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Likes https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Links https://github.com/s-nakajima")
-LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "M17n https://github.com/s-nakajima")
+#LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "M17n https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Menus https://github.com/s-nakajima")
-LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "NetCommons https://github.com/s-nakajima")
+#LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "NetCommons https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Notifications https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Pages https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "PluginManager https://github.com/s-nakajima")
@@ -87,7 +87,7 @@ LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "NetCommons https://github.com/s-naka
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Videos https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Videos ${NC3GITURL}")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Wysiwyg https://github.com/s-nakajima develop")
-LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Workflow https://github.com/s-nakajima")
+#LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Workflow https://github.com/s-nakajima")
 
 #composer.json
 #if [ "${NORMALDEV}" = "0" -o "${NORMALDEV}" = "2" ]; then
