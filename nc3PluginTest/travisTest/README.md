@@ -5,6 +5,8 @@
 
 <pre>
 cd /var/www/MyShell/nc3PluginTest/travisTest
+bash nc3PluginTest.sh パッケージ名
+    or 
 bash nc3PluginTest.sh パッケージ名 github
 </pre>
 
