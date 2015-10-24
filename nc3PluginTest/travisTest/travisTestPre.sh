@@ -11,12 +11,13 @@ export PACKAGE_DIR=$1
 export TRAVIS_BUILD_DIR=$TRAVIS_DIR/$PACKAGE_DIR
 export PLUGIN_NAME=`basename $TRAVIS_BUILD_DIR`
 export NETCOMMONS_BUILD_DIR=`dirname $TRAVIS_BUILD_DIR`/NetCommons3
-if [ "$2" = "" ]; then
+#if [ "$2" = "" ]; then
 	export DB=mysql
-else
-	export DB=$2
-fi
-if [ "$3" = "" ]; then
+#else
+#	export DB=$2
+#fi
+#if [ "$3" = "" ]; then
+if [ "$2" = "github" ]; then
 	export GET_GITHUB=1
 else
 	export GET_GITHUB=0
