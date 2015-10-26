@@ -14,16 +14,16 @@ SET NAMES utf8;
 #-- SELECT 'visitor', password, 'guest_user' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, `key`, role_key, handlename, status)
-SELECT 'chief_editor', password, MD5('chief_editor'), 'administrator', 'chief_editor', 'status_1' FROM users WHERE id = 1;
+SELECT 'chief_editor', password, MD5('chief_editor'), 'administrator', 'chief_editor', '1' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, `key`, role_key, handlename, status)
-SELECT 'editor', password, MD5('chief_editor'), 'common_user', 'editor', 'status_1' FROM users WHERE id = 1;
+SELECT 'editor', password, MD5('chief_editor'), 'common_user', 'editor', '1' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, `key`, role_key, handlename, status)
-SELECT 'general_user', password, MD5('general_user'), 'common_user', 'general_user', 'status_1' FROM users WHERE id = 1;
+SELECT 'general_user', password, MD5('general_user'), 'common_user', 'general_user', '1' FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, `key`, role_key, handlename, status)
-SELECT 'visitor', password, MD5('visitor'), 'common_user', 'visitor', 'status_1' FROM users WHERE id = 1;
+SELECT 'visitor', password, MD5('visitor'), 'common_user', 'visitor', '1' FROM users WHERE id = 1;
 
 #-- users_languages
 INSERT INTO users_languages (user_id, language_id, name)
