@@ -107,41 +107,41 @@ LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id
 WHERE roles_rooms_users.id IS NULL
 AND users.id = 1
 AND roles_rooms.role_key = 'room_administrator'
-AND roles_rooms.id < 6;
+AND roles_rooms.id != 6;
+
+#-- INSERT INTO roles_rooms_users (roles_room_id, user_id)
+#-- SELECT roles_rooms.id, users.id
+#-- FROM (roles_rooms, users)
+#-- LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
+#-- WHERE roles_rooms_users.id IS NULL
+#-- AND users.username = 'chief_editor'
+#-- AND roles_rooms.role_key = 'chief_editor'
+#-- AND roles_rooms.id != 6;
+
+#-- INSERT INTO roles_rooms_users (roles_room_id, user_id)
+#-- SELECT roles_rooms.id, users.id
+#-- FROM (roles_rooms, users)
+#-- LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
+#-- WHERE roles_rooms_users.id IS NULL
+#-- AND users.username = 'editor'
+#-- AND roles_rooms.role_key = 'editor'
+#-- AND roles_rooms.id != 6;
 
 INSERT INTO roles_rooms_users (roles_room_id, user_id)
 SELECT roles_rooms.id, users.id
 FROM (roles_rooms, users)
 LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 WHERE roles_rooms_users.id IS NULL
-AND users.username = 'chief_editor'
-AND roles_rooms.role_key = 'chief_editor'
-AND roles_rooms.id < 6;
-
-INSERT INTO roles_rooms_users (roles_room_id, user_id)
-SELECT roles_rooms.id, users.id
-FROM (roles_rooms, users)
-LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
-WHERE roles_rooms_users.id IS NULL
-AND users.username = 'editor'
-AND roles_rooms.role_key = 'editor'
-AND roles_rooms.id < 6;
-
-INSERT INTO roles_rooms_users (roles_room_id, user_id)
-SELECT roles_rooms.id, users.id
-FROM (roles_rooms, users)
-LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
-WHERE roles_rooms_users.id IS NULL
-AND users.username = 'general_user'
+#-- AND users.username = 'general_user'
 AND roles_rooms.role_key = 'general_user'
-AND roles_rooms.id < 6;
+AND roles_rooms.id > 6;
 
 INSERT INTO roles_rooms_users (roles_room_id, user_id)
 SELECT roles_rooms.id, users.id
 FROM (roles_rooms, users)
 LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 WHERE roles_rooms_users.id IS NULL
-AND users.username = 'visitor'
+#-- AND users.username = 'visitor'
 AND roles_rooms.role_key = 'visitor'
 AND roles_rooms.id < 6;
 
