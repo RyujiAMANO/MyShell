@@ -132,6 +132,7 @@ SELECT roles_rooms.id, users.id
 FROM (roles_rooms, users)
 LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 WHERE roles_rooms_users.id IS NULL
+AND users.role_key != 'system_administrator'
 #-- AND users.username = 'general_user'
 AND roles_rooms.role_key = 'general_user'
 AND roles_rooms.id > 6;
@@ -141,6 +142,7 @@ SELECT roles_rooms.id, users.id
 FROM (roles_rooms, users)
 LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 WHERE roles_rooms_users.id IS NULL
+AND users.role_key != 'system_administrator'
 #-- AND users.username = 'visitor'
 AND roles_rooms.role_key = 'visitor'
 AND roles_rooms.id < 6;
