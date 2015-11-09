@@ -58,15 +58,15 @@ WHERE users_languages.user_id IS NULL;
 
 
 #-- roles_rooms_users
-#-- INSERT INTO roles_rooms_users (roles_room_id, user_id)
-#-- SELECT roles_rooms.id, users.id
+#-- INSERT INTO roles_rooms_users (roles_room_id, user_id, room_id)
+#-- SELECT roles_rooms.id, users.id, roles_rooms.room_id
 #-- FROM roles_rooms
 #-- INNER JOIN users ON (roles_rooms.role_key = users.role_key)
 #-- LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 #-- WHERE roles_rooms_users.id IS NULL;
 
-#-- INSERT INTO roles_rooms_users (roles_room_id, user_id)
-#-- SELECT roles_rooms.id, users.id
+#-- INSERT INTO roles_rooms_users (roles_room_id, user_id, room_id)
+#-- SELECT roles_rooms.id, users.id, roles_rooms.room_id
 #-- FROM roles_rooms
 #-- INNER JOIN user_role_settings ON (roles_rooms.role_key = user_role_settings.default_room_role_key)
 #-- INNER JOIN users ON (user_role_settings.role_key = users.role_key)
@@ -74,8 +74,8 @@ WHERE users_languages.user_id IS NULL;
 #-- WHERE roles_rooms_users.id IS NULL
 #-- AND roles_rooms.room_id = 1;
 
-#-- INSERT INTO roles_rooms_users (roles_room_id, user_id)
-#-- SELECT roles_rooms.id, users.id
+#-- INSERT INTO roles_rooms_users (roles_room_id, user_id, room_id)
+#-- SELECT roles_rooms.id, users.id, roles_rooms.room_id
 #-- FROM roles_rooms
 #-- INNER JOIN user_role_settings ON (roles_rooms.role_key = user_role_settings.default_room_role_key)
 #-- INNER JOIN users ON (1 = 1)
@@ -83,8 +83,8 @@ WHERE users_languages.user_id IS NULL;
 #-- WHERE roles_rooms_users.id IS NULL
 #-- AND roles_rooms.room_id = 2;
 
-#-- INSERT INTO roles_rooms_users (roles_room_id, user_id)
-#-- SELECT roles_rooms.id, users.id
+#-- INSERT INTO roles_rooms_users (roles_room_id, user_id, room_id)
+#-- SELECT roles_rooms.id, users.id, roles_rooms.room_id
 #-- FROM roles_rooms
 #-- INNER JOIN user_role_settings ON (roles_rooms.role_key = user_role_settings.default_room_role_key)
 #-- INNER JOIN users ON (user_role_settings.role_key = users.role_key)
@@ -92,16 +92,16 @@ WHERE users_languages.user_id IS NULL;
 #-- WHERE roles_rooms_users.id IS NULL
 #-- AND roles_rooms.room_id = 3;
 
-INSERT INTO roles_rooms_users (roles_room_id, user_id)
-SELECT roles_rooms.id, users.id
+INSERT INTO roles_rooms_users (roles_room_id, user_id, room_id)
+SELECT roles_rooms.id, users.id, roles_rooms.room_id
 FROM (roles_rooms, users)
 LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 WHERE roles_rooms_users.id IS NULL
 AND roles_rooms.role_key = 'room_administrator'
 AND roles_rooms.id = 6;
 
-INSERT INTO roles_rooms_users (roles_room_id, user_id)
-SELECT roles_rooms.id, users.id
+INSERT INTO roles_rooms_users (roles_room_id, user_id, room_id)
+SELECT roles_rooms.id, users.id, roles_rooms.room_id
 FROM (roles_rooms, users)
 LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 WHERE roles_rooms_users.id IS NULL
@@ -109,8 +109,8 @@ AND users.id = 1
 AND roles_rooms.role_key = 'room_administrator'
 AND roles_rooms.id != 6;
 
-#-- INSERT INTO roles_rooms_users (roles_room_id, user_id)
-#-- SELECT roles_rooms.id, users.id
+#-- INSERT INTO roles_rooms_users (roles_room_id, user_id, room_id)
+#-- SELECT roles_rooms.id, users.id, roles_rooms.room_id
 #-- FROM (roles_rooms, users)
 #-- LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 #-- WHERE roles_rooms_users.id IS NULL
@@ -118,8 +118,8 @@ AND roles_rooms.id != 6;
 #-- AND roles_rooms.role_key = 'chief_editor'
 #-- AND roles_rooms.id != 6;
 
-#-- INSERT INTO roles_rooms_users (roles_room_id, user_id)
-#-- SELECT roles_rooms.id, users.id
+#-- INSERT INTO roles_rooms_users (roles_room_id, user_id, room_id)
+#-- SELECT roles_rooms.id, users.id, roles_rooms.room_id
 #-- FROM (roles_rooms, users)
 #-- LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 #-- WHERE roles_rooms_users.id IS NULL
@@ -127,8 +127,8 @@ AND roles_rooms.id != 6;
 #-- AND roles_rooms.role_key = 'editor'
 #-- AND roles_rooms.id != 6;
 
-INSERT INTO roles_rooms_users (roles_room_id, user_id)
-SELECT roles_rooms.id, users.id
+INSERT INTO roles_rooms_users (roles_room_id, user_id, room_id)
+SELECT roles_rooms.id, users.id, roles_rooms.room_id
 FROM (roles_rooms, users)
 LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 WHERE roles_rooms_users.id IS NULL
@@ -137,8 +137,8 @@ AND users.role_key != 'system_administrator'
 AND roles_rooms.role_key = 'general_user'
 AND roles_rooms.id > 6;
 
-INSERT INTO roles_rooms_users (roles_room_id, user_id)
-SELECT roles_rooms.id, users.id
+INSERT INTO roles_rooms_users (roles_room_id, user_id, room_id)
+SELECT roles_rooms.id, users.id, roles_rooms.room_id
 FROM (roles_rooms, users)
 LEFT JOIN roles_rooms_users ON (roles_rooms.id = roles_rooms_users.roles_room_id AND roles_rooms_users.user_id = users.id)
 WHERE roles_rooms_users.id IS NULL
