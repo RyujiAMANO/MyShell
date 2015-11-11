@@ -129,6 +129,7 @@ FROM plugins, containers_pages, containers, pages
 WHERE containers_pages.container_id = containers.id
 AND containers_pages.page_id = pages.id
 AND pages.slug = concat('slug_', plugins.key)
+AND containers.type = 3
 AND plugins.type = 1
 AND plugins.key != 'menus'
 AND plugins.language_id = '2'
