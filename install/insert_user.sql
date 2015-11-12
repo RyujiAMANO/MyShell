@@ -139,6 +139,7 @@ INSERT INTO boxes(container_id, `type`, space_id, room_id, page_id)
 SELECT containers_pages.container_id, 4, 3, pages.room_id, containers_pages.page_id
 FROM users, containers_pages, containers, pages
 WHERE containers_pages.container_id = containers.id
+AND containers.type = 3
 AND containers_pages.page_id = pages.id
 AND pages.slug = concat('slug_', users.username)
 AND users.id != 1
