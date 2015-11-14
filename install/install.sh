@@ -1,4 +1,10 @@
 #!/bin/bash
+if [ "$UID" -eq 0 ];then
+  echo "Doing..."
+else
+  echo "Use \"sudo\""
+  exit
+fi
 
 . ./nc3profile
 
