@@ -281,16 +281,16 @@ do
 				echo ${execCommand}
 				${execCommand}
 			else
-				#if [ -f app/Plugin/${plugin}/phpunit.xml.dist ]; then
-				#	execCommand="cp -pf app/Plugin/${plugin}/phpunit.xml.dist ./${plugin}-phpunit.xml.dist"
-				#	echo ${execCommand}
-				#	${execCommand}
-				#
-				#	execOption="--coverage-html app/webroot/coverage/${plugin} --stderr --configuration ${plugin}-phpunit.xml.dist"
-				#else
+				if [ -f app/Plugin/${plugin}/phpunit.xml.dist ]; then
+					execCommand="cp -pf app/Plugin/${plugin}/phpunit.xml.dist ./${plugin}-phpunit.xml.dist"
+					echo ${execCommand}
+					${execCommand}
+
+					execOption="--coverage-html app/webroot/coverage/${plugin} --stderr --configuration ${plugin}-phpunit.xml.dist"
+				else
 					execOption="--coverage-html app/webroot/coverage/${plugin} --stderr"
-				#fi
-				
+				fi
+
 				if [ "${CHECKEXEC}" = "phpunit" ]; then
 					if [ "${CMDPARAM}" = "list" -o "${CMDPARAM}" = "list.caverageAll" ]; then
 						execCommand="sh app/Console/cake test ${plugin} ${execOption}"
@@ -305,11 +305,11 @@ do
 				echo ${execCommand}
 				${execCommand}
 
-				#if [ -f app/Plugin/${plugin}/phpunit.xml.dist ]; then
-				#	execCommand="rm -f ./${plugin}-phpunit.xml.dist"
-				#	echo ${execCommand}
-				#	${execCommand}
-				#fi
+				if [ -f app/Plugin/${plugin}/phpunit.xml.dist ]; then
+					execCommand="rm -f ./${plugin}-phpunit.xml.dist"
+					echo ${execCommand}
+					${execCommand}
+				fi
 			fi
 		fi
 
