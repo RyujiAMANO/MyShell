@@ -193,11 +193,11 @@ do
 			if [ "${plugin}" = "NetCommons3" ]; then
 				execCommand="${CMD_GJSLINT} --strict -x jquery.js,jquery.cookie.js,js_debug_toolbar.js -e jasmine_examples,HTMLPurifier/Printer -r app"
 			else
-				if [ "${plugin}" = "NetCommons" ]; then
-					execCommand="${CMD_GJSLINT} --strict -x jquery.js,jquery.cookie.js,js_debug_toolbar.js -e jasmine_examples,HTMLPurifier/Printer -r app/Plugin/NetCommons/webroot/base"
-				else
+				#if [ "${plugin}" = "NetCommons" ]; then
+				#	execCommand="${CMD_GJSLINT} --strict -x jquery.js,jquery.cookie.js,js_debug_toolbar.js -e jasmine_examples,HTMLPurifier/Printer -r app/Plugin/NetCommons/webroot/base"
+				#else
 					execCommand="${CMD_GJSLINT} --strict -x jquery.js,jquery.cookie.js,js_debug_toolbar.js -e jasmine_examples,HTMLPurifier/Printer -r app/Plugin/${plugin}"
-				fi
+				#fi
 			fi
 			echo ${execCommand}
 			${execCommand}
