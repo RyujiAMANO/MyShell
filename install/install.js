@@ -77,7 +77,7 @@ setTimeout(function() {
 
 
 //init_admin_user
-i = i + 10;
+i = i + 20;
 setTimeout(function() {
 	var postData = querystring.stringify({
 		'_method': 'POST',
