@@ -191,13 +191,13 @@ SET lft = dummy.max_rght, rght = dummy.max_rght+1 WHERE id = 3;
 #-- rooms_languages
 #-- --------------------
 INSERT INTO rooms_languages(language_id, room_id, name)
-SELECT '1', rooms.id, 'Private'
+SELECT '1', rooms.id, 'My room'
 FROM rooms
 LEFT JOIN rooms_languages ON (rooms.id = rooms_languages.room_id AND rooms_languages.language_id = '1')
 WHERE rooms_languages.id IS NULL;
 
 INSERT INTO rooms_languages(language_id, room_id, name)
-SELECT '2', rooms.id, 'プライベート'
+SELECT '2', rooms.id, 'マイルーム'
 FROM rooms
 LEFT JOIN rooms_languages ON (rooms.id = rooms_languages.room_id AND rooms_languages.language_id = '2')
 WHERE rooms_languages.id IS NULL;
