@@ -3,20 +3,20 @@ SET NAMES utf8;
 #-- --------------------
 #-- users
 #-- --------------------
-INSERT INTO users (username, password, `key`, role_key, handlename, status)
-SELECT 'chief_editor', password, MD5('chief_editor'), 'administrator', 'chief_editor', '1' 
+INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone)
+SELECT 'chief_editor', password, MD5('chief_editor'), 'administrator', 'chief_editor', '1', 'Asia/Tokyo' 
 FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, `key`, role_key, handlename, status)
-SELECT 'editor', password, MD5('chief_editor'), 'common_user', 'editor', '1' 
+INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone)
+SELECT 'editor', password, MD5('chief_editor'), 'common_user', 'editor', '1', 'Asia/Tokyo' 
 FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, `key`, role_key, handlename, status)
-SELECT 'general_user', password, MD5('general_user'), 'common_user', 'general_user', '1' 
+INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone)
+SELECT 'general_user', password, MD5('general_user'), 'common_user', 'general_user', '1', 'Asia/Tokyo' 
 FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, `key`, role_key, handlename, status)
-SELECT 'visitor', password, MD5('visitor'), 'common_user', 'visitor', '1' 
+INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone)
+SELECT 'visitor', password, MD5('visitor'), 'common_user', 'visitor', '1', 'Asia/Tokyo' 
 FROM users WHERE id = 1;
 
 #-- --------------------
