@@ -8,7 +8,7 @@ SELECT 'chief_editor', password, MD5('chief_editor'), 'administrator', 'chief_ed
 FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone)
-SELECT 'editor', password, MD5('chief_editor'), 'common_user', 'editor', '1', 'Asia/Tokyo' 
+SELECT 'editor', password, MD5('editor'), 'common_user', 'editor', '1', 'Asia/Tokyo' 
 FROM users WHERE id = 1;
 
 INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone)
