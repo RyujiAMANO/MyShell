@@ -36,14 +36,26 @@ if [ "${PLUGIN_NAME}" = "pear_install" ]; then
 	echo ${execCommand}
 	${execCommand}
 
+	execCommand="pear channel-discover pear.cakephp.org"
+	echo ${execCommand}
+	${execCommand}
+
 	execCommand="pear install --force --alldeps cakephp/CakePHP_CodeSniffer"
+	echo ${execCommand}
+	${execCommand}
+
+	execCommand="pear channel-discover pear.phpmd.org"
 	echo ${execCommand}
 	${execCommand}
 
 	execCommand="pear install --force --alldeps phpmd/PHP_PMD"
 	echo ${execCommand}
 	${execCommand}
-	
+
+	execCommand="pear channel-discover pear.pdepend.org"
+	echo ${execCommand}
+	${execCommand}
+
 	execCommand="pear install --force --alldeps pdepend/PHP_Depend"
 	echo ${execCommand}
 	${execCommand}
