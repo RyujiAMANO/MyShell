@@ -3,20 +3,20 @@ SET NAMES utf8;
 #-- --------------------
 #-- users
 #-- --------------------
-INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone)
-SELECT 'chief_editor', password, MD5('chief_editor'), 'administrator', 'chief_editor', '1', 'Asia/Tokyo' 
+INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone, email, sex)
+SELECT 'chief_editor', password, MD5('chief_editor'), 'administrator', '編集長ユーザ', '1', 'Asia/Tokyo', 'chief_editor@example.com', 'no_setting' 
 FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone)
-SELECT 'editor', password, MD5('editor'), 'common_user', 'editor', '1', 'Asia/Tokyo' 
+INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone, email, sex)
+SELECT 'editor', password, MD5('editor'), 'common_user', '編集者ユーザ', '1', 'Asia/Tokyo', 'editor@example.com', 'no_setting' 
 FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone)
-SELECT 'general_user', password, MD5('general_user'), 'common_user', 'general_user', '1', 'Asia/Tokyo' 
+INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone, email, sex)
+SELECT 'general_user', password, MD5('general_user'), 'common_user', '一般ユーザ', '1', 'Asia/Tokyo', 'general_user@example.com', 'no_setting' 
 FROM users WHERE id = 1;
 
-INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone)
-SELECT 'visitor', password, MD5('visitor'), 'common_user', 'visitor', '1', 'Asia/Tokyo' 
+INSERT INTO users (username, password, `key`, role_key, handlename, status, timezone, email, sex)
+SELECT 'visitor', password, MD5('visitor'), 'common_user', '参観者ユーザ', '1', 'Asia/Tokyo', 'visitor@example.com', 'no_setting' 
 FROM users WHERE id = 1;
 
 #-- --------------------
@@ -25,7 +25,7 @@ FROM users WHERE id = 1;
 INSERT INTO users_languages (user_id, language_id, name)
 SELECT users.id,
      languages.id,
-     users.handlename AS name
+     users.username AS name
 FROM (users, languages)
 LEFT JOIN users_languages ON (users.id = users_languages.user_id AND users_languages.language_id = languages.id)
 WHERE users_languages.user_id IS NULL;
@@ -259,3 +259,24 @@ AND plugins.type = 1
 AND plugins.language_id = '2'
 ORDER BY users.id;
 
+
+#-- --------------------
+#-- groups
+#-- --------------------
+INSERT INTO groups(id, name, created_user) 
+VALUES 
+('1', 'グループ 1', '1'),
+('2', 'グループ 2', '2'),
+('3', 'グループ 3', '1');
+
+
+#-- --------------------
+#-- groups_users
+#-- --------------------
+INSERT INTO groups_users(id, group_id, user_id, created_user) 
+VALUES 
+('1', '1', '2', '1'), 
+('2', '1', '3', '1'), 
+('3', '2', '1', '2'), 
+('4', '2', '3', '2'), 
+('5', '3', '2', '1'); 
