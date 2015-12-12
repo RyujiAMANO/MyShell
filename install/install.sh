@@ -415,6 +415,9 @@ mysql -u${DBUSER} -p${DBPASS} ${DBNAME} < ${CURDIR}/insert_user.sql
 echo "${NC3DIR}/app/Console/cake users.users import ${CURDIR}/import_file.csv"
 ${NC3DIR}/app/Console/cake users.users import ${CURDIR}/import_file.csv
 
+echo "mysql -u${DBUSER} -p${DBPASS} ${DBNAME} < ${CURDIR}/insert_user_post.sql"
+mysql -u${DBUSER} -p${DBPASS} ${DBNAME} < ${CURDIR}/insert_user_post.sql
+
 echo "cd ${NC3DIR}/"
 cd ${NC3DIR}/
 
