@@ -406,11 +406,14 @@ mv application.yml2 application.yml
 #mv application.yml2 application.yml
 
 #########################
-# Admin以外のユーザ作成 #
+# 初期データ作成 #
 #########################
 
 echo "mysql -u${DBUSER} -p${DBPASS} ${DBNAME} < ${CURDIR}/insert_user.sql"
 mysql -u${DBUSER} -p${DBPASS} ${DBNAME} < ${CURDIR}/insert_user.sql
+
+echo "${NC3DIR}/app/Console/cake users.users import ${CURDIR}/import_file.csv"
+${NC3DIR}/app/Console/cake users.users import ${CURDIR}/import_file.csv
 
 echo "cd ${NC3DIR}/"
 cd ${NC3DIR}/
