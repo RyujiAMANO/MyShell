@@ -11,8 +11,20 @@ echo "./cake ${CAKE_BAKE}"
 ./cake ${CAKE_BAKE}
 
 controllerFile=${PUGLIN_PATH}/Controller/${PLUGIN_NAME}Controller.php
+if [ ! -f $controllerFile ] ; then
+	if [ -f ${PUGLIN_PATH}/Controller/${PLUGIN_NAME}sController.php ] ; then
+		echo "cp -pf ${PUGLIN_PATH}/Controller/${PLUGIN_NAME}sController.php $controllerFile"
+		cp -pf ${PUGLIN_PATH}/Controller/${PLUGIN_NAME}sController.php $controllerFile
+		RMCONTROLLER="${PUGLIN_PATH}/Controller/${PLUGIN_NAME}sController.php"
+	fi
+fi
+
 appUsesValue=`grep "App::uses" ${controllerFile}`
-classValue=`grep "class .* {" ${controllerFile}`
+if [ "${RMCONTROLLER}" = "" ] ; then
+	classValue=`grep "class .* {" ${controllerFile}`
+else
+	classValue="class ${PLUGIN_NAME}Controller extends ${PLUGIN_NAME}AppController {"
+fi
 
 echo "create ${controllerFile}"
 cat << _EOF_ > $controllerFile

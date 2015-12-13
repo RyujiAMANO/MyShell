@@ -7,7 +7,7 @@ PLUGIN_NAME="AccessCounters"
 PLUGIN_SINGULAR_NAME="AccessCounter"
 PLUGIN_SNAKE_NAME="access_counters"
 PLUGIN_HAIFUN_NAME="access-counters"
-CREATE_MODELS="AccessCounterFormats AccessCounterPartSettings AccessCounterSettings AccessCounters AccessCountersBlocks"
+CREATE_MODELS="AccessCounterSettings AccessCounters"
 
 AUTHOR_NAME="Shohei Nakajima"
 AUTHOR_EMAIL="nakajimashouhei@gmail.com"
@@ -83,6 +83,7 @@ fi
 if [ "$ANS" = "y" ]; then
 	. ${CURDIR}/createPluginBakePlugin.sh
 fi
+echo ""
 
 
 ##
@@ -120,6 +121,7 @@ fi
 if [ "$ANS" = "y" ]; then
 	. ${CURDIR}/createPluginMigration.sh
 fi
+echo ""
 
 
 ##
@@ -137,6 +139,7 @@ fi
 if [ "$ANS" = "y" ]; then
 	. ${CURDIR}/createPluginModel.sh
 fi
+echo ""
 
 
 ##
@@ -154,6 +157,7 @@ fi
 if [ "$ANS" = "y" ]; then
 	. ${CURDIR}/createPluginController.sh
 fi
+echo ""
 
 ##
 # Viewファイルを作成
@@ -170,6 +174,7 @@ fi
 if [ "$ANS" = "y" ]; then
 	. ${CURDIR}/createPluginView.sh
 fi
+echo ""
 
 ##
 # Testファイルを作成
@@ -186,12 +191,18 @@ fi
 if [ "$ANS" = "y" ]; then
 	. ${CURDIR}/createPluginTest.sh
 fi
+echo ""
 
-cd ${CURDIR}
+#cd ${CURDIR}
+#
+#if [ $configRemove -eq 1 -a -f ${CONFIG_FILE} ]; then
+#	echo "rm ${CONFIG_FILE}"
+#	rm ${CONFIG_FILE}
+#fi
 
-if [ $configRemove -eq 1 -a -f ${CONFIG_FILE} ]; then
-	echo "rm ${CONFIG_FILE}"
-	rm ${CONFIG_FILE}
+if [ ! "${RMCONTROLLER}" = "" ] ; then
+	echo "rm ${RMCONTROLLER}"
+	rm ${RMCONTROLLER}
 fi
 
 cd ${CURDIR}

@@ -3,10 +3,10 @@
 ##
 # bake pluginの実行
 ##
-PATTERN="CakePlugin::load('NetCommons', array('bootstrap' => true));"
-REPLACE="\/\/CakePlugin::load('NetCommons', array('bootstrap' => true));"
-echo "sed ${BOOTSTRAP}"
-sed -i -e "s/${PATTERN}/${REPLACE}/g" ${BOOTSTRAP}
+#PATTERN="CakePlugin::load('NetCommons', array('bootstrap' => true));"
+#REPLACE="\/\/CakePlugin::load('NetCommons', array('bootstrap' => true));"
+#echo "sed ${BOOTSTRAP}"
+#sed -i -e "s/${PATTERN}/${REPLACE}/g" ${BOOTSTRAP}
 
 echo "cd ${SET_DIR}/app/Console/"
 cd ${SET_DIR}/app/Console/
@@ -19,6 +19,13 @@ cd ${SET_DIR}/
 
 echo "git checkout HEAD ${BOOTSTRAP}"
 git checkout HEAD ${BOOTSTRAP}
+
+if [ ! -d ${PUGLIN_PATH} ] ; then
+	echo ""
+	echo "Bakeに失敗しました"
+	echo ""
+	exit 0
+fi
 
 ##
 # README.mdの作成
@@ -100,7 +107,7 @@ cat << _EOF_ > $createFile
         }
     },
     "require": {
-        "cakephp/cakephp":              "~2.6.9",
+        "cakephp/cakephp":              "~2.6",
         "cakephp/debug_kit":            "~2.2",
         "cakedc/migrations":            "~2.2",
         "phpunit/phpunit":              "~3.7.38",
@@ -108,14 +115,7 @@ cat << _EOF_ > $createFile
     },
     "require-dev": {
         "mustangostang/spyc":           "dev-master",
-        "netcommons/auth":              "dev-master",
-        "netcommons/frames":            "dev-master",
-        "netcommons/m17n":              "dev-master",
         "netcommons/net-commons":       "dev-master",
-        "netcommons/pages":             "dev-master",
-        "netcommons/plugin-manager":    "dev-master",
-        "netcommons/roles":             "dev-master",
-        "netcommons/users":             "dev-master",
         "satooshi/php-coveralls":       "dev-master"
     },
     "license": "NetCommons License",
@@ -132,4 +132,74 @@ cat << _EOF_ > $createFile
     }
 }
 
+_EOF_
+
+##
+# .travis.ymlの作成
+##
+createFile=${PUGLIN_PATH}/.travis.yml
+echo "${createFile}を作成します。"
+echo "cat $createFile"
+cat << _EOF_ > $createFile
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+
+sudo: required
+
+env:
+  - NETCOMMONS_VERSION=master DB=mysql
+
+before_script:
+  - export NETCOMMONS_BUILD_DIR=\`dirname \$TRAVIS_BUILD_DIR\`/NetCommons3
+  - git clone git://github.com/NetCommons3/NetCommons3 \$NETCOMMONS_BUILD_DIR
+  - cd \$NETCOMMONS_BUILD_DIR
+  - git checkout \$NETCOMMONS_VERSION
+  - travis_wait . tools/build/plugins/cakephp/travis/pre.sh
+  - . tools/build/plugins/cakephp/travis/environment.sh
+
+script:
+  - . tools/build/plugins/cakephp/travis/main.sh
+
+after_script:
+  - . tools/build/plugins/cakephp/travis/post.sh
+
+notifications:
+  email:
+    recipients:
+      - netcommons3@googlegroups.com
+    on_success: never  # default: change
+    on_failure: always # default: always
+_EOF_
+
+
+##
+# composer.jsonの作成
+##
+createFile=${PUGLIN_PATH}/phpunit.xml.dist
+echo "${createFile}を作成します。"
+echo "cat $createFile"
+cat << _EOF_ > $createFile
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendors/autoload.php">
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".ctp">app/Plugin/${PLUGIN_NAME}</directory>
+            <directory suffix=".php">app/Plugin/${PLUGIN_NAME}</directory>
+            <exclude>
+                <directory suffix=".php">app/Plugin/${PLUGIN_NAME}/Config/Migration</directory>
+                <directory suffix=".php">app/Plugin/${PLUGIN_NAME}/Config/Schema</directory>
+                <directory suffix=".php">app/Plugin/${PLUGIN_NAME}/Test/Case</directory>
+                <directory suffix=".php">app/Plugin/${PLUGIN_NAME}/Test/Fixture</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <log type="coverage-html" target="build/logs/clover"/>
+    </logging>
+</phpunit>
 _EOF_

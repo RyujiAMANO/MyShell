@@ -3,9 +3,9 @@
 ##
 # configファイルを作成
 ##
-if [ ! -f ${CONFIG_FILE} ]; then
-	exit 0
-fi
+#if [ ! -f ${CONFIG_FILE} ]; then
+#	exit 0
+#fi
 
 ##
 # Migrationファイルを作成

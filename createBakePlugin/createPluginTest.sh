@@ -36,3 +36,42 @@ for path1 in `ls ${TEST_PATH}/`; do
 	done
 done
 
+
+controllerFile=${PUGLIN_PATH}/Test/Case/All${PLUGIN_NAME}Test.php
+echo "create ${controllerFile}"
+cat << _EOF_ > $controllerFile
+<?php
+/**
+ * ${PLUGIN_NAME} All Test Suite
+ *
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author ${AUTHOR_NAME} <${AUTHOR_EMAIL}>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
+ */
+
+App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
+
+/**
+ * ${PLUGIN_NAME} All Test Suite
+ *
+ * @author ${AUTHOR_NAME} <${AUTHOR_EMAIL}>
+ * @package NetCommons\\${PLUGIN_NAME}\\Test\\Case
+ * @codeCoverageIgnore
+ */
+class All${PLUGIN_NAME}Test extends NetCommonsTestSuite {
+
+/**
+ * All test suite
+ *
+ * @return CakeTestSuite
+ */
+	public static function suite() {
+		\$plugin = preg_replace('/^All([\w]+)Test\$/', '\$1', __CLASS__);
+		\$suite = new NetCommonsTestSuite(sprintf('All %s Plugin tests', \$plugin));
+		//\$suite->addTestDirectoryRecursive(CakePlugin::path(\$plugin) . 'Test' . DS . 'Case');
+		return \$suite;
+	}
+}
+_EOF_
