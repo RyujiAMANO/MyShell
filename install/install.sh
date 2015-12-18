@@ -33,6 +33,13 @@ if [ "${CMDCMPOSER}" = "" ]; then
 	CMDCMPOSER="php composer.phar"
 fi
 
+ZIPCMD="`which zip`"
+if [ "${ZIPCMD}" = "" ]; then
+	COMMAND="apt-get -y install zip"
+	echo ${COMMAND}
+	${COMMAND}
+fi
+
 
 ymdhis=`date +%y%m%d%H%M%S`
 BKFILE=all-${ymdhis}
