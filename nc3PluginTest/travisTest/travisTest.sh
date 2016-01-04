@@ -24,7 +24,8 @@ if [ ! -d $NETCOMMONS_BUILD_DIR ]; then
 	${COMMAND}
 
 	if [ "$PLUGIN_NAME" != "Install" ]; then
-		COMMAND="cp app/Config/database.php.$DB app/Config/database.php"
+		#COMMAND="cp app/Config/database.php.$DB app/Config/database.php"
+		COMMAND="cp ${CURDIR}/database.php app/Config/database.php"
 		echo ${COMMAND}
 		${COMMAND}
 	fi
