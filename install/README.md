@@ -16,6 +16,7 @@ bash install.sh develop
 | develop            | 中島が開発中の環境                               |
 | mathjax            | develop＋数式MathJaxも含めた環境                 |
 | composer           | NC3コアにコミットされている純粋な環境(Composer)  |
+| install            | インストーラだけを実行する                       |
 | origin / 省略      | NC3コアにコミットされている純粋な環境(git clone) |
 
 ### ≪第二引数≫
