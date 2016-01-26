@@ -31,7 +31,7 @@ function output_caverage($dirName, $indent, $displayUrl) {
 	}
 
 	while (false !== ($fileName = $dir->read())) {
-		if (! in_array($fileName, ['.', '..', '.git', 'Test', 'TestSuite'], true) && 
+		if (! in_array($fileName, ['.', '..', '.git', 'Schema', 'Migration', 'Test', 'TestSuite'], true) && 
 				! is_file(PLUGIN_DIR . $dirName . '/' . $fileName)) {
 
 			output_caverage($dirName . '/' . $fileName, $indent + 4, false);
