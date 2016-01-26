@@ -339,45 +339,15 @@ do
 				#	echo "http://app.local:9090/coverage/${plugin}/Plugin.html"
 				#fi
 				#echo ""
-				echo "php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}.html"
-				php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}.html 0
 
 				if [ "${CMDPARAM}" = "caverageAll" -o "${CMDPARAM}" = "list.caverageAll" ]; then
-					for act1 in [`ls app` "Error"]
-					do
-echo "app/Plugin/${plugin}/${act1}"
-						if [ -d app/Plugin/${plugin}/${act1} ]; then
-							if [ "${act1}" = "Test" ]; then
-								continue;
-							fi
-
-							fileName="Plugin_${plugin}_${act1}.html"
-							if [ -f app/webroot/coverage/${plugin}/${fileName} ]; then
-								php ${CURDIR}/parse_caverage.php ${plugin} ${fileName} 4
-								for act2 in `ls app/Plugin/${plugin}/${act1}`
-								do
-									if [ -d app/Plugin/${plugin}/${act1}/${act2} ] ; then
-										fileName="Plugin_${plugin}_${act1}_${act2}.html"
-										if [ -f app/webroot/coverage/${plugin}/${fileName} ]; then
-											php ${CURDIR}/parse_caverage.php ${plugin} ${fileName} 8
-
-											for act3 in `ls app/Plugin/${plugin}/${act1}/${act2}`
-											do
-												if [ -d app/Plugin/${plugin}/${act1}/${act2}/${act3} ] ; then
-													fileName="Plugin_${plugin}_${act1}_${act2}_${act3}.html"
-													if [ -f app/webroot/coverage/${plugin}/${fileName} ]; then
-														php ${CURDIR}/parse_caverage.php ${plugin} ${fileName} 12
-													fi
-												fi
-											done
-
-
-										fi
-									fi
-								done
-							fi
-						fi
-					done
+					echo "php ${CURDIR}/parse_caverage.php ${plugin} 1"
+					php ${CURDIR}/parse_caverage_tree.php ${plugin} 1
+				else
+					echo "php ${CURDIR}/parse_caverage.php ${plugin} 0"
+					php ${CURDIR}/parse_caverage_tree.php ${plugin} 0
+					#echo "php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}.html 0"
+					#php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}.html 0
 				fi
 			fi
 		fi

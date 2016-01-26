@@ -2,20 +2,30 @@
 $plugin = $argv[1];
 $fileName = $argv[2];
 $nest = $argv[3];
+$displayUrl = $argv[4];
 define('PAD_SPACE_LEN', 21);
 
 if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin . '/' . $fileName)) {
-	if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin . '/' . 'app_' . $fileName)) {
-		if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin . '/' . 'index.html')) {
-			exit;
+	if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin . '/' . 'Plugin_' . $fileName)) {
+		if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin . '/' . 'app_' . $fileName)) {
+			if ($nest != 0) {
+				exit;
+			}
+			if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin . '/' . 'index.html')) {
+				exit;
+			} else {
+				$fileName = 'index.html';
+			}
 		} else {
-			$fileName = 'index.html';
+			$fileName = 'app_' . $fileName;
 		}
 	} else {
-		$fileName = 'app_' . $fileName;
+		$fileName = 'Plugin_' . $fileName;
 	}
 }
-echo "\nhttp://app.local:9090/coverage/${plugin}/${fileName}\n\n";
+if ($displayUrl) {
+	echo "\nhttp://app.local:9090/coverage/${plugin}/${fileName}\n\n";
+}
 
 function html_truncate($html) {
 	$html = strip_tags($html);
@@ -106,4 +116,4 @@ $footValue = $headValue1;
 /**
  * 結果の出力
  */
-echo str_pad('', $nest) . $title . "\n" . $head . "\n" . $contents . "|\n" . $footValue . "-+" . "\n\n";
+echo str_pad('', $nest) . $title . "\n" . $head . "\n" . $contents . "|\n" . $footValue . "-+" . "\n";
