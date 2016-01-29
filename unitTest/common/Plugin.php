@@ -6,6 +6,9 @@
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  */
 
+/**
+ * CakeSchemaのダミークラス
+ */
 class CakeSchema {
 
 }
@@ -106,65 +109,65 @@ Class Plugin {
 	 * @return void
 	 */
 	public function searchFiles($dirName) {
-		$dir = dir(PLUGIN_ROOT . $dirName);
+		if (substr($dirName, 0, 1) === '/') {
+			$dirName = substr($dirName, 1);
+		}
+		$dirPath = PLUGIN_ROOT . '/' . $this->plugin . '/' . $dirName;
+		$dir = dir($dirPath);
 
 		while (false !== ($fileName = $dir->read())) {
 			if (! in_array($fileName, ['.', '..', '.git', 'Schema', 'Migration', 'Test', 'TestSuite'], true) &&
-					! is_file(PLUGIN_ROOT . '/' . $dirName . '/' . $fileName)) {
+					! is_file($dirPath . '/' . $fileName)) {
 
 				$this->searchFiles($dirName . '/' . $fileName);
 			}
 			if (in_array(substr($fileName, -3), ['ctp', 'php'], true) &&
-					is_file(PLUGIN_ROOT . '/' . $dirName . '/' . $fileName)) {
+					is_file($dirPath . '/' . $fileName)) {
 
 				$this->testFiles[] = array(
-					'file' => $dirName . '/' . $fileName,
-					'path' => PLUGIN_ROOT . '/' . $dirName . '/' . $fileName,
+					'dir' => $dirName,
+					'file' => $fileName,
+					'path' => $dirPath . '/' . $fileName,
 					'extension' => substr($fileName, -3),
+					'type' => $this->_getTestType($dirName),
 				);
 			}
 		}
 	}
 
+	/**
+	 * タイプの取得
+	 *
+	 * @param string $dirName ディレクトリ名
+	 * @return string|null テストType文字列
+	 */
+	protected function _getTestType($dirName) {
+		$types = [
+			'Model/Behavior',
+			'Controller/Component',
+			'View/Helper',
+			'View/Elements',
+			'Model',
+			'Controller',
+			'View',
+		];
+		foreach ($types as $type) {
+			if (substr($dirName, 0, strlen($type)) === $type) {
+				return $type;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * クラス名の取得
+	 *
+	 * @param array $testFile テストファイルデータ配列
+	 * @return string|bool Class名文字列
+	 */
+	protected function getClassName($testFile) {
+		return substr($testFile['file'], 0, -1 * strlen($testFile['extension']));
+	}
+
 }
 
-
-//function load($dirName, $indent, $displayUrl) {
-//	global $plugin, $messages, $fileCount, $displayChildren;
-//
-//	$dir = dir(PLUGIN_DIR . $dirName);
-//
-//	$outputs = array();
-//	if ($dirName === $plugin) {
-//		$shellFileName = $dirName . '.html';
-//	} else {
-//		$shellFileName = strtr(substr($dirName, strlen($plugin) + 1), '/', '_') . '.html';
-//	}
-//	if ($displayChildren || $dirName === $plugin) {
-//		exec('php ' . __DIR__ . '/parse_caverage.php ' . $plugin . ' ' . $shellFileName . ' ' . $indent . ' ' . (int)$displayUrl, $outputs);
-//		if ($outputs) {
-//			if ($dirName !== $plugin) {
-//				$messages .= "\n";
-//			}
-//			foreach ($outputs as $output) {
-//				$messages .= $output . "\n";
-//			}
-//		}
-//	}
-//
-//	while (false !== ($fileName = $dir->read())) {
-//		if (! in_array($fileName, ['.', '..', '.git', 'Schema', 'Migration', 'Test', 'TestSuite'], true) &&
-//				! is_file(PLUGIN_DIR . $dirName . '/' . $fileName)) {
-//
-//			output_caverage($dirName . '/' . $fileName, $indent + 4, false);
-//		}
-//		if (in_array(substr($fileName, -3), ['ctp', 'php'], true) &&
-//				is_file(PLUGIN_DIR . $dirName . '/' . $fileName)) {
-//
-//			$fileCount++;
-//		}
-//	}
-//	$dir->close();
-//}
-//
-//output_caverage($plugin, 0, true);
