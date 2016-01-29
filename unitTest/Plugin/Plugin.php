@@ -1,20 +1,12 @@
 <?php
 /**
- * Pluginクラス
  * 各プラグインの共通クラス
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  */
 
 /**
- * CakeSchemaのダミークラス
- */
-class CakeSchema {
-
-}
-
-/**
- * Pluginクラス
+ * 各プラグインの共通クラス
  */
 Class Plugin {
 
@@ -42,17 +34,17 @@ Class Plugin {
 	 * コンストラクター
 	 */
 	public function __construct() {
-		$this->output('##################################');
-		$this->output(' UnitTest用ファイル作成開始します ');
-		$this->output('##################################');
+		output('##################################');
+		output(' UnitTest用ファイル作成開始します ');
+		output('##################################');
 
 		$this->plugin = getenv('PLUGIN_NAME');
 		$this->pluginType = getenv('PLUGIN_TYPE');
 		$this->authorName = getenv('AUTHOR_NAME');
 		$this->authorEmail = getenv('AUTHOR_EMAIL');
 
-		if (file_exists(PLUGIN_ROOT . '/' . $this->plugin . '/Config/Schema/schema.php')) {
-			require PLUGIN_ROOT . '/' . $this->plugin . '/Config/Schema/schema.php';
+		if (file_exists(PLUGIN_ROOT_DIR . 'Config/Schema/schema.php')) {
+			require PLUGIN_ROOT_DIR . 'Config/Schema/schema.php';
 
 			if (class_exists($this->plugin . 'Schema')) {
 				$class = $this->plugin . 'Schema';
@@ -70,9 +62,9 @@ Class Plugin {
 	 * デストラクター.
 	 */
 	function __destruct() {
-		$this->output(chr(10));
-		$this->output('UnitTest用ファイル作成が終了しました ');
-		$this->output('-------------------------------------------------' . chr(10));
+		output(chr(10));
+		output('UnitTest用ファイル作成が終了しました ');
+		output('-------------------------------------------------' . chr(10));
 	}
 
 	/**
@@ -81,26 +73,6 @@ Class Plugin {
 	 * @return void
 	 */
 	function load() {}
-
-	/**
-	 * 出力
-	 *
-	 * @param string $message メッセージ
-	 * @return void
-	 */
-	public function output($message) {
-		echo $message . chr(10);
-	}
-
-	/**
-	 * 出力
-	 *
-	 * @param string $message メッセージ
-	 * @return void
-	 */
-	public function outputTime() {
-		echo date('Y-m-d H:i:s') . chr(10);
-	}
 
 	/**
 	 * ファイルのサーチ
@@ -112,7 +84,7 @@ Class Plugin {
 		if (substr($dirName, 0, 1) === '/') {
 			$dirName = substr($dirName, 1);
 		}
-		$dirPath = PLUGIN_ROOT . '/' . $this->plugin . '/' . $dirName;
+		$dirPath = PLUGIN_ROOT_DIR . $dirName;
 		$dir = dir($dirPath);
 
 		while (false !== ($fileName = $dir->read())) {
@@ -126,10 +98,11 @@ Class Plugin {
 
 				$this->testFiles[] = array(
 					'dir' => $dirName,
-					'file' => $fileName,
+					'file' => substr($fileName, 0, -4),
 					'path' => $dirPath . '/' . $fileName,
 					'extension' => substr($fileName, -3),
 					'type' => $this->_getTestType($dirName),
+					'class' => $this->_getClassName($fileName),
 				);
 			}
 		}
@@ -162,11 +135,36 @@ Class Plugin {
 	/**
 	 * クラス名の取得
 	 *
-	 * @param array $testFile テストファイルデータ配列
+	 * @param string $fileName ファイル名
 	 * @return string|bool Class名文字列
 	 */
-	protected function getClassName($testFile) {
-		return substr($testFile['file'], 0, -1 * strlen($testFile['extension']));
+	protected function _getClassName($fileName) {
+		if (substr($fileName, -3) === 'php') {
+			return substr($fileName, 0, -4);
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * テストディレクトリの作成
+	 *
+	 * @param array $testFile ファイル名
+	 * @return bool
+	 */
+	public function createTestDir($testFile) {
+		$createPath = PLUGIN_TEST_DIR . $testFile['dir'] . '/' . Inflector::camelize(ucfirst($testFile['file']));
+		if (! file_exists($createPath)) {
+			$result = (new Folder())->create($createPath);
+			if (! $result) {
+				output(sprintf('%sディレクトリの作成に失敗しました。', $createPath));
+				exit(1);
+			} else {
+				output(sprintf('%sディレクトリの作成しました。', $createPath));
+			}
+			return $result;
+		}
+		return true;
 	}
 
 }
