@@ -16,12 +16,16 @@ fi
 #
 # プラグインの種類
 #
-echo "プラグインの種類を選んでください"
+defaultAns="2"
+echo "プラグインの種類を選んでください。[${defaultAns}]"
 echo "[1] 一般プラグイン"
 echo "[2] 管理プラグイン"
 echo "[3] コアプラグイン"
 echo -n "> "
-read ANS
+#read ANS
+if [ "$ANS" = "" ]; then
+	ANS=${defaultAns}
+fi
 if [ ! "$ANS" = "1" -a ! "$ANS" = "2" -a ! "$ANS" = "3" ]; then
 	echo "エラー：プラグインの種類がありません。"
 	exit 1
@@ -43,7 +47,7 @@ echo ""
 #
 echo "作成者を半角英語で入力してください。[Shohei Nakajima]"
 echo -n "> "
-read ANS
+#read ANS
 if [ "$ANS" = "" ]; then
 	ANS="Shohei Nakajima"
 fi
@@ -56,7 +60,7 @@ echo ""
 #
 echo "作成者のメールアドレスを入力してください。[nakajimashouhei@gmail.com]"
 echo -n "> "
-read ANS
+#read ANS
 if [ "$ANS" = "" ]; then
 	ANS="nakajimashouhei@gmail.com"
 fi
@@ -64,15 +68,18 @@ AUTHOR_EMAIL=$ANS; export AUTHOR_EMAIL
 echo "${AUTHOR_EMAIL}"
 echo ""
 
-if [ "$PLUGIN_TYPE" = "1" ]; then
-	php ${CURDIR}/createGeneralPlugin.php
-fi
-if [ "$PLUGIN_TYPE" = "2" ]; then
-	php ${CURDIR}/createSystemPlugin.php
-fi
-if [ "$PLUGIN_TYPE" = "3" ]; then
-	php ${CURDIR}/createCorePlugin.php
-fi
+php -c -f ${CURDIR}/startUnitTest.php
+
+#
+#if [ "$PLUGIN_TYPE" = "1" ]; then
+#	php ${CURDIR}/createGeneralPlugin.php
+#fi
+#if [ "$PLUGIN_TYPE" = "2" ]; then
+#	php ${CURDIR}/createSystemPlugin.php
+#fi
+#if [ "$PLUGIN_TYPE" = "3" ]; then
+#	php ${CURDIR}/createCorePlugin.php
+#fi
 
 #chown www-data:www-data -R /var/www/app/*
 
