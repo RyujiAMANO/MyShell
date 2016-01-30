@@ -17,7 +17,7 @@ Class CreateViewHelper extends CreateObject {
 	 * @return void
 	 */
 	public function __construct($testFile = null) {
-		output(sprintf('View/Helperのテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
+		output(sprintf('## View/Helperのテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
 		output(print_r($testFile, true));
 
 		parent::__construct($testFile);

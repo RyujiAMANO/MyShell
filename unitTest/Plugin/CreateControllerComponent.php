@@ -17,7 +17,7 @@ Class CreateControllerComponent extends CreateObject {
 	 * @return void
 	 */
 	public function __construct($testFile = null) {
-		output(sprintf('Controller/Componentのテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
+		output(sprintf('## Controller/Componentのテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
 		output(print_r($testFile, true));
 
 		parent::__construct($testFile);

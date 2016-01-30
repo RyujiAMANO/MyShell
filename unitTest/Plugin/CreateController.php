@@ -17,7 +17,7 @@ Class CreateController extends CreateObject {
 	 * @return void
 	 */
 	public function __construct($testFile = null) {
-		output(sprintf('Controllerのテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
+		output(sprintf('## Controllerのテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
 		output(print_r($testFile, true));
 
 		parent::__construct($testFile);

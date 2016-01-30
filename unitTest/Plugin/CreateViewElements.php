@@ -17,7 +17,7 @@ Class CreateViewElements extends CreateObject {
 	 * @return void
 	 */
 	public function __construct($testFile = null) {
-		output(sprintf('View/Elementsのテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
+		output(sprintf('## View/Elementsのテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
 		output(print_r($testFile, true));
 
 		parent::__construct($testFile);

@@ -44,7 +44,7 @@ Class Plugin {
 		$this->authorEmail = getenv('AUTHOR_EMAIL');
 
 		if (file_exists(PLUGIN_ROOT_DIR . 'Config/Schema/schema.php')) {
-			require PLUGIN_ROOT_DIR . 'Config/Schema/schema.php';
+			require_once PLUGIN_ROOT_DIR . 'Config/Schema/schema.php';
 
 			if (class_exists($this->plugin . 'Schema')) {
 				$class = $this->plugin . 'Schema';

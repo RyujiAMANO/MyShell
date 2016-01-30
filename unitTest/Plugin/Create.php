@@ -36,7 +36,7 @@ Class CreateObject {
 	 * @param array $testFile ファイルデータ
 	 * @return void
 	 */
-	public function __construct($testFile = null) {
+	public function __construct($testFile = null, $isCreate = true) {
 		$this->testFile = $testFile;
 
 		$this->plugin = getenv('PLUGIN_NAME');
@@ -45,7 +45,7 @@ Class CreateObject {
 		$this->authorEmail = getenv('AUTHOR_EMAIL');
 
 		if (file_exists(PLUGIN_ROOT_DIR . 'Config/Schema/schema.php')) {
-			require PLUGIN_ROOT_DIR . 'Config/Schema/schema.php';
+			require_once PLUGIN_ROOT_DIR . 'Config/Schema/schema.php';
 
 			if (class_exists($this->plugin . 'Schema')) {
 				$class = $this->plugin . 'Schema';
@@ -56,6 +56,10 @@ Class CreateObject {
 			}
 		}
 
+		//$isCreate = false;
+		if (! $isCreate) {
+			return;
+		}
 		if (! $this->createTestDir()) {
 			return false;
 		}
@@ -90,15 +94,49 @@ Class CreateObject {
 	 * @param string $fileName ファイル名
 	 * @return bool
 	 */
-	public function createFile($fileName) {
+	public function createFile($fileName, $output = '') {
 		$createPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
+
+		if ($fileName !== 'empty' && file_exists($createPath)) {
+			if (getenv('EXISTING_FILE') === 'y') {
+				$this->deleteFile($fileName);
+			} elseif (getenv('EXISTING_FILE') === 'c') {
+				output(sprintf('%sファイルが既に存在します。上書きしますか。', substr($createPath, strlen(PLUGIN_ROOT_DIR))));
+				echo '(y)es|(n)o> ';
+				if (trim(fgets(STDIN)) === 'y') {
+					$this->deleteFile($fileName);
+				}
+			}
+		}
+
 		if (! file_exists($createPath)) {
-			$result = (new File($createPath))->write('');
+			$result = (new File($createPath))->write($output);
 			if (! $result) {
-				output(sprintf('%sファイルの作成に失敗しました。', -1 * (strlen(PLUGIN_ROOT_DIR) + 2)));
+				output(sprintf('%sファイルの作成に失敗しました。', substr($createPath, strlen(PLUGIN_ROOT_DIR))));
 				exit(1);
 			} else {
-				output(sprintf('%sファイルの作成しました。', substr($createPath, -1 * (strlen(PLUGIN_ROOT_DIR) + 2))));
+				output(sprintf('%sファイルの作成しました。', substr($createPath, strlen(PLUGIN_ROOT_DIR))));
+			}
+			return $result;
+		}
+		return true;
+	}
+
+	/**
+	 * ファイルの削除
+	 *
+	 * @param string $fileName ファイル名
+	 * @return bool
+	 */
+	public function deleteFile($fileName) {
+		$createPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
+		if (file_exists($createPath)) {
+			$result = (new File($createPath))->delete();
+			if (! $result) {
+				output(sprintf('%sファイルの削除に失敗しました。', substr($createPath, strlen(PLUGIN_ROOT_DIR))));
+				exit(1);
+			} else {
+				output(sprintf('%sファイルの削除しました。', substr($createPath, strlen(PLUGIN_ROOT_DIR))));
 			}
 			return $result;
 		}
@@ -118,8 +156,10 @@ Class CreateObject {
 		$file = file_get_contents($this->testFile['path']);
 		$matches = array();
 		$result = array();
-		if (preg_match_all('/function ([_a-zA-Z0-9]+)?\(.*/', $file, $matches)) {
-			$result = $matches[1];
+		if (preg_match_all('/function ([_a-zA-Z0-9]+)?\((.*)?\)/', $file, $matches)) {
+			foreach (array_keys($matches[0]) as $i) {
+				$result[$i] = array($matches[1][$i], $matches[2][$i]);
+			}
 		}
 
 		return $result;
@@ -130,11 +170,23 @@ Class CreateObject {
 	 *
 	 * @return string
 	 */
-	public function _phpdocFileHeader($headerDescription, $testSuitePlugin, $testSuiteTest) {
+	protected function _phpdocFileHeader($function, $appUses = array()) {
+		if (getenv('USE_DEFAULT_COMMENT') !== 'y') {
+			output('ファイルの説明文の入力して下さい。');
+			output('[' . $this->testFile['class'] . '::' . $function . '()のテスト' . ']');
+			echo '> ';
+			$headerDescription = trim(fgets(STDIN));
+		} else {
+			$headerDescription = null;
+		}
+		if (! $headerDescription) {
+			$headerDescription = $this->testFile['class'] . '::' . $function . '()のテスト';
+		}
+
 		return
 			'/**' . chr(10) .
 			' * ' . $headerDescription . chr(10) .
-			' * ' . chr(10) .
+			' *' . chr(10) .
 			' * @author Noriko Arai <arai@nii.ac.jp>' . chr(10) .
 			' * @author ' . $this->authorName . ' <' . $this->authorEmail . '>' . chr(10) .
 			' * @link http://www.netcommons.org NetCommons Project' . chr(10) .
@@ -142,7 +194,7 @@ Class CreateObject {
 			' * @copyright Copyright 2014, NetCommons Project' . chr(10) .
 			' */' . chr(10) .
 			'' . chr(10) .
-			'App::uses(\'' . $testSuiteTest . '\', \'' . $testSuitePlugin . '.TestSuit\');' . chr(10) .
+			implode(';' .chr(10), $appUses) . ';' .chr(10) .
 			'' . chr(10) .
 			'';
 	}
@@ -152,7 +204,19 @@ Class CreateObject {
 	 *
 	 * @return string
 	 */
-	public function _phpdocClassHeader($headerDescription) {
+	protected function _phpdocClassHeader($function) {
+		if (getenv('USE_DEFAULT_COMMENT') !== 'y') {
+			output('クラスの説明文の入力して下さい。');
+			output('[' . $this->testFile['class'] . '::' . $function . '()のテスト' . ']');
+			echo '> ';
+			$headerDescription = trim(fgets(STDIN));
+		} else {
+			$headerDescription = null;
+		}
+		if (! $headerDescription) {
+			$headerDescription = $this->testFile['class'] . '::' . $function . '()のテスト';
+		}
+
 		$package = 'NetCommons\\' . $this->plugin . '\\Test\\Case\\Model\\' . preg_quote(Inflector::camelize(ucfirst($this->testFile['file'])));
 
 		return
@@ -161,7 +225,114 @@ Class CreateObject {
 			' *' . chr(10) .
 			' * @author ' . $this->authorName . ' <' . $this->authorEmail . '>' . chr(10) .
 			' * @package ' . $package . chr(10) .
-			'*/' . chr(10) .
+			' */' . chr(10) .
+			'';
+	}
+
+	/**
+	 * Phpdoc ClassVariable
+	 *
+	 * @return string
+	 */
+	protected function _classVariable($phpdoc, $type, $scope, $variable, $values) {
+		if (! $phpdoc) {
+			output(sprintf('%s変数の説明の入力して下さい。', $variable));
+			echo '> ';
+			$phpdoc = trim(fgets(STDIN));
+		}
+
+		$outputValue = '';
+		foreach ($values as $value) {
+			if (! $outputValue) {
+				$outputValue .= $value . chr(10);
+			} else {
+				$outputValue .= chr(9) . $value . chr(10);
+			}
+		}
+
+		return
+			'/**' . chr(10) .
+			' * ' . $phpdoc . chr(10) .
+			' *' . chr(10) .
+			' * @var ' . $type . chr(10) .
+			' */' . chr(10) .
+			'' . chr(9) . $scope . ' $' . $variable . ' = ' . $outputValue.
+			'' . chr(10) .
+			'';
+	}
+
+	/**
+	 * Fixtures
+	 *
+	 * @return string
+	 */
+	public function _classVariableFixtures() {
+		$values = array(
+			'array('
+		);
+		foreach (array_keys($this->schemas) as $fixture) {
+			$values[] = chr(9) . '\'plugin.' . Inflector::underscore($this->plugin) . '.' . Inflector::singularize($fixture) . '\',';
+		}
+		$values[] = ');';
+
+		return
+			$this->_classVariable(
+				'Fixtures',
+				'array',
+				'public',
+				'fixtures',
+				$values
+			);
+	}
+
+	/**
+	 * _classVariablePlugin
+	 *
+	 * @return string
+	 */
+	public function _classVariablePlugin() {
+		return
+			$this->_classVariable(
+					'Plugin name',
+					'string',
+					'public',
+					'plugin',
+					array(
+						'\'' . Inflector::underscore($this->plugin). '\';',
+					)
+			);
+	}
+
+	/**
+	 * Phpdoc ClassVariable
+	 *
+	 * @return string
+	 */
+	protected function _classMethod($phpdoc, $return, $method, $processes) {
+		if (! $phpdoc) {
+			output(sprintf('%sメソッドの説明の入力して下さい。', $method));
+			echo '> ';
+			$phpdoc = trim(fgets(STDIN));
+		}
+
+		$outputProcess = '';
+		foreach ($processes as $process) {
+			if ($process) {
+				$outputProcess .= chr(9) . chr(9) . $process . chr(10);
+			} else {
+				$outputProcess .= chr(10);
+			}
+		}
+
+		return
+			'/**' . chr(10) .
+			' * ' . $phpdoc . chr(10) .
+			' *' . chr(10) .
+			' * @return ' . $return . chr(10) .
+			' */' . chr(10) .
+			'' . chr(9) . 'public function ' . $method . '() {' . chr(10) .
+			'' . $outputProcess .
+			'' . chr(9) . '}' . chr(10) .
 			'';
 	}
 
