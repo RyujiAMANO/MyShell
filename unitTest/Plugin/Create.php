@@ -78,10 +78,34 @@ Class CreateObject {
 		if (! file_exists($createPath)) {
 			$result = (new Folder())->create($createPath);
 			if (! $result) {
-				output(sprintf('%sディレクトリの作成に失敗しました。', $createPath));
+				output('ディレクトリの作成に失敗しました。');
+				output(sprintf('(%s)', $createPath) . chr(10));
 				exit(1);
 			} else {
-				output(sprintf('%sディレクトリの作成しました。', $createPath));
+				output('ディレクトリを作成しました。');
+				output(sprintf('(%s)', $createPath) . chr(10));
+			}
+			return $result;
+		}
+		return true;
+	}
+
+	/**
+	 * テストディレクトリの作成
+	 *
+	 * @return bool
+	 */
+	public function createTestPluginDir($dirName) {
+		$createPath = PLUGIN_TEST_PLUGIN . $dirName;
+		if (! file_exists($createPath)) {
+			$result = (new Folder())->create($createPath);
+			if (! $result) {
+				output('ディレクトリの作成に失敗しました。');
+				output(sprintf('(%s)', $createPath) . chr(10));
+				exit(1);
+			} else {
+				output('ディレクトリを作成しました。');
+				output(sprintf('(%s)', $createPath) . chr(10));
 			}
 			return $result;
 		}
@@ -95,13 +119,14 @@ Class CreateObject {
 	 * @return bool
 	 */
 	public function createFile($fileName, $output = '') {
-		$createPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
+		$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
 
-		if ($fileName !== 'empty' && file_exists($createPath)) {
+		if ($fileName !== 'empty' && file_exists($filePath)) {
 			if (getenv('EXISTING_FILE') === 'y') {
 				$this->deleteFile($fileName);
 			} elseif (getenv('EXISTING_FILE') === 'c') {
-				output(sprintf('%sファイルが既に存在します。上書きしますか。', substr($createPath, strlen(PLUGIN_ROOT_DIR))));
+				output('ファイルが既に存在します。上書きしますか。');
+				output(sprintf('(%s)', $filePath));
 				echo '(y)es|(n)o> ';
 				if (trim(fgets(STDIN)) === 'y') {
 					$this->deleteFile($fileName);
@@ -109,13 +134,51 @@ Class CreateObject {
 			}
 		}
 
-		if (! file_exists($createPath)) {
-			$result = (new File($createPath))->write($output);
+		if (! file_exists($filePath)) {
+			$result = (new File($filePath))->write($output);
 			if (! $result) {
-				output(sprintf('%sファイルの作成に失敗しました。', substr($createPath, strlen(PLUGIN_ROOT_DIR))));
+				output('ファイルの作成に失敗しました。');
+				output(sprintf('(%s)', $filePath) . chr(10));
 				exit(1);
 			} else {
-				output(sprintf('%sファイルの作成しました。', substr($createPath, strlen(PLUGIN_ROOT_DIR))));
+				output('ファイルを作成しました。');
+				output(sprintf('(%s)', $filePath) . chr(10));
+			}
+			return $result;
+		}
+		return true;
+	}
+
+	/**
+	 * ファイルの作成
+	 *
+	 * @param string $fileName ファイル名
+	 * @return bool
+	 */
+	public function createTestPluginFile($fileName, $output = '') {
+		$filePath = PLUGIN_TEST_PLUGIN . $fileName;
+		if ($fileName !== 'empty' && file_exists($filePath)) {
+			if (getenv('EXISTING_FILE') === 'y') {
+				$this->deleteTestPluginFile($fileName);
+			} elseif (getenv('EXISTING_FILE') === 'c') {
+				output('ファイルが既に存在します。上書きしますか。');
+				output(sprintf('(%s)', $filePath));
+				echo '(y)es|(n)o> ';
+				if (trim(fgets(STDIN)) === 'y') {
+					$this->deleteTestPluginFile($fileName);
+				}
+			}
+		}
+
+		if (! file_exists($filePath)) {
+			$result = (new File($filePath))->write($output);
+			if (! $result) {
+				output('ファイルの作成に失敗しました。');
+				output(sprintf('(%s)', $filePath) . chr(10));
+				exit(1);
+			} else {
+				output('ファイルを作成しました。');
+				output(sprintf('(%s)', $filePath) . chr(10));
 			}
 			return $result;
 		}
@@ -129,14 +192,39 @@ Class CreateObject {
 	 * @return bool
 	 */
 	public function deleteFile($fileName) {
-		$createPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
-		if (file_exists($createPath)) {
-			$result = (new File($createPath))->delete();
+		$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
+		if (file_exists($filePath)) {
+			$result = (new File($filePath))->delete();
 			if (! $result) {
-				output(sprintf('%sファイルの削除に失敗しました。', substr($createPath, strlen(PLUGIN_ROOT_DIR))));
+				output('ファイルの削除に失敗しました。');
+				output(sprintf('(%s)', $filePath) . chr(10));
 				exit(1);
 			} else {
-				output(sprintf('%sファイルの削除しました。', substr($createPath, strlen(PLUGIN_ROOT_DIR))));
+				output('ファイルを削除しました。');
+				output(sprintf('(%s)', $filePath) . chr(10));
+			}
+			return $result;
+		}
+		return true;
+	}
+
+	/**
+	 * ファイルの削除
+	 *
+	 * @param string $fileName ファイル名
+	 * @return bool
+	 */
+	public function deleteTestPluginFile($fileName) {
+		$filePath = PLUGIN_TEST_PLUGIN . $fileName;
+		if (file_exists($filePath)) {
+			$result = (new File($filePath))->delete();
+			if (! $result) {
+				output('ファイルの削除に失敗しました。');
+				output(sprintf('(%s)', $filePath) . chr(10));
+				exit(1);
+			} else {
+				output('ファイルを削除しました。');
+				output(sprintf('(%s)', $filePath) . chr(10));
 			}
 			return $result;
 		}
@@ -158,7 +246,45 @@ Class CreateObject {
 		$result = array();
 		if (preg_match_all('/function ([_a-zA-Z0-9]+)?\((.*)?\)/', $file, $matches)) {
 			foreach (array_keys($matches[0]) as $i) {
-				$result[$i] = array($matches[1][$i], $matches[2][$i]);
+				$result[$i] = array($matches[1][$i], $matches[2][$i], $this->getFunctionComment($matches[1][$i]));
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * メソッドのコメント取得
+	 *
+	 * @return array メソッドリスト
+	 */
+	public function getFunctionComment($function) {
+		if (! file_exists($this->testFile['path'])) {
+			return true;
+		}
+
+		$file = file_get_contents($this->testFile['path']);
+		$fileAsArray = explode(chr(10), $file);
+
+		$result = '';
+		$funcCheck = false;
+		foreach ($fileAsArray as $line) {
+			if ($funcCheck) {
+				if (preg_match('/^(.+)?' . $function . '(.+)/', $line)) {
+					break;
+				}
+				$funcCheck = false;
+			}
+
+			if ($line === '/**') {
+				$result = $line;
+			} else {
+				$result .= chr(10) . $line;
+			}
+			if ($line === ' */') {
+				$funcCheck = true;
+			} else {
+				$funcCheck = false;
 			}
 		}
 
@@ -170,17 +296,19 @@ Class CreateObject {
 	 *
 	 * @return string
 	 */
-	protected function _phpdocFileHeader($function, $appUses = array()) {
-		if (getenv('USE_DEFAULT_COMMENT') !== 'y') {
-			output('ファイルの説明文の入力して下さい。');
-			output('[' . $this->testFile['class'] . '::' . $function . '()のテスト' . ']');
-			echo '> ';
-			$headerDescription = trim(fgets(STDIN));
-		} else {
-			$headerDescription = null;
-		}
+	protected function _phpdocFileHeader($function, $appUses = array(), $headerDescription = null) {
 		if (! $headerDescription) {
-			$headerDescription = $this->testFile['class'] . '::' . $function . '()のテスト';
+			if (getenv('USE_DEFAULT_COMMENT') !== 'y') {
+				output('ファイルの説明文の入力して下さい。');
+				output('[' . $this->testFile['class'] . '::' . $function . '()のテスト' . ']');
+				echo '> ';
+				$headerDescription = trim(fgets(STDIN));
+			} else {
+				$headerDescription = null;
+			}
+			if (! $headerDescription) {
+				$headerDescription = $this->testFile['class'] . '::' . $function . '()のテスト';
+			}
 		}
 
 		return
@@ -204,20 +332,20 @@ Class CreateObject {
 	 *
 	 * @return string
 	 */
-	protected function _phpdocClassHeader($function) {
-		if (getenv('USE_DEFAULT_COMMENT') !== 'y') {
-			output('クラスの説明文の入力して下さい。');
-			output('[' . $this->testFile['class'] . '::' . $function . '()のテスト' . ']');
-			echo '> ';
-			$headerDescription = trim(fgets(STDIN));
-		} else {
-			$headerDescription = null;
-		}
+	protected function _phpdocClassHeader($function, $package, $headerDescription = null) {
 		if (! $headerDescription) {
-			$headerDescription = $this->testFile['class'] . '::' . $function . '()のテスト';
+			if (getenv('USE_DEFAULT_COMMENT') !== 'y') {
+				output('クラスの説明文の入力して下さい。');
+				output('[' . $this->testFile['class'] . '::' . $function . '()のテスト' . ']');
+				echo '> ';
+				$headerDescription = trim(fgets(STDIN));
+			} else {
+				$headerDescription = null;
+			}
+			if (! $headerDescription) {
+				$headerDescription = $this->testFile['class'] . '::' . $function . '()のテスト';
+			}
 		}
-
-		$package = 'NetCommons\\' . $this->plugin . '\\Test\\Case\\Model\\' . preg_quote(Inflector::camelize(ucfirst($this->testFile['file'])));
 
 		return
 			'/**' . chr(10) .
@@ -308,7 +436,7 @@ Class CreateObject {
 	 *
 	 * @return string
 	 */
-	protected function _classMethod($phpdoc, $return, $method, $processes) {
+	protected function _classMethod($phpdoc, $params, $method, $processes) {
 		if (! $phpdoc) {
 			output(sprintf('%sメソッドの説明の入力して下さい。', $method));
 			echo '> ';
@@ -324,13 +452,18 @@ Class CreateObject {
 			}
 		}
 
+		$outputParams = '';
+		foreach ($params as $value) {
+			$outputParams .= ' * ' . $value . chr(10);
+		}
+
 		return
 			'/**' . chr(10) .
 			' * ' . $phpdoc . chr(10) .
 			' *' . chr(10) .
-			' * @return ' . $return . chr(10) .
+			$outputParams .
 			' */' . chr(10) .
-			'' . chr(9) . 'public function ' . $method . '() {' . chr(10) .
+			'' . chr(9) . 'public function ' . $method . ' {' . chr(10) .
 			'' . $outputProcess .
 			'' . chr(9) . '}' . chr(10) .
 			'';

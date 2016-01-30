@@ -17,6 +17,7 @@ Class CreateViewHelper extends CreateObject {
 	 * @return void
 	 */
 	public function __construct($testFile = null) {
+		output(chr(10) . '-*-*-*-*-*-*-*-*-*-*-' . chr(10));
 		output(sprintf('## View/Helperのテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
 		output(print_r($testFile, true));
 
@@ -29,7 +30,14 @@ Class CreateViewHelper extends CreateObject {
 	 * @return bool 成功・失敗
 	 */
 	public function create() {
+		$functions = $this->getFunctions();
 
+		foreach ($functions as $func) {
+			$function = $func[0];
+			$argument = $func[1];
+			output(chr(10) . sprintf('#### テストファイル生成  %s(%s)', $function, $argument) . chr(10));
+
+		}
 	}
 
 }

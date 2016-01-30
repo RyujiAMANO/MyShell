@@ -17,6 +17,7 @@ Class CreateOther extends CreateObject {
 	 * @return void
 	 */
 	public function __construct($testFile = null) {
+		output(chr(10) . '-*-*-*-*-*-*-*-*-*-*-' . chr(10));
 		output(sprintf('## その他のテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
 		output(print_r($testFile, true));
 

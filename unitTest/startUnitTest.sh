@@ -14,35 +14,6 @@ if [ ! -d /var/www/app/app/Plugin/${PLUGIN_NAME} ] ; then
 fi
 
 #
-# プラグインの種類
-#
-defaultAns="2"
-echo "プラグインの種類を選んでください。[${defaultAns}]"
-echo "[1] 一般プラグイン"
-echo "[2] 管理プラグイン"
-echo "[3] コアプラグイン"
-echo -n "> "
-#read ANS
-if [ "$ANS" = "" ]; then
-	ANS=${defaultAns}
-fi
-if [ ! "$ANS" = "1" -a ! "$ANS" = "2" -a ! "$ANS" = "3" ]; then
-	echo "エラー：プラグインの種類がありません。"
-	exit 1
-fi
-export PLUGIN_TYPE=$ANS; export PLUGIN_TYPE
-if [ "$PLUGIN_TYPE" = "1" ]; then
-	echo "[1] 一般プラグイン"
-fi
-if [ "$PLUGIN_TYPE" = "2" ]; then
-	echo "[2] 管理プラグイン"
-fi
-if [ "$PLUGIN_TYPE" = "3" ]; then
-	echo "[3] コアプラグイン"
-fi
-echo ""
-
-#
 # 作成者
 #
 echo "作成者を半角英語で入力してください。[Shohei Nakajima]"
@@ -78,8 +49,8 @@ echo "[y] 全て上書きする"
 echo "[n] 全て上書きしない"
 echo "[c] 確認する(デフォルト)"
 echo -n "> "
-read ANS
-#ANS=""
+#read ANS
+ANS="y"
 if [ "$ANS" = "" ]; then
 	ANS="c"
 fi
@@ -94,8 +65,8 @@ echo "全ファイルに対してデフォルトコメントを使用します�
 echo "[y] 使用する"
 echo "[n] 使用しない(確認する)"
 echo -n "> "
-read ANS
-#ANS=""
+#read ANS
+ANS="y"
 if [ "$ANS" = "" ]; then
 	ANS="n"
 fi

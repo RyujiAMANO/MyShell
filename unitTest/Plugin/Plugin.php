@@ -34,10 +34,6 @@ Class Plugin {
 	 * コンストラクター
 	 */
 	public function __construct() {
-		output('##################################');
-		output(' UnitTest用ファイル作成開始します ');
-		output('##################################');
-
 		$this->plugin = getenv('PLUGIN_NAME');
 		$this->pluginType = getenv('PLUGIN_TYPE');
 		$this->authorName = getenv('AUTHOR_NAME');
@@ -63,8 +59,8 @@ Class Plugin {
 	 */
 	function __destruct() {
 		output(chr(10));
-		output('UnitTest用ファイル作成が終了しました ');
-		output('-------------------------------------------------' . chr(10));
+		output('UnitTest用ファイル作成が終了しました ' . chr(10));
+		output('_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/' . chr(10));
 	}
 
 	/**
@@ -72,7 +68,18 @@ Class Plugin {
 	 *
 	 * @return void
 	 */
-	function load() {}
+	public function load() {
+		foreach ($this->testFiles as $testFile) {
+			if ($testFile['type']) {
+				$class = 'Create' . Inflector::camelize(strtr($testFile['type'], '/', ' '));
+			} else {
+				$class = 'CreateOther';
+			}
+			if (class_exists($class)) {
+				(new $class($testFile))->create();
+			}
+		}
+	}
 
 	/**
 	 * ファイルのサーチ
