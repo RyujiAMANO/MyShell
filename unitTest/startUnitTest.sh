@@ -49,8 +49,8 @@ echo "[y] 全て上書きする"
 echo "[n] 全て上書きしない"
 echo "[c] 確認する(デフォルト)"
 echo -n "> "
-#read ANS
-ANS="y"
+read ANS
+#ANS="y"
 if [ "$ANS" = "" ]; then
 	ANS="c"
 fi
