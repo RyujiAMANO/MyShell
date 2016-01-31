@@ -60,8 +60,16 @@ Class CreateModel extends CreateObject {
 				$this->_createDelete($param);
 
 			} elseif (substr($param[0], 0, strlen('update')) === 'update' ||
-					substr($param[0], 0, strlen('beforeSave')) === 'beforeSave') {
+					substr($param[0], 0, strlen('create')) === 'create') {
 				$this->_createOther($param);
+
+			} elseif (substr($param[0], 0, strlen('beforeSave')) === 'beforeSave' ||
+					substr($param[0], 0, strlen('afterSave')) === 'afterSave') {
+				$this->_createForEvent(array('save', ''));
+
+			} elseif (substr($param[0], 0, strlen('beforeDelete')) === 'beforeDelete' ||
+					substr($param[0], 0, strlen('afterDelete')) === 'afterDelete') {
+				$this->_createForEvent(array('delete', ''));
 
 			} elseif (substr($param[0], 0, strlen('beforeValidate')) === 'beforeValidate' ||
 					substr($param[0], 0, strlen('validate')) === 'validate') {
@@ -446,7 +454,7 @@ Class CreateModel extends CreateObject {
 		$methodArg = '';
 		foreach ($arguments as $arg) {
 			$matches = array();
-			if (preg_match('/([\$_0-9a-zA-Z]+)?( \= )?(.*)/', $arg, $matches)) {
+			if (preg_match('/^([\$_0-9a-zA-Z]+)( \= )?(.*)/', $arg, $matches)) {
 				$processes[] = $matches[1] . ' = ' . ($matches[3] ? $matches[3] : 'null') . ';';
 				$methodArg .= ', ' . $matches[1];
 			}
@@ -473,6 +481,70 @@ Class CreateModel extends CreateObject {
 			$this->_phpdocClassHeader(
 				$function,
 				'NetCommons\\' . $this->plugin . '\\Test\\Case\\Model\\' . Inflector::camelize(ucfirst($this->testFile['file']))
+			) .
+			'class ' . $className . ' extends ' . $testSuiteTest . ' {' . chr(10) .
+			'' . chr(10) .
+			$this->__getClassVariable($function) .
+			$this->_classMethod(
+				$function . '()のテスト',
+				array(
+					'@return void',
+				),
+				'test' . ucfirst($function) . '()',
+				$processes
+			) .
+			'' . chr(10) .
+			'}' .
+			'' . chr(10) .
+			'';
+
+		$this->createFile(Inflector::camelize(ucfirst($function)) . 'Test.php', $output);
+		$this->deleteFile('empty');
+	}
+
+	/**
+	 * テストファイル生成
+	 *
+	 * @param array $param メソッドデータ配列
+	 * @param string $testSuiteTest テストSuite
+	 * @param string $testSuitePlugin プラグイン
+	 * @return void
+	 */
+	protected function _createForEvent($param, $testSuiteTest = 'NetCommonsModelTestCase', $testSuitePlugin = 'NetCommons') {
+		$function = $param[0];
+		$argument = $param[1];
+
+		$className = $this->testFile['class'] . Inflector::camelize(ucfirst($function)) . 'Test';
+
+		//メソッドの内容
+		$processes = array();
+		$processes[] = '//データ生成';
+		$processes[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
+		$processes[] = '';
+		$processes[] = '//テスト実施';
+		$processes[] = '$model = $this->_modelName;';
+		$processes[] = '$methodName = $this->_methodName;';
+		$processes[] = '$result = $this->$model->$methodName($data);';
+		$processes[] = '';
+		$processes[] = '//チェック';
+		$processes[] = '//TODO:Assertを書く';
+		$processes[] = 'debug($result);';
+
+		//出力文字列
+		$output =
+			'<?php' . chr(10) .
+			$this->_phpdocFileHeader(
+				$function,
+				array(
+					'App::uses(\'' . $testSuiteTest . '\', \'' . $testSuitePlugin . '.TestSuite\')',
+					'App::uses(\'' . $this->testFile['class'] . 'Fixture\', \'' . $this->plugin . '.Test/Fixture\')',
+				),
+				'before' . ucfirst($function) . '()とafter' . ucfirst($function) . '()のテスト'
+			) .
+			$this->_phpdocClassHeader(
+				$function,
+				'NetCommons\\' . $this->plugin . '\\Test\\Case\\Model\\' . Inflector::camelize(ucfirst($this->testFile['file'])),
+				'before' . ucfirst($function) . '()とafter' . ucfirst($function) . '()のテスト'
 			) .
 			'class ' . $className . ' extends ' . $testSuiteTest . ' {' . chr(10) .
 			'' . chr(10) .

@@ -127,7 +127,7 @@ Class CreateModelBehavior extends CreateObject {
 		$methodArg = '';
 		foreach ($arguments as $arg) {
 			$matches = array();
-			if (preg_match('/^\$([_0-9a-zA-Z]+)?( \= )?(.*)/', $arg, $matches)) {
+			if (preg_match('/^\$([_0-9a-zA-Z]+)( \= )?(.*)/', $arg, $matches)) {
 				$processes1[] = '$result[0][\'' . $matches[1] . '\'] = ' . ($matches[3] ? $matches[3] : 'null') . ';';
 				$methodArg .= ', $' . $matches[1];
 			}

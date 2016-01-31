@@ -56,7 +56,6 @@ Class CreateObject {
 			}
 		}
 
-		//$isCreate = false;
 		if (! $isCreate) {
 			return;
 		}
@@ -65,6 +64,18 @@ Class CreateObject {
 		}
 		if (! $this->createFile('empty')) {
 			return false;
+		}
+	}
+
+	/**
+	 * デストラクター.
+	 */
+	function __destruct() {
+		$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/empty';
+		if (file_exists($filePath)) {
+			if (! $this->deleteTestDir()) {
+				return false;
+			}
 		}
 	}
 
@@ -83,6 +94,28 @@ Class CreateObject {
 				exit(1);
 			} else {
 				output('ディレクトリを作成しました。');
+				output(sprintf('(%s)', $createPath) . chr(10));
+			}
+			return $result;
+		}
+		return true;
+	}
+
+	/**
+	 * テストディレクトリの削除
+	 *
+	 * @return bool
+	 */
+	public function deleteTestDir() {
+		$createPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file']));
+		if (file_exists($createPath)) {
+			$result = (new Folder())->delete($createPath);
+			if (! $result) {
+				output('ディレクトリの削除に失敗しました。');
+				output(sprintf('(%s)', $createPath) . chr(10));
+				exit(1);
+			} else {
+				output('ディレクトリを削除しました。');
 				output(sprintf('(%s)', $createPath) . chr(10));
 			}
 			return $result;
@@ -246,6 +279,9 @@ Class CreateObject {
 		$result = array();
 		if (preg_match_all('/function ([_a-zA-Z0-9]+)?\((.*)?\)/', $file, $matches)) {
 			foreach (array_keys($matches[0]) as $i) {
+				if ($matches[1][$i] === '__construct') {
+					continue;
+				}
 				if (getenv('TEST_METHOD') && getenv('TEST_METHOD') !== $matches[1][$i]) {
 					continue;
 				}

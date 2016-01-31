@@ -32,10 +32,9 @@ Class CreateViewHelper extends CreateObject {
 	public function create() {
 		$functions = $this->getFunctions();
 
-		foreach ($functions as $func) {
-			$function = $func[0];
-			$argument = $func[1];
-			output(chr(10) . sprintf('#### テストファイル生成  %s(%s)', $function, $argument) . chr(10));
+		foreach ($functions as $param) {
+			output('---------------------' . chr(10));
+			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
 
 		}
 	}
