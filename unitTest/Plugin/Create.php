@@ -246,6 +246,9 @@ Class CreateObject {
 		$result = array();
 		if (preg_match_all('/function ([_a-zA-Z0-9]+)?\((.*)?\)/', $file, $matches)) {
 			foreach (array_keys($matches[0]) as $i) {
+				if (getenv('TEST_METHOD') && getenv('TEST_METHOD') !== $matches[1][$i]) {
+					continue;
+				}
 				$result[$i] = array($matches[1][$i], $matches[2][$i], $this->getFunctionComment($matches[1][$i]));
 			}
 		}

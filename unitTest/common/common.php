@@ -9,6 +9,9 @@ define('TMP', '/var/www/app/app/tmp/');
 require __DIR__ . '/Inflector.php';
 require __DIR__ . '/Folder.php';
 require __DIR__ . '/File.php';
+require __DIR__ . '/CakeText.php';
+require __DIR__ . '/Hash.php';
+
 require dirname(__DIR__) . '/Plugin/Plugin.php';
 require dirname(__DIR__) . '/Plugin/Create.php';
 //require dirname(__DIR__) . '/Plugin/CreateController.php';

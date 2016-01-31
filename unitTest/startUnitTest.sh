@@ -7,11 +7,41 @@ if [ "${PLUGIN_NAME}" = "" ]; then
 	echo "エラー：プラグインを入力してください。"
 	exit 1
 fi
+if [ "${PLUGIN_NAME}" = "-h" -o "${PLUGIN_NAME}" = "?" ]; then
+	echo "Usage: bash startUnitTest.sh <plugin_name> [<type> [<file> [<method>]]]"
+	echo ""
+	echo "Argments: "
+	echo "  ≪第一引数(plugin_name  キャメル形式)≫"
+	echo "  プラグイン名  ※必須項目です。"
+	echo ""
+	echo "  ≪第二引数(type)≫"
+	echo "  Controller           Controllerのテストファイルを作成する"
+	echo "  ControllerComponent  Controller/Componentのテストファイルを作成する"
+	echo "  Model                Modelのテストファイルを作成する"
+	echo "  ModelBehavior        Model/Behaviorのテストファイルを作成する"
+	echo "  ViewElements         View/Elementsのテストファイルを作成する"
+	echo "  ViewHelper           View/Helperのテストファイルを作成する"
+	echo "  Other                その他のテストファイルを作成する"
+	echo "  All or 省略          全ファイルのテストファイルを作成する"
+	echo ""
+	echo "  ≪第三引数(file)≫"
+	echo "  ファイル名(拡張子含まない)　※省略すると全ファイルが対象となります。"
+	echo ""
+	echo "  ≪第四引数(method)≫"
+	echo "  メソッド名  ※省略すると全メソッドが対象となります。"
+	echo ""
+	exit 0;
+fi
 if [ ! -d /var/www/app/app/Plugin/${PLUGIN_NAME} ] ; then
 	echo "/var/www/app/app/Plugin/${PLUGIN_NAME}"
 	echo "エラー：プラグインがありません。"
 	exit 1
 fi
+
+export PLUGIN_TYPE=$2; export PLUGIN_TYPE
+export TEST_FILE_NAME=$3; export TEST_FILE_NAME
+export TEST_METHOD=$4; export TEST_METHOD
+
 
 #
 # 作成者
@@ -49,8 +79,11 @@ echo "[y] 全て上書きする"
 echo "[n] 全て上書きしない"
 echo "[c] 確認する(デフォルト)"
 echo -n "> "
-read ANS
-#ANS="y"
+if [ "${TEST_METHOD}" = "" ] ; then
+	read ANS
+else
+	ANS="c"
+fi
 if [ "$ANS" = "" ]; then
 	ANS="c"
 fi

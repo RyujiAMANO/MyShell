@@ -69,12 +69,20 @@ Class Plugin {
 	 * @return void
 	 */
 	public function load() {
+		if (getenv('PLUGIN_TYPE') && getenv('PLUGIN_TYPE') !== 'All') {
+			$this->testFiles = Hash::extract($this->testFiles, '{n}[type=' . getenv('PLUGIN_TYPE') . ']');
+		}
+		if (getenv('TEST_FILE_NAME')) {
+			$this->testFiles = Hash::extract($this->testFiles, '{n}[file=' . getenv('TEST_FILE_NAME') . ']');
+		}
+
 		foreach ($this->testFiles as $testFile) {
 			if ($testFile['type']) {
 				$class = 'Create' . Inflector::camelize(strtr($testFile['type'], '/', ' '));
 			} else {
 				$class = 'CreateOther';
 			}
+
 			if (class_exists($class)) {
 				(new $class($testFile))->create();
 			}
