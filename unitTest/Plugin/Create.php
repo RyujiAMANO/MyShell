@@ -304,7 +304,10 @@ Class CreateObject {
 				if (getenv('TEST_METHOD') && getenv('TEST_METHOD') !== $matches[1][$i]) {
 					continue;
 				}
-				$result[$i] = array($matches[1][$i], $matches[2][$i], $this->getFunctionComment($matches[1][$i]));
+				if (substr($matches[1][$i], 0, 1) !== '_') {
+					//TODO:privateおよびprotectedは後回し
+					$result[$i] = array($matches[1][$i], $matches[2][$i], $this->getFunctionComment($matches[1][$i]));
+				}
 			}
 		}
 

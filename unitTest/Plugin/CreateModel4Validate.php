@@ -27,6 +27,7 @@ Class CreateModel4Validate extends CreateModel4 {
 		$processes[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
 		$processes[] = '';
 		$processes[] = '//TODO:テストパタンを書く';
+		$processes[] = 'debug($data);';
 		$processes[] = 'return array(';
 		$processes[] = ');';
 

@@ -166,6 +166,7 @@ Class CreateModelBehavior extends CreateObject {
 						'array();',
 					)
 			) .
+			$this->_classVariablePlugin() .
 			$this->_classMethod(
 				'setUp method',
 				array(
@@ -174,6 +175,8 @@ Class CreateModelBehavior extends CreateObject {
 				'setUp()',
 				array(
 					'parent::setUp();',
+					'',
+					'//テストプラグインのロード',
 					'NetCommonsCakeTestCase::loadTestPlugin($this, \'' . $this->plugin . '\', \'Test' . $this->plugin . '\');',
 					'$this->TestModel = ClassRegistry::init(\'Test' . $this->plugin . '.' . $testModelName . '\');',
 				)

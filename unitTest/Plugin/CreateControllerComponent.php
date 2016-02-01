@@ -151,6 +151,7 @@ Class CreateControllerComponent extends CreateObject {
 						'array();',
 					)
 			) .
+			$this->_classVariablePlugin() .
 			$this->_classMethod(
 				'setUp method',
 				array(
@@ -159,6 +160,8 @@ Class CreateControllerComponent extends CreateObject {
 				'setUp()',
 				array(
 					'parent::setUp();',
+					'',
+					'//テストプラグインのロード',
 					'NetCommonsCakeTestCase::loadTestPlugin($this, \'' . $this->plugin . '\', \'Test' . $this->plugin . '\');',
 				)
 			) .
@@ -182,6 +185,7 @@ Class CreateControllerComponent extends CreateObject {
 				),
 				'test' . ucfirst($function) . '()',
 				array(
+					'//テストコントローラ生成',
 					'$this->generateNc(\'Test' . $this->plugin . '.' . $testControllerName . '\');',
 					'',
 					'//ログイン',
