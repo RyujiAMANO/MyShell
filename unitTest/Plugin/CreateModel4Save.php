@@ -34,10 +34,10 @@ Class CreateModel4Save extends CreateModel4 {
 		$processes1[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
 		$processes1[] = '';
 		$processes1[] = '//TODO:テストパタンを書く';
-		$processes1[] = '$result = array();';
-		$processes1[] = '$result[0] = array($data);';
+		$processes1[] = '$results = array();';
+		$processes1[] = '$results[0] = array($data);';
 		$processes1[] = '';
-		$processes1[] = 'return $result;';
+		$processes1[] = 'return $results;';
 
 		$processes2 = array();
 		$processes2[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
