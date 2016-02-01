@@ -95,6 +95,11 @@ Class CreateController extends CreateObject {
 			output('---------------------' . chr(10));
 			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
 
+			if (substr($param[0], 0, strlen('beforeFilter')) === 'beforeFilter') {
+				(new CreateController4OtherController($this->testFile, false))->createTest($param, 'index');
+				continue;
+			}
+
 			if ($this->isWorkflow()) {
 				if (class_exists('CreateController4WorkflowController' . ucfirst($param[0]))) {
 					$class = 'CreateController4WorkflowController' . ucfirst($param[0]);
@@ -142,12 +147,10 @@ Class CreateController extends CreateObject {
 
 			} elseif ($this->isBlockPermission()) {
 				$param[0] = 'edit';
-				$class = 'CreateController4BlocksControllerEdit';
+				$class = 'CreateController4BlockPermissionControllerEdit';
 			} else {
 				$class = 'CreateController4OtherController';
 			}
-
-			(new $class($this->testFile, false))->createTest($param);
 		}
 		if ($this->isAppControllerPermission()) {
 			$class = 'CreateController4AppController';
