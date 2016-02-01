@@ -61,7 +61,6 @@ Class CreateModel4Validate extends CreateModel4 {
 				'dataProviderValidationError()',
 				$processes
 			) .
-			'' . chr(10) .
 			'}' .
 			'' . chr(10) .
 			'';

@@ -29,7 +29,7 @@ require dirname(__DIR__) . '/Plugin/CreateController4BlocksControllerEdit.php';
 require dirname(__DIR__) . '/Plugin/CreateController4BlockPermissionControllerEdit.php';
 require dirname(__DIR__) . '/Plugin/CreateController4OtherController.php';
 require dirname(__DIR__) . '/Plugin/CreateController4AppController.php';
-//require dirname(__DIR__) . '/Plugin/CreateControllerComponent.php';
+require dirname(__DIR__) . '/Plugin/CreateControllerComponent.php';
 require dirname(__DIR__) . '/Plugin/CreateModel.php';
 require dirname(__DIR__) . '/Plugin/CreateModel4.php';
 require dirname(__DIR__) . '/Plugin/CreateModel4Delete.php';

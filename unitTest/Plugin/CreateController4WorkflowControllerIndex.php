@@ -61,7 +61,6 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 				),
 				'private'
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'indexアクションのテスト(ログインなし)用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -89,7 +88,6 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'indexアクションのテスト(編集権限あり)用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -117,7 +115,6 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'indexアクションのテスト(作成権限のみ)用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -145,7 +142,6 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'view(ctp)ファイルのテスト' . chr(10),
 				array(
@@ -165,7 +161,6 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 					'TestAuthGeneral::logout($this);',
 				)
 			) .
-			'' . chr(10) .
 			'}' .
 			'' . chr(10) .
 			'';

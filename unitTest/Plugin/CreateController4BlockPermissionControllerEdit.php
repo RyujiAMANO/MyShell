@@ -59,7 +59,6 @@ Class CreateController4BlockPermissionControllerEdit extends CreateController4 {
 				),
 				'private'
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'テストDataの取得',
 				array(
@@ -82,7 +81,6 @@ Class CreateController4BlockPermissionControllerEdit extends CreateController4 {
 				),
 				'private'
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'edit()アクションDataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -100,7 +98,6 @@ Class CreateController4BlockPermissionControllerEdit extends CreateController4 {
 					');',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'edit()アクションDataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -118,7 +115,6 @@ Class CreateController4BlockPermissionControllerEdit extends CreateController4 {
 					');',
 				)
 			) .
-			'' . chr(10) .
 			'}' .
 			'' . chr(10) .
 			'';

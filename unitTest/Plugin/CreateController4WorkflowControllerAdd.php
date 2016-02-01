@@ -73,7 +73,6 @@ Class CreateController4WorkflowControllerAdd extends CreateController4Workflow {
 				),
 				'private'
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'addアクションのGETテスト(ログインなし)用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -103,7 +102,6 @@ Class CreateController4WorkflowControllerAdd extends CreateController4Workflow {
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'addアクションのGETテスト(作成権限あり)用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -138,7 +136,6 @@ Class CreateController4WorkflowControllerAdd extends CreateController4Workflow {
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'addアクションのPOSTテスト用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -185,7 +182,6 @@ Class CreateController4WorkflowControllerAdd extends CreateController4Workflow {
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'addアクションのValidationErrorテスト用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -222,7 +218,6 @@ Class CreateController4WorkflowControllerAdd extends CreateController4Workflow {
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'view(ctp)ファイルのテスト(公開権限なし)',
 				array(
@@ -261,7 +256,6 @@ Class CreateController4WorkflowControllerAdd extends CreateController4Workflow {
 					'TestAuthGeneral::logout($this);',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'view(ctp)ファイルのテスト(公開権限あり)',
 				array(
@@ -300,7 +294,6 @@ Class CreateController4WorkflowControllerAdd extends CreateController4Workflow {
 					'TestAuthGeneral::logout($this);',
 				)
 			) .
-			'' . chr(10) .
 			'}' .
 			'' . chr(10) .
 			'';

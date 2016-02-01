@@ -379,9 +379,7 @@ Class CreateObject {
 			' * @license http://www.netcommons.org/license.txt NetCommons License' . chr(10) .
 			' * @copyright Copyright 2014, NetCommons Project' . chr(10) .
 			' */' . chr(10) .
-			'' . chr(10) .
-			implode(';' .chr(10), $appUses) . ';' .chr(10) .
-			'' . chr(10) .
+			($appUses ? chr(10) . implode(';' .chr(10), $appUses) . ';' .chr(10) . chr(10) : '') .
 			'';
 	}
 
@@ -537,6 +535,7 @@ Class CreateObject {
 			'' . chr(9) . $scope . ' function ' . $method . ' {' . chr(10) .
 			'' . $outputProcess .
 			'' . chr(9) . '}' . chr(10) .
+			chr(10) .
 			'';
 	}
 

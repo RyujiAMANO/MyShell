@@ -87,7 +87,6 @@ Class CreateController4BlocksControllerEdit extends CreateController4Blocks {
 				),
 				'private'
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'add()アクションDataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -118,7 +117,6 @@ Class CreateController4BlocksControllerEdit extends CreateController4Blocks {
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'edit()アクションDataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -149,7 +147,6 @@ Class CreateController4BlocksControllerEdit extends CreateController4Blocks {
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'delete()アクションDataProvider' . chr(10) .
 					' *' . chr(10) .

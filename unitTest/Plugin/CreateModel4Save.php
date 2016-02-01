@@ -83,7 +83,6 @@ Class CreateModel4Save extends CreateModel4 {
 				'dataProviderSave()',
 				$processes1
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'SaveのExceptionError用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -97,7 +96,6 @@ Class CreateModel4Save extends CreateModel4 {
 				'dataProviderSaveOnExceptionError()',
 				$processes2
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'SaveのValidationError用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -110,7 +108,6 @@ Class CreateModel4Save extends CreateModel4 {
 				'dataProviderSaveOnValidationError()',
 				$processes3
 			) .
-			'' . chr(10) .
 			'}' .
 			'' . chr(10) .
 			'';

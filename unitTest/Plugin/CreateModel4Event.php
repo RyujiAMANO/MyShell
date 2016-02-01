@@ -65,7 +65,6 @@ Class CreateModel4Event extends CreateModel4 {
 				'test' . ucfirst($function) . '()',
 				$processes
 			) .
-			'' . chr(10) .
 			'}' .
 			'' . chr(10) .
 			'';

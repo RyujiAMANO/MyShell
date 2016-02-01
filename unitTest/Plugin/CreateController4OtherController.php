@@ -65,7 +65,6 @@ Class CreateController4OtherController extends CreateController4 {
 					'TestAuthGeneral::logout($this);',
 				)
 			) .
-			'' . chr(10) .
 			'}' .
 			'' . chr(10) .
 			'';

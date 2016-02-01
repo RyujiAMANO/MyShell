@@ -77,7 +77,6 @@ Class CreateModel4Delete extends CreateModel4 {
 				'dataProviderDelete()',
 				$processes1
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'ExceptionError用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -91,7 +90,6 @@ Class CreateModel4Delete extends CreateModel4 {
 				'dataProviderDeleteOnExceptionError()',
 				$processes2
 			) .
-			'' . chr(10) .
 			'}' .
 			'' . chr(10) .
 			'';

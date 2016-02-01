@@ -178,7 +178,6 @@ Class CreateModelBehavior extends CreateObject {
 					'$this->TestModel = ClassRegistry::init(\'Test' . $this->plugin . '.' . $testModelName . '\');',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				$function . '()テストのDataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -190,7 +189,6 @@ Class CreateModelBehavior extends CreateObject {
 				'dataProvider()',
 				$processes1
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				$function . '()のテスト',
 				array_merge($commentParam, array(
@@ -200,7 +198,6 @@ Class CreateModelBehavior extends CreateObject {
 				'test' . ucfirst($function) . '(' .  substr($methodArg, 2) .')',
 				$processes2
 			) .
-			'' . chr(10) .
 			'}' .
 			'' . chr(10) .
 			'';

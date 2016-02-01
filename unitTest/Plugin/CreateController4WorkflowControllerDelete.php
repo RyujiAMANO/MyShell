@@ -78,7 +78,6 @@ Class CreateController4WorkflowControllerDelete extends CreateController4Workflo
 				),
 				'private'
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'deleteアクションのGETテスト用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -134,7 +133,6 @@ Class CreateController4WorkflowControllerDelete extends CreateController4Workflo
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'deleteアクションのPOSTテスト用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -252,7 +250,6 @@ Class CreateController4WorkflowControllerDelete extends CreateController4Workflo
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			$this->_classMethod(
 				'deleteアクションのExceptionErrorテスト用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -293,7 +290,6 @@ Class CreateController4WorkflowControllerDelete extends CreateController4Workflo
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			'}' .
 			'' . chr(10) .
 			'';
