@@ -43,13 +43,15 @@ Class CreateController4OtherController extends CreateController4 {
 			'' . chr(10) .
 			$this->_getClassVariable($function) .
 			$this->_classMethod(
-				'index()アクションのテスト',
+				$action . '()アクションのテスト',
 				array(
 					'@return void',
 				),
 				'test' . ucfirst($function) . '()',
 				array(
 					'TestAuthGeneral::login($this);',
+					'',
+					'//TODO:テストデータ',
 					'',
 					'//テスト実行',
 					'$this->_testNcAction(',

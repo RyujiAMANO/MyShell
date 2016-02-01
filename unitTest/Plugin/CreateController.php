@@ -151,6 +151,8 @@ Class CreateController extends CreateObject {
 			} else {
 				$class = 'CreateController4OtherController';
 			}
+
+			(new $class($this->testFile, false))->createTest($param);
 		}
 		if ($this->isAppControllerPermission()) {
 			$class = 'CreateController4AppController';
