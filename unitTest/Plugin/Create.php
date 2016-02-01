@@ -21,6 +21,21 @@ Class CreateObject {
 	public $plugin = null;
 
 	/**
+	 * プラグイン名
+	 */
+	public $pluginSingularize = null;
+
+	/**
+	 * プラグイン名
+	 */
+	public $pluginSingularizeUnderscore = null;
+
+	/**
+	 * プラグイン名
+	 */
+	public $pluginVariable = null;
+
+	/**
 	 * プラグインの種類
 	 */
 	public $pluginType = null;
@@ -40,6 +55,10 @@ Class CreateObject {
 		$this->testFile = $testFile;
 
 		$this->plugin = getenv('PLUGIN_NAME');
+		$this->pluginSingularize = Inflector::singularize($this->plugin);
+		$this->pluginSingularizeUnderscore = Inflector::underscore($this->pluginSingularize);
+		$this->pluginVariable = Inflector::variable($this->pluginSingularize);
+
 		$this->pluginType = getenv('PLUGIN_TYPE');
 		$this->authorName = getenv('AUTHOR_NAME');
 		$this->authorEmail = getenv('AUTHOR_EMAIL');
@@ -433,12 +452,25 @@ Class CreateObject {
 	 *
 	 * @return string
 	 */
-	public function _classVariableFixtures() {
+	public function _classVariableFixtures($params = array()) {
+		$fixtures = array();
+		foreach (array_keys($this->schemas) as $fixture) {
+			$table = Inflector::underscore($this->plugin) . '.' . Inflector::singularize($fixture);
+			if (isset($params[$table])) {
+				$fixtures[] = $params[$table];
+				unset($params[$table]);
+			} else {
+				$fixtures[] = $table;
+			}
+		}
+		$fixtures = Hash::merge($fixtures, array_keys($params));
+		sort($fixtures);
+
 		$values = array(
 			'array('
 		);
-		foreach (array_keys($this->schemas) as $fixture) {
-			$values[] = chr(9) . '\'plugin.' . Inflector::underscore($this->plugin) . '.' . Inflector::singularize($fixture) . '\',';
+		foreach ($fixtures as $fixture) {
+			$values[] = chr(9) . '\'plugin.' . $fixture . '\',';
 		}
 		$values[] = ');';
 
@@ -475,7 +507,7 @@ Class CreateObject {
 	 *
 	 * @return string
 	 */
-	protected function _classMethod($phpdoc, $params, $method, $processes) {
+	protected function _classMethod($phpdoc, $params, $method, $processes, $scope = 'public') {
 		if (! $phpdoc) {
 			output(sprintf('%sメソッドの説明の入力して下さい。', $method));
 			echo '> ';
@@ -502,7 +534,7 @@ Class CreateObject {
 			' *' . chr(10) .
 			$outputParams .
 			' */' . chr(10) .
-			'' . chr(9) . 'public function ' . $method . ' {' . chr(10) .
+			'' . chr(9) . $scope . ' function ' . $method . ' {' . chr(10) .
 			'' . $outputProcess .
 			'' . chr(9) . '}' . chr(10) .
 			'';

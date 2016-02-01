@@ -96,139 +96,63 @@ Class CreateController extends CreateObject {
 			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
 
 			if ($this->isWorkflow()) {
+				if (class_exists('CreateController4WorkflowController' . ucfirst($param[0]))) {
+					$class = 'CreateController4WorkflowController' . ucfirst($param[0]);
+				} else {
+					output(sprintf('%sは、どのタイプのテストですか。', $param[0] . '()'));
+					output('[0 or 省略] 下記以外');
+					output('[1] Index');
+					output('[2] View');
+					output('[3] Add');
+					output('[4] Edit');
+					output('[5] Delete');
+					echo '> ';
+					$input = trim(fgets(STDIN));
+					if ($input === '1') {
+						$class = 'CreateController4WorkflowControllerIndex';
+					}  elseif ($input === '2') {
+						$class = 'CreateController4WorkflowControllerView';
+					}  elseif ($input === '3') {
+						$class = 'CreateController4WorkflowControllerAdd';
+					}  elseif ($input === '4') {
+						$class = 'CreateController4WorkflowControllerEdit';
+					}  elseif ($input === '5') {
+						$class = 'CreateController4WorkflowControllerDelete';
+					} else {
+						$class = 'CreateController4OtherController';
+					}
+				}
 
 			} elseif ($this->isBlock()) {
+				if (substr($param[0], 0, strlen('index')) === 'index') {
+					$class = 'CreateController4BlocksController';
+					(new $class($this->testFile, false))->createTest($param);
+
+					$param[0] = 'indexPaginator';
+					$class = 'CreateController4BlocksPaginatorController';
+
+				} elseif (substr($param[0], 0, strlen('add')) === 'add' ||
+						substr($param[0], 0, strlen('edit')) === 'edit' ||
+						substr($param[0], 0, strlen('add')) === 'delete') {
+					$param[0] = 'edit';
+					$class = 'CreateController4BlocksControllerEdit';
+				} else {
+					$class = 'CreateController4OtherController';
+				}
 
 			} elseif ($this->isBlockPermission()) {
-
+				$param[0] = 'edit';
+				$class = 'CreateController4BlocksControllerEdit';
 			} else {
-
+				$class = 'CreateController4OtherController';
 			}
+
+			(new $class($this->testFile, false))->createTest($param);
 		}
 		if ($this->isAppControllerPermission()) {
-			$this->_createAppController();
+			$class = 'CreateController4AppController';
+			(new $class($this->testFile, false))->createTest($param);
 		}
-	}
-
-	/**
-	 * ワークフローに関するXxxxController::index()のテストコード生成
-	 *
-	 * @param array $testFile ファイル名
-	 * @return bool 成功・失敗
-	 */
-	protected function _createWorkflowControllerIndex() {
-		var_dump('_createWorkflowControllerIndex');
-	}
-
-	/**
-	 * ワークフローに関するXxxxController::view()のテストコード生成
-	 *
-	 * @param array $testFile ファイル名
-	 * @return bool 成功・失敗
-	 */
-	protected function _createWorkflowControllerView() {
-		var_dump('_createWorkflowControllerView');
-	}
-
-	/**
-	 * ワークフローに関するXxxxController::add()のテストコード生成
-	 *
-	 * @param array $testFile ファイル名
-	 * @return bool 成功・失敗
-	 */
-	protected function _createWorkflowControllerAdd() {
-		var_dump('_createWorkflowControllerAdd');
-	}
-
-	/**
-	 * ワークフローに関するXxxxController::edit()のテストコード生成
-	 *
-	 * @param array $testFile ファイル名
-	 * @return bool 成功・失敗
-	 */
-	protected function _createWorkflowControllerEdit() {
-		var_dump('_createWorkflowControllerEdit');
-	}
-
-	/**
-	 * ワークフローに関するXxxxController::delete()のテストコード生成
-	 *
-	 * @param array $testFile ファイル名
-	 * @return bool 成功・失敗
-	 */
-	protected function _createWorkflowControllerDelete() {
-		var_dump('_createWorkflowControllerDelete');
-	}
-
-	/**
-	 * ブロック設定に関するXxxxController::index()のテストコード生成
-	 *
-	 * @param array $testFile ファイル名
-	 * @return bool 成功・失敗
-	 */
-	protected function _createBlockControllerIndex() {
-		var_dump('_createBlockControllerIndex');
-	}
-
-	/**
-	 * ブロック設定に関するXxxxController::add()のテストコード生成
-	 *
-	 * @param array $testFile ファイル名
-	 * @return bool 成功・失敗
-	 */
-	protected function _createBlockControllerAdd() {
-		var_dump('_createWorkflowControllerAdd');
-	}
-
-	/**
-	 * ブロック設定に関するXxxxController::edit()のテストコード生成
-	 *
-	 * @param array $testFile ファイル名
-	 * @return bool 成功・失敗
-	 */
-	protected function _createBlockControllerEdit() {
-		var_dump('_createWorkflowControllerEdit');
-	}
-
-	/**
-	 * ブロック設定に関するXxxxController::delete()のテストコード生成
-	 *
-	 * @param array $testFile ファイル名
-	 * @return bool 成功・失敗
-	 */
-	protected function _createBlockControllerDelete() {
-		var_dump('_createWorkflowControllerDelete');
-	}
-
-	/**
-	 * 権限設定に関するXxxxController::edit()のテストコード生成
-	 *
-	 * @param array $testFile ファイル名
-	 * @return bool 成功・失敗
-	 */
-	protected function _createBlockPermissionControllerEdit() {
-		var_dump('_createBlockPermissionControllerEdit');
-	}
-
-	/**
-	 * XxxxControllerのテストコード生成
-	 *
-	 * @param array $testFile ファイル名
-	 * @return bool 成功・失敗
-	 */
-	protected function _createController() {
-		var_dump('_createController');
-	}
-
-	/**
-	 * XxxxAppControllerのテストコード生成
-	 *
-	 * @param array $testFile ファイル名
-	 * @return bool 成功・失敗
-	 */
-	protected function _createAppController() {
-		var_dump('_createAppController');
 	}
 
 }
-
