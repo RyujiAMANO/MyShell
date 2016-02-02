@@ -174,7 +174,6 @@ Class CreateController4BlocksControllerEdit extends CreateController4Blocks {
 					'return $results;',
 				)
 			) .
-			'' . chr(10) .
 			'}' .
 			'' . chr(10) .
 			'';

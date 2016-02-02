@@ -114,7 +114,7 @@ Class CreateViewElements extends CreateObject {
 				$element = '$this->element(\'' . $this->plugin . '.' . $file['file'] . '\');';
 			} else {
 				$element = '$this->element(\'' .
-					$this->plugin . '.' . substr($file['dir'], -1 * strlen('View/Elements') - 1) . '/' . $file['file'] .
+					$this->plugin . '.' . substr($file['dir'], strlen('View/Elements') + 1) . '/' . $file['file'] .
 				'\');';
 			}
 
