@@ -39,8 +39,8 @@ require dirname(__DIR__) . '/Plugin/CreateModel4Other.php';
 require dirname(__DIR__) . '/Plugin/CreateModel4Save.php';
 require dirname(__DIR__) . '/Plugin/CreateModel4Validate.php';
 require dirname(__DIR__) . '/Plugin/CreateModelBehavior.php';
-//require dirname(__DIR__) . '/Plugin/CreateOther.php';
-//require dirname(__DIR__) . '/Plugin/CreateViewElements.php';
+require dirname(__DIR__) . '/Plugin/CreateOther.php';
+require dirname(__DIR__) . '/Plugin/CreateViewElements.php';
 require dirname(__DIR__) . '/Plugin/CreateViewHelper.php';
 
 /**
