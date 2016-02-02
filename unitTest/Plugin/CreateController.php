@@ -98,6 +98,16 @@ Class CreateController extends CreateObject {
 		foreach ($functions as $param) {
 			output('---------------------' . chr(10));
 			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
+var_dump($this->testFile['file']);
+			if (substr($this->testFile['file'], -1 * strlen('AppController')) === 'AppController') {
+				if (substr($param[0], 0, strlen('beforeFilter')) === 'beforeFilter') {
+					$action = 'index';
+				} else {
+					$action = $param[0];
+				}
+				(new CreateController4AppController($this->testFile, false))->createTest($param, $action);
+				continue;
+			}
 
 			if (substr($param[0], 0, strlen('beforeFilter')) === 'beforeFilter') {
 				(new CreateController4OtherController($this->testFile, false))->createTest($param, 'index');
@@ -159,6 +169,8 @@ Class CreateController extends CreateObject {
 			(new $class($this->testFile, false))->createTest($param);
 		}
 		if ($this->isUserRolePermission()) {
+			output('---------------------' . chr(10));
+			output(sprintf('#### テストファイル生成  %s', 'permission()') . chr(10));
 			$class = 'CreateController4UserRolePermission';
 			(new $class($this->testFile, false))->createTest();
 		}

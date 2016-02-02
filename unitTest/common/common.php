@@ -16,6 +16,7 @@ require dirname(__DIR__) . '/Plugin/Plugin.php';
 require dirname(__DIR__) . '/Plugin/Create.php';
 require dirname(__DIR__) . '/Plugin/CreateController.php';
 require dirname(__DIR__) . '/Plugin/CreateController4.php';
+require dirname(__DIR__) . '/Plugin/CreateController4AppController.php';
 require dirname(__DIR__) . '/Plugin/CreateController4Workflow.php';
 require dirname(__DIR__) . '/Plugin/CreateController4WorkflowControllerIndex.php';
 require dirname(__DIR__) . '/Plugin/CreateController4WorkflowControllerView.php';
