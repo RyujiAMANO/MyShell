@@ -131,6 +131,7 @@ Class CreateViewHelper extends CreateObject {
 
 		$this->createFile(Inflector::camelize(ucfirst($function)) . 'Test.php', $output);
 		$this->deleteFile('empty');
+		$this->deleteFile(PLUGIN_TEST_DIR . 'View/Helper/empty');
 	}
 
 }

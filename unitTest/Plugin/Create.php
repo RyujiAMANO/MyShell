@@ -183,7 +183,7 @@ Class CreateObject {
 	 * @return bool
 	 */
 	public function createFile($fileName, $output = '') {
-		if (substr($fileName, 0, strlen(PLUGIN_TEST_DIR)) === PLUGIN_TEST_DIR) {
+		if (substr($fileName, 0, strlen(PLUGIN_ROOT_DIR)) === PLUGIN_ROOT_DIR) {
 			$filePath = $fileName;
 		} elseif (isset($this->testFile['file'])) {
 			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
@@ -262,7 +262,7 @@ Class CreateObject {
 	 * @return bool
 	 */
 	public function deleteFile($fileName) {
-		if (substr($fileName, 0, strlen(PLUGIN_TEST_DIR)) === PLUGIN_TEST_DIR) {
+		if (substr($fileName, 0, strlen(PLUGIN_ROOT_DIR)) === PLUGIN_ROOT_DIR) {
 			$filePath = $fileName;
 		} elseif (isset($this->testFile['file'])) {
 			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;

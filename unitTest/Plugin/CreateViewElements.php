@@ -30,7 +30,7 @@ Class CreateViewElements extends CreateObject {
 	 * @return bool 成功・失敗
 	 */
 	public function create() {
-		$testControllerName = 'Test' . $this->testFile['class'];
+		$testControllerName = 'Test' . $this->plugin . $this->testFile['class'];
 
 		foreach ($this->testFile['files'] as $i => $file) {
 			if ($this->isBlockRolePermission($file)) {
@@ -191,7 +191,7 @@ Class CreateViewElements extends CreateObject {
 				'NetCommons\\' . $this->plugin . '\\Test\\Case\\' . strtr($this->testFile['dir'], '/', '\\') . '\\' . Inflector::camelize(ucfirst($element)),
 				$this->testFile['dir'] . '/' . $element . 'のテスト'
 			) .
-			'class ' . $className . ' extends NetCommonsControllerTestCase {' . chr(10) .
+			'class ' . $this->plugin . $className . ' extends NetCommonsControllerTestCase {' . chr(10) .
 			'' . chr(10) .
 			$this->_classVariable(
 					'Fixtures',

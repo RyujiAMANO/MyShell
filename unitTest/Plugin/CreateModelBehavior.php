@@ -207,6 +207,7 @@ Class CreateModelBehavior extends CreateObject {
 
 		$this->createFile(Inflector::camelize(ucfirst($function)) . 'Test.php', $output);
 		$this->deleteFile('empty');
+		$this->deleteFile(PLUGIN_TEST_DIR . 'Model/Behavior/empty');
 	}
 
 }

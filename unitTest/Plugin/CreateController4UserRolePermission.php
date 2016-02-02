@@ -17,12 +17,118 @@ Class CreateController4UserRolePermission extends CreateController4 {
 	 * @return bool 成功・失敗
 	 */
 	public function createTest() {
-		$testControllerName = 'Test' . $this->testFile['class'];
+		$testControllerName = 'Test' . $this->testFile['class'] . 'Permission';
 
 		$this->_createTestController($testControllerName);
 		$this->_createTestView($testControllerName);
+		$this->_createPluginFixture($testControllerName);
+		$this->_createPluginsRoleFixture($testControllerName);
 
 		$this->_create($testControllerName);
+	}
+
+	/**
+	 * テストプラグインの生成
+	 *
+	 * @return string
+	 */
+	protected function _createPluginFixture($testControllerName) {
+		$output =
+			'<?php' . chr(10) .
+			$this->_phpdocFileHeader(
+				'',
+				array(
+					'App::uses(\'PluginFixture\', \'PluginManager.Test/Fixture\')',
+				),
+				'アクセス権限(Permission)テスト用Fixture'
+			) .
+			$this->_phpdocClassHeader(
+				'',
+				'NetCommons\\' . $this->plugin . '\\Test\\Fixture',
+				'アクセス権限(Permission)テスト用Fixture'
+			) .
+			'class Plugin4permissionFixture extends PluginFixture {' . chr(10) .
+			'' . chr(10) .
+			$this->_classVariable(
+				'Model name',
+				'string', 'public', 'name', array('\'Plugin\';')
+			) .
+			$this->_classVariable(
+				'Full Table Name',
+				'string', 'public', 'table', array('\'plugins\';')
+			) .
+			$this->_classVariable(
+				'Records',
+				'array', 'public', 'records',
+				array(
+					'array(',
+					chr(9) . 'array(',
+					chr(9) . chr(9) . '\'language_id\' => 2,',
+					chr(9) . chr(9) . '\'key\' => \'' . Inflector::underscore($testControllerName) . '\',',
+					chr(9) . chr(9) . '\'name\' => \'' . Inflector::humanize($testControllerName) . '\',',
+					chr(9) . chr(9) . '\'weight\' => 1,',
+					chr(9) . chr(9) . '\'type\' => 2,',
+					chr(9) . chr(9) . '\'default_action\' => \'' . Inflector::underscore($testControllerName) . '/index\',',
+					chr(9) . '),',
+					');',
+				)
+			) .
+			'}' .
+			'' . chr(10) .
+			'';
+		$this->createFile(PLUGIN_ROOT_DIR . 'Test/Fixture/Plugin4permissionFixture.php', $output);
+	}
+
+	/**
+	 * テストプラグインの生成
+	 *
+	 * @return string
+	 */
+	protected function _createPluginsRoleFixture($testControllerName) {
+		$output =
+			'<?php' . chr(10) .
+			$this->_phpdocFileHeader(
+				'',
+				array(
+					'App::uses(\'PluginsRole\', \'PluginManager.Test/Fixture\')',
+				),
+				'アクセス権限(Permission)テスト用Fixture'
+			) .
+			$this->_phpdocClassHeader(
+				'',
+				'NetCommons\\' . $this->plugin . '\\Test\\Fixture',
+				'アクセス権限(Permission)テスト用Fixture'
+			) .
+			'class PluginsRole4permissionFixture extends PluginsRoleFixture {' . chr(10) .
+			'' . chr(10) .
+			$this->_classVariable(
+				'Model name',
+				'string', 'public', 'name', array('\'PluginsRole\';')
+			) .
+			$this->_classVariable(
+				'Full Table Name',
+				'string', 'public', 'table', array('\'plugins_roles\';')
+			) .
+			$this->_classVariable(
+				'Records',
+				'array', 'public', 'records',
+				array(
+					'array(',
+					chr(9) . 'array(',
+					chr(9) . chr(9) . '\'role_key\' => \'administrator\',',
+					chr(9) . chr(9) . '\'plugin_key\' => \'' . Inflector::underscore($testControllerName) . '\',',
+					chr(9) . '),',
+					chr(9) . 'array(',
+					chr(9) . chr(9) . '\'role_key\' => \'system_administrator\',',
+					chr(9) . chr(9) . '\'plugin_key\' => \'' . Inflector::underscore($testControllerName) . '\',',
+					chr(9) . '),',
+					');',
+				)
+			) .
+			'}' .
+			'' . chr(10) .
+			'';
+		$this->createFile(PLUGIN_ROOT_DIR . 'Test/Fixture/PluginsRole4permissionFixture.php', $output);
 	}
 
 	/**
@@ -62,7 +168,7 @@ Class CreateController4UserRolePermission extends CreateController4 {
 			'}' .
 			'' . chr(10) .
 			'';
-		$this->createTestPluginFile('Controller/' . $testControllerName . 'PermissionController.php', $output);
+		$this->createTestPluginFile('Controller/' . $testControllerName . 'Controller.php', $output);
 	}
 
 	/**
@@ -71,7 +177,7 @@ Class CreateController4UserRolePermission extends CreateController4 {
 	 * @return string
 	 */
 	protected function _createTestView($testControllerName) {
-		$this->createTestPluginDir('View/' . $testControllerName . 'Permission');
+		$this->createTestPluginDir('View/' . $testControllerName . '');
 
 		$output =
 			'<?php' . chr(10) .
@@ -84,7 +190,7 @@ Class CreateController4UserRolePermission extends CreateController4 {
 			'' . chr(10) .
 			$this->testFile['dir'] . '/' . $this->testFile['file'] . 'Permission' . chr(10) .
 			'';
-		$this->createTestPluginFile('View/' . $testControllerName . 'Permission/index.ctp', $output);
+		$this->createTestPluginFile('View/' . $testControllerName . '/index.ctp', $output);
 	}
 
 	/**
@@ -118,13 +224,16 @@ Class CreateController4UserRolePermission extends CreateController4 {
 			'class ' . $className . ' extends NetCommonsControllerTestCase {' . chr(10) .
 			'' . chr(10) .
 			$this->_classVariable(
-					'Fixtures',
-					'array',
-					'public',
-					'fixtures',
-					array(
-						'array();',
-					)
+				'Fixtures',
+				'array',
+				'public',
+				'fixtures',
+				array(
+					'array(',
+						chr(9) . '\'plugin.' . Inflector::underscore($this->plugin) . '.plugin4permission\',',
+						chr(9) . '\'plugin.' . Inflector::underscore($this->plugin) . '.plugins_role4permission\',',
+					');',
+				)
 			) .
 			$this->_classVariablePlugin() .
 			$this->_classMethod(
@@ -138,6 +247,7 @@ Class CreateController4UserRolePermission extends CreateController4 {
 					'',
 					'//テストプラグインのロード',
 					'NetCommonsCakeTestCase::loadTestPlugin($this, \'' . $this->plugin . '\', \'Test' . $this->plugin . '\');',
+					'$this->generateNc(\'Test' . $this->plugin . '.' . $testControllerName . '\');',
 				)
 			) .
 			$this->_classMethod(
