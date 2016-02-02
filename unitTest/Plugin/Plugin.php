@@ -76,13 +76,38 @@ Class Plugin {
 			$this->testFiles = Hash::extract($this->testFiles, '{n}[file=' . getenv('TEST_FILE_NAME') . ']');
 		}
 
+		$elementFiles = array();
 		foreach ($this->testFiles as $testFile) {
+			var_dump($testFile);
+			if ($testFile['type'] === 'View/Elements') {
+				$elementFiles[$testFile['dir']]['dir'] = $testFile['dir'];
+				$elementFiles[$testFile['dir']]['type'] = $testFile['type'];
+				$elementFiles[$testFile['dir']]['class'] = Inflector::camelize(strtr($testFile['dir'], '/', ' '));
+				if (! isset($elementFiles[$testFile['dir']]['files'])) {
+					$elementFiles[$testFile['dir']]['files'] = array();
+				}
+				$elementFiles[$testFile['dir']]['files'][] = $testFile;
+
+				continue;
+			}
+
 			if ($testFile['type']) {
 				$class = 'Create' . Inflector::camelize(strtr($testFile['type'], '/', ' '));
 			} else {
 				$class = 'CreateOther';
 			}
 
+			if (class_exists($class)) {
+				(new $class($testFile))->create();
+			}
+		}
+
+		if (! $elementFiles) {
+			return;
+		}
+
+		foreach ($elementFiles as $testFile) {
+			$class = 'Create' . Inflector::camelize(strtr($testFile['type'], '/', ' '));
 			if (class_exists($class)) {
 				(new $class($testFile))->create();
 			}

@@ -25,6 +25,27 @@ Class CreateControllerComponent extends CreateObject {
 	}
 
 	/**
+	 * Controller/Componentのテストコード生成
+	 *
+	 * @return bool 成功・失敗
+	 */
+	public function create() {
+		$testControllerName = 'Test' . $this->testFile['class'];
+
+		$this->_createTestController($testControllerName);
+		$this->_createTestView($testControllerName);
+
+		$functions = $this->getFunctions();
+
+		foreach ($functions as $param) {
+			output('---------------------' . chr(10));
+			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
+
+			$this->_create($testControllerName, $param);
+		}
+	}
+
+	/**
 	 * テストプラグインの生成
 	 *
 	 * @return string
@@ -65,7 +86,9 @@ Class CreateControllerComponent extends CreateObject {
 					'@return void',
 				),
 				'index()',
-				array()
+				array(
+					'$this->autoRender = true;'
+				)
 			) .
 			'}' .
 			'' . chr(10) .
@@ -93,27 +116,6 @@ Class CreateControllerComponent extends CreateObject {
 			$this->testFile['dir'] . '/' . $this->testFile['file'] . chr(10) .
 			'';
 		$this->createTestPluginFile('View/' . $testControllerName . '/index.ctp', $output);
-	}
-
-	/**
-	 * Controller/Componentのテストコード生成
-	 *
-	 * @return bool 成功・失敗
-	 */
-	public function create() {
-		$testControllerName = 'Test' . $this->testFile['class'];
-
-		$this->_createTestController($testControllerName);
-		$this->_createTestView($testControllerName);
-
-		$functions = $this->getFunctions();
-
-		foreach ($functions as $param) {
-			output('---------------------' . chr(10));
-			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
-
-			$this->_create($testControllerName, $param);
-		}
 	}
 
 	/**

@@ -30,7 +30,8 @@ Class CreateOther extends CreateObject {
 	 * @return bool 成功・失敗
 	 */
 	public function create() {
-
+		output('スキップします。エンターキーを押下してください。');
+		fgets(STDIN);
 	}
 
 }

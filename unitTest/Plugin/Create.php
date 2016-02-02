@@ -90,7 +90,11 @@ Class CreateObject {
 	 * デストラクター.
 	 */
 	function __destruct() {
-		$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/empty';
+		if (isset($this->testFile['file'])) {
+			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/empty';
+		} else {
+			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/empty';
+		}
 		if (file_exists($filePath)) {
 			if (! $this->deleteTestDir()) {
 				return false;
@@ -104,16 +108,20 @@ Class CreateObject {
 	 * @return bool
 	 */
 	public function createTestDir() {
-		$createPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file']));
-		if (! file_exists($createPath)) {
-			$result = (new Folder())->create($createPath);
+		if (isset($this->testFile['file'])) {
+			$dirPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file']));
+		} else {
+			$dirPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/';
+		}
+		if (! file_exists($dirPath)) {
+			$result = (new Folder())->create($dirPath);
 			if (! $result) {
 				output('ディレクトリの作成に失敗しました。');
-				output(sprintf('(%s)', $createPath) . chr(10));
+				output(sprintf('(%s)', $dirPath) . chr(10));
 				exit(1);
 			} else {
 				output('ディレクトリを作成しました。');
-				output(sprintf('(%s)', $createPath) . chr(10));
+				output(sprintf('(%s)', $dirPath) . chr(10));
 			}
 			return $result;
 		}
@@ -126,16 +134,20 @@ Class CreateObject {
 	 * @return bool
 	 */
 	public function deleteTestDir() {
-		$createPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file']));
-		if (file_exists($createPath)) {
-			$result = (new Folder())->delete($createPath);
+		if (isset($this->testFile['file'])) {
+			$dirPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file']));
+		} else {
+			$dirPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/';
+		}
+		if (file_exists($dirPath)) {
+			$result = (new Folder())->delete($dirPath);
 			if (! $result) {
 				output('ディレクトリの削除に失敗しました。');
-				output(sprintf('(%s)', $createPath) . chr(10));
+				output(sprintf('(%s)', $dirPath) . chr(10));
 				exit(1);
 			} else {
 				output('ディレクトリを削除しました。');
-				output(sprintf('(%s)', $createPath) . chr(10));
+				output(sprintf('(%s)', $dirPath) . chr(10));
 			}
 			return $result;
 		}
@@ -148,16 +160,16 @@ Class CreateObject {
 	 * @return bool
 	 */
 	public function createTestPluginDir($dirName) {
-		$createPath = PLUGIN_TEST_PLUGIN . $dirName;
-		if (! file_exists($createPath)) {
-			$result = (new Folder())->create($createPath);
+		$dirPath = PLUGIN_TEST_PLUGIN . $dirName;
+		if (! file_exists($dirPath)) {
+			$result = (new Folder())->create($dirPath);
 			if (! $result) {
 				output('ディレクトリの作成に失敗しました。');
-				output(sprintf('(%s)', $createPath) . chr(10));
+				output(sprintf('(%s)', $dirPath) . chr(10));
 				exit(1);
 			} else {
 				output('ディレクトリを作成しました。');
-				output(sprintf('(%s)', $createPath) . chr(10));
+				output(sprintf('(%s)', $dirPath) . chr(10));
 			}
 			return $result;
 		}
@@ -171,7 +183,13 @@ Class CreateObject {
 	 * @return bool
 	 */
 	public function createFile($fileName, $output = '') {
-		$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
+		if (substr($fileName, 0, strlen(PLUGIN_TEST_DIR)) === PLUGIN_TEST_DIR) {
+			$filePath = $fileName;
+		} elseif (isset($this->testFile['file'])) {
+			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
+		} else {
+			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . $fileName;
+		}
 
 		if ($fileName !== 'empty' && file_exists($filePath)) {
 			if (getenv('EXISTING_FILE') === 'y') {
@@ -244,7 +262,14 @@ Class CreateObject {
 	 * @return bool
 	 */
 	public function deleteFile($fileName) {
-		$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
+		if (substr($fileName, 0, strlen(PLUGIN_TEST_DIR)) === PLUGIN_TEST_DIR) {
+			$filePath = $fileName;
+		} elseif (isset($this->testFile['file'])) {
+			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
+		} else {
+			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . $fileName;
+		}
+
 		if (file_exists($filePath)) {
 			$result = (new File($filePath))->delete();
 			if (! $result) {
