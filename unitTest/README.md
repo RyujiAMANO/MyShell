@@ -18,16 +18,16 @@ bash startUnitTest.sh プラグイン名(キャメル記法)
 
 タイプ
 
-| パラメータ          | 説明                    |
-| ------------------- | ----------------------- |
-| Controller          | Controllerのテストファイルを作成する |
-| ControllerComponent | Controller/Componentのテストファイルを作成する |
-| Model               | Modelのテストファイルを作成する |
-| ModelBehavior       | Model/Behaviorのテストファイルを作成する |
-| ViewElements        | View/Elementsのテストファイルを作成する |
-| ViewHelper          | View/Helperのテストファイルを作成する |
-| Other               | その他のテストファイルを作成する |
-| All or 省略         | 全ファイルのテストファイルを作成する |
+| パラメータ           | 説明                    |
+| -------------------- | ----------------------- |
+| Controller           | Controllerのテストファイルを作成する |
+| Controller/Component | Controller/Componentのテストファイルを作成する |
+| Model                | Modelのテストファイルを作成する |
+| Model/Behavior       | Model/Behaviorのテストファイルを作成する |
+| View/Elements        | View/Elementsのテストファイルを作成する |
+| View/Helper          | View/Helperのテストファイルを作成する |
+| Other                | その他のテストファイルを作成する |
+| All or 省略          | 全ファイルのテストファイルを作成する |
 
 (例)bash startUnitTest.sh AccessCounters Model
 
