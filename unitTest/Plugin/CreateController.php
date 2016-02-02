@@ -71,16 +71,20 @@ Class CreateController extends CreateObject {
 	 *
 	 * @return bool
 	 */
-	public function isAppControllerPermission() {
+	public function isUserRolePermission() {
 		if (! file_exists($this->testFile['path'])) {
 			return false;
 		}
-		if (substr($this->testFile['class'], -1 * strlen('AppController') !== 'AppController')) {
-			return false;
-		}
+		//if (substr($this->testFile['class'], -1 * strlen('AppController') !== 'AppController')) {
+		//	return false;
+		//}
 
 		$file = file_get_contents($this->testFile['path']);
-		return (bool)preg_match('/NetCommons\.Permission/', $file);
+		if (! preg_match('/NetCommons\.Permission/', $file)) {
+			return false;
+		}
+		return (bool)(preg_match('/PermissionComponent::CHECK_TYEP_SYSTEM_PLUGIN/', $file) ||
+				preg_match('/PermissionComponent::CHECK_TYEP_CONTROL_PANEL/', $file));
 	}
 
 	/**
@@ -154,9 +158,9 @@ Class CreateController extends CreateObject {
 
 			(new $class($this->testFile, false))->createTest($param);
 		}
-		if ($this->isAppControllerPermission()) {
-			$class = 'CreateController4AppController';
-			(new $class($this->testFile, false))->createTest($param);
+		if ($this->isUserRolePermission()) {
+			$class = 'CreateController4UserRolePermission';
+			(new $class($this->testFile, false))->createTest();
 		}
 	}
 

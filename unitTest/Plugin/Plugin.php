@@ -78,7 +78,6 @@ Class Plugin {
 
 		$elementFiles = array();
 		foreach ($this->testFiles as $testFile) {
-			var_dump($testFile);
 			if ($testFile['type'] === 'View/Elements') {
 				$elementFiles[$testFile['dir']]['dir'] = $testFile['dir'];
 				$elementFiles[$testFile['dir']]['type'] = $testFile['type'];
