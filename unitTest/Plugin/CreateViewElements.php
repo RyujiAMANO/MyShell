@@ -32,23 +32,49 @@ Class CreateViewElements extends CreateObject {
 	public function create() {
 		$testControllerName = 'Test' . $this->testFile['class'];
 
-		$this->_createTestController($testControllerName);
-		$this->_createTestView($testControllerName);
-
-		foreach ($this->testFile['files'] as $file) {
+		foreach ($this->testFile['files'] as $i => $file) {
+			if ($this->isBlockRolePermission($file)) {
+				unset($this->testFile['files'][$i]);
+				continue;
+			}
 			output('---------------------' . chr(10));
 			output(sprintf('#### テストファイル生成  %s', $file['dir'] . '/' . $file['file']) . chr(10));
 
 			$this->_create($testControllerName, array($file['file']));
+		}
+
+		$this->_createTestController($testControllerName);
+		$this->_createTestView($testControllerName);
+	}
+
+	/**
+	 * Workflowのモデルかどうかチェック
+	 *
+	 * @return bool
+	 */
+	public function isBlockRolePermission($file) {
+		if (! file_exists($file['path'])) {
+			return false;
+		}
+
+		$result = file_get_contents($file['path']);
+		if (preg_match('/' . preg_quote('element(\'Blocks.block_creatable_setting\'', '/') . '/', $result) &&
+				preg_match('/' . preg_quote('element(\'Blocks.block_approval_setting\'', '/') . '/', $result)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
 	/**
 	 * テストプラグインの生成
 	 *
-	 * @return string
+	 * @return void
 	 */
 	protected function _createTestController($testControllerName) {
+		if (! $this->testFile['files']) {
+			return;
+		}
 		$this->createTestPluginDir('Controller');
 
 		$classMethods = '';
@@ -107,6 +133,9 @@ Class CreateViewElements extends CreateObject {
 	 * @return string
 	 */
 	protected function _createTestView($testControllerName) {
+		if (! $this->testFile['files']) {
+			return;
+		}
 		$this->createTestPluginDir('View/' . $testControllerName);
 
 		foreach ($this->testFile['files'] as $file) {
@@ -209,7 +238,7 @@ Class CreateViewElements extends CreateObject {
 					'$this->assertRegExp($pattern, $this->view);',
 					'',
 					'//TODO:必要に応じてassert追加する',
-					'',
+					'debug($this->view);',
 				)
 			) .
 			'}' .

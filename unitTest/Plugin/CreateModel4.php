@@ -38,8 +38,17 @@ Class CreateModel4 extends CreateObject {
 	 * @return string
 	 */
 	protected function _getClassVariable($function) {
+		$addFixtures = array();
+		if ($this->isWorkflow() || $this->isPackage('"netcommons/workflow"')) {
+			$addFixtures['workflow.workflow_comment'] = 'workflow.workflow_comment';
+		}
+		if ($this->isPackage('"netcommons/categories"')) {
+			$addFixtures['categories.category'] = 'categories.category';
+			$addFixtures['categories.category_order'] = 'categories.category_order';
+		}
+
 		return
-			$this->_classVariableFixtures() .
+			$this->_classVariableFixtures($addFixtures) .
 			$this->_classVariablePlugin() .
 			$this->_classVariable(
 					'Model name',

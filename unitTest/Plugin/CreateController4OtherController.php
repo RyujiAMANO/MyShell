@@ -61,6 +61,7 @@ Class CreateController4OtherController extends CreateController4 {
 					'',
 					'//チェック',
 					'//TODO:assert追加',
+					'debug($this->view);',
 					'',
 					'TestAuthGeneral::logout($this);',
 				)

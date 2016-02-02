@@ -474,6 +474,21 @@ Class CreateObject {
 	}
 
 	/**
+	 * composer.jsonからpackage名があるかチェックする
+	 *
+	 * @param string $package package名(netcommons/categoriesみたいな感じ)
+	 * @return bool
+	 */
+	public function isPackage($package) {
+		if (! file_exists(PLUGIN_ROOT_DIR . 'composer.json')) {
+			return false;
+		}
+
+		$file = file_get_contents(PLUGIN_ROOT_DIR . 'composer.json');
+		return (bool)preg_match('/' . preg_quote($package, '/') . '/', $file);
+	}
+
+	/**
 	 * Fixtures
 	 *
 	 * @return string
