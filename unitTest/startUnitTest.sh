@@ -20,7 +20,7 @@ if [ "${PLUGIN_NAME}" = "-h" -o "${PLUGIN_NAME}" = "?" ]; then
 	echo "  Model                 Modelのテストファイルを作成する"
 	echo "  Model/Behavior        Model/Behaviorのテストファイルを作成する"
 	echo "  View/Elements         View/Elementsのテストファイルを作成する"
-	echo "  ViewHelper            View/Helperのテストファイルを作成する"
+	echo "  View/Helper           View/Helperのテストファイルを作成する"
 	echo "  Other                 その他のテストファイルを作成する"
 	echo "  All or 省略           全ファイルのテストファイルを作成する"
 	echo ""
