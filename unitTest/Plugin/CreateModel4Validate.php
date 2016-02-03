@@ -29,6 +29,8 @@ Class CreateModel4Validate extends CreateModel4 {
 		$processes[] = '//TODO:テストパタンを書く';
 		$processes[] = 'debug($data);';
 		$processes[] = 'return array(';
+		$processes[] = chr(9) . 'array(\'data\' => $data, \'field\' => \'\', \'value\' => \'\',';
+		$processes[] = chr(9) . chr(9) . '\'message\' => \'\'),';
 		$processes[] = ');';
 
 		//出力文字列
