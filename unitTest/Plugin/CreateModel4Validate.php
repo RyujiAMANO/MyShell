@@ -52,10 +52,11 @@ Class CreateModel4Validate extends CreateModel4 {
 				'ValidationErrorのDataProvider' . chr(10) .
 					' *' . chr(10) .
 					' * ### 戻り値' . chr(10) .
+					' *  - data 登録データ' . chr(10) .
 					' *  - field フィールド名' . chr(10) .
 					' *  - value セットする値' . chr(10) .
 					' *  - message エラーメッセージ' . chr(10) .
-					' *  - overwrite 上書きするデータ',
+					' *  - overwrite 上書きするデータ(省略可)',
 				array(
 					'@return array テストデータ',
 				),
