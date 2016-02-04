@@ -98,7 +98,7 @@ Class CreateController extends CreateObject {
 		foreach ($functions as $param) {
 			output('---------------------' . chr(10));
 			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
-var_dump($this->testFile['file']);
+
 			if (substr($this->testFile['file'], -1 * strlen('AppController')) === 'AppController') {
 				if (substr($param[0], 0, strlen('beforeFilter')) === 'beforeFilter') {
 					$action = 'index';
