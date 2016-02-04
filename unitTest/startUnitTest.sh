@@ -5,9 +5,9 @@ cd /var/www/app/
 export PLUGIN_NAME=$1; export PLUGIN_NAME
 if [ "${PLUGIN_NAME}" = "" ]; then
 	echo "エラー：プラグインを入力してください。"
-	exit 1
+	echo ""
 fi
-if [ "${PLUGIN_NAME}" = "-h" -o "${PLUGIN_NAME}" = "?" ]; then
+if [ "${PLUGIN_NAME}" = "" -o "${PLUGIN_NAME}" = "-h" -o "${PLUGIN_NAME}" = "?" ]; then
 	echo "Usage: bash startUnitTest.sh <plugin_name> [<type> [<file> [<method>]]]"
 	echo ""
 	echo "Argments: "
