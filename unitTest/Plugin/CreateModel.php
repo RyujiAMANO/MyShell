@@ -57,8 +57,7 @@ Class CreateModel extends CreateObject {
 					substr($param[0], 0, strlen('afterDelete')) === 'afterDelete') {
 				(new CreateModel4Event($this->testFile))->createTest(array('delete', ''));
 
-			} elseif (substr($param[0], 0, strlen('beforeValidate')) === 'beforeValidate' ||
-					substr($param[0], 0, strlen('validate')) === 'validate') {
+			} elseif (substr($param[0], 0, strlen('beforeValidate')) === 'beforeValidate') {
 				(new CreateModel4Validate($this->testFile))->createTest(array('validate', ''));
 
 			} else {
