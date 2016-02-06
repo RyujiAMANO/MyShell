@@ -30,40 +30,23 @@ Class CreateViewElements extends CreateObject {
 	 * @return bool 成功・失敗
 	 */
 	public function create() {
-		$testControllerName = 'Test' . $this->plugin . $this->testFile['class'];
-
-		foreach ($this->testFile['files'] as $i => $file) {
-			if ($this->isBlockRolePermission($file)) {
-				unset($this->testFile['files'][$i]);
-				continue;
-			}
-			output('---------------------' . chr(10));
-			output(sprintf('#### テストファイル生成  %s', $file['dir'] . '/' . $file['file']) . chr(10));
-
-			$this->_create($testControllerName, array($file['file']));
+		if ($this->isBlockRolePermission($this->testFile)) {
+			return;
 		}
+
+		if (substr($this->testFile['dir'], strlen('View/Elements') + 1) === '') {
+			$testControllerName = 'Test' . $this->plugin . Inflector::camelize(ucfirst($this->testFile['file']));
+		} else {
+			$testControllerName = 'Test' . Inflector::camelize(strtr($this->testFile['dir'], '/', '_')) . Inflector::camelize(ucfirst($this->testFile['file']));
+		}
+
+		output('---------------------' . chr(10));
+		output(sprintf('#### テストファイル生成  %s', $this->testFile['dir'] . '/' . $this->testFile['file']) . chr(10));
+
+		$this->_create($testControllerName, array($this->testFile['file']));
 
 		$this->_createTestController($testControllerName);
 		$this->_createTestView($testControllerName);
-	}
-
-	/**
-	 * Workflowのモデルかどうかチェック
-	 *
-	 * @return bool
-	 */
-	public function isBlockRolePermission($file) {
-		if (! file_exists($file['path'])) {
-			return false;
-		}
-
-		$result = file_get_contents($file['path']);
-		if (preg_match('/' . preg_quote('element(\'Blocks.block_creatable_setting\'', '/') . '/', $result) &&
-				preg_match('/' . preg_quote('element(\'Blocks.block_approval_setting\'', '/') . '/', $result)) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	/**
@@ -72,26 +55,7 @@ Class CreateViewElements extends CreateObject {
 	 * @return void
 	 */
 	protected function _createTestController($testControllerName) {
-		if (! $this->testFile['files']) {
-			return;
-		}
 		$this->createTestPluginDir('Controller');
-
-		$classMethods = '';
-		foreach ($this->testFile['files'] as $file) {
-			$classMethods .= $this->_classMethod(
-				$file['file'],
-				array(
-					'@return void',
-				),
-				$file['file'] . '()',
-				array(
-					'$this->autoRender = true;'
-				)
-			);
-		}
-
-		$authAllows = Hash::extract($this->testFile['files'], '{n}.file');
 
 		$output =
 			'<?php' . chr(10) .
@@ -100,12 +64,12 @@ Class CreateViewElements extends CreateObject {
 				array(
 					'App::uses(\'AppController\', \'Controller\')',
 				),
-				$this->testFile['dir'] . '/' . $file['file'] . 'テスト用Controller'
+				$this->testFile['dir'] . '/' . $this->testFile['file'] . 'テスト用Controller'
 			) .
 			$this->_phpdocClassHeader(
 				'',
 				'NetCommons\\' . $this->plugin . '\\Test\\test_app\\Plugin\\' . $this->plugin . '\\Controller',
-				$this->testFile['dir'] . '/' . $file['file'] . 'テスト用Controller'
+				$this->testFile['dir'] . '/' . $this->testFile['file'] . 'テスト用Controller'
 			) .
 			'class ' . $testControllerName . 'Controller extends AppController {' . chr(10) .
 			'' . chr(10) .
@@ -117,12 +81,20 @@ Class CreateViewElements extends CreateObject {
 				'beforeRender()',
 				array(
 					'parent::beforeFilter();',
-					'$this->Auth->allow(\'' . implode('\', \'', $authAllows) . '\');',
+					'$this->Auth->allow(\'' . $this->testFile['file'] . '\');',
 				)
 			) .
-			$classMethods .
-			'}' .
-			'' . chr(10) .
+			$this->_classMethod(
+				$this->testFile['file'],
+				array(
+					'@return void',
+				),
+				$this->testFile['file'] . '()',
+				array(
+					'$this->autoRender = true;'
+				)
+			) .
+			'}' . chr(10) .
 			'';
 		$this->createTestPluginFile('Controller/' . $testControllerName . 'Controller.php', $output);
 	}
@@ -133,35 +105,30 @@ Class CreateViewElements extends CreateObject {
 	 * @return string
 	 */
 	protected function _createTestView($testControllerName) {
-		if (! $this->testFile['files']) {
-			return;
-		}
 		$this->createTestPluginDir('View/' . $testControllerName);
 
-		foreach ($this->testFile['files'] as $file) {
-			if ($file['dir'] === 'View/Elements') {
-				$element = '$this->element(\'' . $this->plugin . '.' . $file['file'] . '\');';
-			} else {
-				$element = '$this->element(\'' .
-					$this->plugin . '.' . substr($file['dir'], strlen('View/Elements') + 1) . '/' . $file['file'] .
-				'\');';
-			}
-
-			$output =
-				'<?php' . chr(10) .
-				$this->_phpdocFileHeader(
-					'',
-					array(),
-					$this->testFile['dir'] . '/' . $file['file'] . 'テスト用Viewファイル'
-				) .
-				'?>' . chr(10) .
-				'' . chr(10) .
-				$this->testFile['dir'] . '/' . $file['file'] . chr(10) .
-				'' . chr(10) .
-				'<?php echo ' . $element . chr(10) .
-				'';
-			$this->createTestPluginFile('View/' . $testControllerName . '/' . $file['file'] . '.ctp', $output);
+		if ($this->testFile['dir'] === 'View/Elements') {
+			$element = '$this->element(\'' . $this->plugin . '.' . $this->testFile['file'] . '\');';
+		} else {
+			$element = '$this->element(\'' .
+				$this->plugin . '.' . substr($this->testFile['dir'], strlen('View/Elements') + 1) . '/' . $this->testFile['file'] .
+			'\');';
 		}
+
+		$output =
+			'<?php' . chr(10) .
+			$this->_phpdocFileHeader(
+				'',
+				array(),
+				$this->testFile['dir'] . '/' . $this->testFile['file'] . 'テスト用Viewファイル'
+			) .
+			'?>' . chr(10) .
+			'' . chr(10) .
+			$this->testFile['dir'] . '/' . $this->testFile['file'] . chr(10) .
+			'' . chr(10) .
+			'<?php echo ' . $element . chr(10) .
+			'';
+		$this->createTestPluginFile('View/' . $testControllerName . '/' . $this->testFile['file'] . '.ctp', $output);
 
 	}
 
@@ -174,7 +141,11 @@ Class CreateViewElements extends CreateObject {
 	 */
 	protected function _create($testControllerName, $param) {
 		$element = $param[0];
-		$className = $this->testFile['class'] . Inflector::camelize(ucfirst($element)) . 'Test';
+		if (substr($this->testFile['dir'], strlen('View/Elements') + 1) === '') {
+			$className = $this->plugin . Inflector::camelize(ucfirst($this->testFile['file'])) . 'Test';
+		} else {
+			$className = Inflector::camelize(strtr($this->testFile['dir'], '/', '_')) . Inflector::camelize(ucfirst($this->testFile['file'])) . 'Test';
+		}
 
 		//出力文字列
 		$output =

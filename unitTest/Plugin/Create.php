@@ -90,7 +90,7 @@ Class CreateObject {
 	 * デストラクター.
 	 */
 	function __destruct() {
-		if (isset($this->testFile['file'])) {
+		if (isset($this->testFile['file']) && $this->testFile['type'] !== 'View/Elements') {
 			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/empty';
 		} else {
 			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/empty';
@@ -108,7 +108,7 @@ Class CreateObject {
 	 * @return bool
 	 */
 	public function createTestDir() {
-		if (isset($this->testFile['file'])) {
+		if (isset($this->testFile['file']) && $this->testFile['type'] !== 'View/Elements') {
 			$dirPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file']));
 		} else {
 			$dirPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/';
@@ -134,7 +134,7 @@ Class CreateObject {
 	 * @return bool
 	 */
 	public function deleteTestDir() {
-		if (isset($this->testFile['file'])) {
+		if (isset($this->testFile['file']) && $this->testFile['type'] !== 'View/Elements') {
 			$dirPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file']));
 		} else {
 			$dirPath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/';
@@ -185,7 +185,7 @@ Class CreateObject {
 	public function createFile($fileName, $output = '') {
 		if (substr($fileName, 0, strlen(PLUGIN_ROOT_DIR)) === PLUGIN_ROOT_DIR) {
 			$filePath = $fileName;
-		} elseif (isset($this->testFile['file'])) {
+		} elseif (isset($this->testFile['file']) && $this->testFile['type'] !== 'View/Elements') {
 			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
 		} else {
 			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . $fileName;
@@ -264,7 +264,7 @@ Class CreateObject {
 	public function deleteFile($fileName) {
 		if (substr($fileName, 0, strlen(PLUGIN_ROOT_DIR)) === PLUGIN_ROOT_DIR) {
 			$filePath = $fileName;
-		} elseif (isset($this->testFile['file'])) {
+		} elseif (isset($this->testFile['file']) && $this->testFile['type'] !== 'View/Elements') {
 			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . Inflector::camelize(ucfirst($this->testFile['file'])) . '/' . $fileName;
 		} else {
 			$filePath = PLUGIN_TEST_DIR . $this->testFile['dir'] . '/' . $fileName;
@@ -471,6 +471,25 @@ Class CreateObject {
 			'' . chr(9) . $scope . ' $' . $variable . ' = ' . $outputValue.
 			'' . chr(10) .
 			'';
+	}
+
+	/**
+	 * BlockRolePermissionかどうかチェック
+	 *
+	 * @return bool
+	 */
+	public function isBlockRolePermission($file) {
+		if (! file_exists($file['path'])) {
+			return false;
+		}
+
+		$result = file_get_contents($file['path']);
+		if (preg_match('/' . preg_quote('element(\'Blocks.block_creatable_setting\'', '/') . '/', $result) &&
+				preg_match('/' . preg_quote('element(\'Blocks.block_approval_setting\'', '/') . '/', $result)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**

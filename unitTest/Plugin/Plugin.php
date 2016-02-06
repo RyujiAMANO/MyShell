@@ -78,17 +78,17 @@ Class Plugin {
 
 		$elementFiles = array();
 		foreach ($this->testFiles as $testFile) {
-			if ($testFile['type'] === 'View/Elements') {
-				$elementFiles[$testFile['dir']]['dir'] = $testFile['dir'];
-				$elementFiles[$testFile['dir']]['type'] = $testFile['type'];
-				$elementFiles[$testFile['dir']]['class'] = Inflector::camelize(strtr($testFile['dir'], '/', ' '));
-				if (! isset($elementFiles[$testFile['dir']]['files'])) {
-					$elementFiles[$testFile['dir']]['files'] = array();
-				}
-				$elementFiles[$testFile['dir']]['files'][] = $testFile;
-
-				continue;
-			}
+//			if ($testFile['type'] === 'View/Elements') {
+//				$elementFiles[$testFile['dir']]['dir'] = $testFile['dir'];
+//				$elementFiles[$testFile['dir']]['type'] = $testFile['type'];
+//				$elementFiles[$testFile['dir']]['class'] = Inflector::camelize(strtr($testFile['dir'], '/', ' '));
+//				if (! isset($elementFiles[$testFile['dir']]['files'])) {
+//					$elementFiles[$testFile['dir']]['files'] = array();
+//				}
+//				$elementFiles[$testFile['dir']]['files'][] = $testFile;
+//
+//				continue;
+//			}
 
 			if ($testFile['type']) {
 				$class = 'Create' . Inflector::camelize(strtr($testFile['type'], '/', ' '));
@@ -100,17 +100,17 @@ Class Plugin {
 				(new $class($testFile))->create();
 			}
 		}
+//
+//		if (! $elementFiles) {
+//			return;
+//		}
 
-		if (! $elementFiles) {
-			return;
-		}
-
-		foreach ($elementFiles as $testFile) {
-			$class = 'Create' . Inflector::camelize(strtr($testFile['type'], '/', ' '));
-			if (class_exists($class)) {
-				(new $class($testFile))->create();
-			}
-		}
+//		foreach ($elementFiles as $testFile) {
+//			$class = 'Create' . Inflector::camelize(strtr($testFile['type'], '/', ' '));
+//			if (class_exists($class)) {
+//				(new $class($testFile))->create();
+//			}
+//		}
 	}
 
 	/**
