@@ -46,6 +46,7 @@ Class CreateModel extends CreateObject {
 				(new CreateModel4Delete($this->testFile))->createTest($param);
 
 			} elseif (substr($param[0], 0, strlen('update')) === 'update' ||
+					substr($param[0], 0, strlen('validate')) === 'validate' ||
 					substr($param[0], 0, strlen('create')) === 'create') {
 				(new CreateModel4Other($this->testFile))->createTest($param);
 
