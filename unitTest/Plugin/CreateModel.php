@@ -58,6 +58,10 @@ Class CreateModel extends CreateObject {
 					substr($param[0], 0, strlen('afterDelete')) === 'afterDelete') {
 				(new CreateModel4Event($this->testFile))->createTest(array('delete', ''));
 
+			} elseif (substr($param[0], 0, strlen('beforeDelete')) === 'beforeFind' ||
+					substr($param[0], 0, strlen('afterDelete')) === 'afterFind') {
+				(new CreateModel4Event($this->testFile))->createTest(array('find', ''));
+
 			} elseif (substr($param[0], 0, strlen('beforeValidate')) === 'beforeValidate') {
 				(new CreateModel4Validate($this->testFile))->createTest(array('validate', ''));
 
@@ -68,6 +72,7 @@ Class CreateModel extends CreateObject {
 				output('[2] Save');
 				output('[3] Delete');
 				output('[4] Validate');
+				output('[5] Event');
 				echo '> ';
 				$input = trim(fgets(STDIN));
 				if ($input === '1') {
@@ -78,6 +83,8 @@ Class CreateModel extends CreateObject {
 					(new CreateModel4Delete($this->testFile))->createTest($param);
 				}  elseif ($input === '4') {
 					(new CreateModel4Validate($this->testFile))->createTest($param);
+				}  elseif ($input === '4') {
+					(new CreateModel4Event($this->testFile))->createTest($param);
 				} else {
 					(new CreateModel4Other($this->testFile))->createTest($param);
 				}
