@@ -90,7 +90,7 @@ Class CreateController4UserRolePermission extends CreateController4 {
 			$this->_phpdocFileHeader(
 				'',
 				array(
-					'App::uses(\'PluginsRole\', \'PluginManager.Test/Fixture\')',
+					'App::uses(\'PluginsRoleFixture\', \'PluginManager.Test/Fixture\')',
 				),
 				'アクセス権限(Permission)テスト用Fixture'
 			) .
