@@ -58,8 +58,8 @@ Class CreateModel extends CreateObject {
 					substr($param[0], 0, strlen('afterDelete')) === 'afterDelete') {
 				(new CreateModel4Event($this->testFile))->createTest(array('delete', ''));
 
-			} elseif (substr($param[0], 0, strlen('beforeDelete')) === 'beforeFind' ||
-					substr($param[0], 0, strlen('afterDelete')) === 'afterFind') {
+			} elseif (substr($param[0], 0, strlen('beforeFind')) === 'beforeFind' ||
+					substr($param[0], 0, strlen('afterFind')) === 'afterFind') {
 				(new CreateModel4Event($this->testFile))->createTest(array('find', ''));
 
 			} elseif (substr($param[0], 0, strlen('beforeValidate')) === 'beforeValidate') {
@@ -73,18 +73,20 @@ Class CreateModel extends CreateObject {
 				output('[3] Delete');
 				output('[4] Validate');
 				output('[5] Event');
+				output('[s] 無視する');
 				echo '> ';
 				$input = trim(fgets(STDIN));
 				if ($input === '1') {
 					(new CreateModel4Get($this->testFile))->createTest($param);
-				}  elseif ($input === '2') {
+				} elseif ($input === '2') {
 					(new CreateModel4Save($this->testFile))->createTest($param);
-				}  elseif ($input === '3') {
+				} elseif ($input === '3') {
 					(new CreateModel4Delete($this->testFile))->createTest($param);
-				}  elseif ($input === '4') {
+				} elseif ($input === '4') {
 					(new CreateModel4Validate($this->testFile))->createTest($param);
-				}  elseif ($input === '4') {
+				} elseif ($input === '5') {
 					(new CreateModel4Event($this->testFile))->createTest($param);
+				} elseif ($input === 's') {
 				} else {
 					(new CreateModel4Other($this->testFile))->createTest($param);
 				}
