@@ -111,12 +111,12 @@ Class CreateController4AppController extends CreateController4 {
 					'App::uses(\'' . $testSuiteTest . '\', \'' . $testSuitePlugin . '.TestSuite\')',
 					'App::uses(\'UserRole\', \'UserRoles.Model\')',
 				),
-				$function . '()のテスト'
+				$this->testFile['class'] . '::' . $function . '()のテスト'
 			) .
 			$this->_phpdocClassHeader(
 				'',
 				'NetCommons\\' . $this->plugin . '\\Test\\Case\\Controller\\' . Inflector::camelize(ucfirst($this->testFile['file'])),
-				$function . '()のテスト'
+				$this->testFile['class'] . '::' . $function . '()のテスト'
 			) .
 			'class ' . $className . ' extends NetCommonsControllerTestCase {' . chr(10) .
 			'' . chr(10) .
