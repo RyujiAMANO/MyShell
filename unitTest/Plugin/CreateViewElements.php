@@ -174,6 +174,8 @@ Class CreateViewElements extends CreateObject {
 					'',
 					'//テストプラグインのロード',
 					'NetCommonsCakeTestCase::loadTestPlugin($this, \'' . $this->plugin . '\', \'Test' . $this->plugin . '\');',
+					'//テストコントローラ生成',
+					'$this->generateNc(\'Test' . $this->plugin . '.' . $testControllerName . '\');',
 				)
 			) .
 			$this->_classMethod(
@@ -183,9 +185,6 @@ Class CreateViewElements extends CreateObject {
 				),
 				'test' . Inflector::camelize(ucfirst($element)) . '()',
 				array(
-					'//テストコントローラ生成',
-					'$this->generateNc(\'Test' . $this->plugin . '.' . $testControllerName . '\');',
-					'',
 					'//テスト実行',
 					'$this->_testNcAction(\'/' .
 						Inflector::underscore('Test' . $this->plugin) . '/' .
