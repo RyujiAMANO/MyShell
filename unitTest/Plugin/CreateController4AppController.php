@@ -41,12 +41,12 @@ Class CreateController4AppController extends CreateController4 {
 				array(
 					'App::uses(\'' . $this->testFile['class'] . '\', \'' . $this->plugin . '.Controller\')',
 				),
-				$function . '()テスト用Controller'
+				$this->testFile['class'] . '::' . $function . '()テスト用Controller'
 			) .
 			$this->_phpdocClassHeader(
 				'',
 				'NetCommons\\' . $this->plugin . '\\Test\\test_app\\Plugin\\' . $this->plugin . '\\Controller',
-				$function . '()テスト用Controller'
+				$this->testFile['class'] . '::' . $function . '()テスト用Controller'
 			) .
 			'class ' . $testControllerName . 'Controller extends ' . $this->testFile['class'] . ' {' . chr(10) .
 			'' . chr(10) .
@@ -80,7 +80,7 @@ Class CreateController4AppController extends CreateController4 {
 			$this->_phpdocFileHeader(
 				'',
 				array(),
-				$function . '()テスト用Viewファイル'
+				$this->testFile['class'] . '::' . $function . '()テスト用Viewファイル'
 			) .
 			'?>' . chr(10) .
 			'' . chr(10) .

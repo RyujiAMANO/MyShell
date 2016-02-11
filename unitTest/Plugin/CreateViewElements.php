@@ -74,17 +74,6 @@ Class CreateViewElements extends CreateObject {
 			'class ' . $testControllerName . 'Controller extends AppController {' . chr(10) .
 			'' . chr(10) .
 			$this->_classMethod(
-				'beforeRender',
-				array(
-					'@return void',
-				),
-				'beforeRender()',
-				array(
-					'parent::beforeFilter();',
-					'$this->Auth->allow(\'' . $this->testFile['file'] . '\');',
-				)
-			) .
-			$this->_classMethod(
 				$this->testFile['file'],
 				array(
 					'@return void',
