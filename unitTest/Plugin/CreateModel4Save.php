@@ -102,6 +102,7 @@ Class CreateModel4Save extends CreateModel4 {
 					' * ### 戻り値' . chr(10) .
 					' *  - data 登録データ' . chr(10) .
 					' *  - mockModel Mockのモデル',
+					' *  - mockMethod Mockのメソッド(省略可：デフォルト validates)',
 				array(
 					'@return array テストデータ',
 				),
