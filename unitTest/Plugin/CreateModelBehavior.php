@@ -148,14 +148,14 @@ Class CreateModelBehavior extends CreateObject {
 			$this->_phpdocFileHeader(
 				$function,
 				array(
-					'App::uses(\'NetCommonsCakeTestCase\', \'NetCommons.TestSuite\')',
+					'App::uses(\'NetCommonsModelTestCase\', \'NetCommons.TestSuite\')',
 				)
 			) .
 			$this->_phpdocClassHeader(
 				$function,
 				'NetCommons\\' . $this->plugin . '\\Test\\Case\\Model\\Behavior\\' . Inflector::camelize(ucfirst($this->testFile['file']))
 			) .
-			'class ' . $className . ' extends NetCommonsCakeTestCase {' . chr(10) .
+			'class ' . $className . ' extends NetCommonsModelTestCase {' . chr(10) .
 			'' . chr(10) .
 			$this->_classVariable(
 					'Fixtures',
