@@ -408,6 +408,7 @@ Class CreateController4WorkflowControllerEdit extends CreateController4Workflow 
 				),
 				'testViewFileByPublishable()',
 				array(
+					'//ログイン',
 					'TestAuthGeneral::login($this);',
 					'',
 					'//テスト実行',
@@ -434,6 +435,7 @@ Class CreateController4WorkflowControllerEdit extends CreateController4Workflow 
 					'',
 					'//TODO:上記以外に必要なassert追加',
 					'',
+					'//ログアウト',
 					'TestAuthGeneral::logout($this);',
 				)
 			) .

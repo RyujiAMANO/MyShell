@@ -147,6 +147,7 @@ Class CreateController4WorkflowControllerView extends CreateController4Workflow 
 				),
 				'testViewFile()',
 				array(
+					'//ログイン',
 					'TestAuthGeneral::login($this);',
 					'',
 					'//テスト実行',
@@ -156,6 +157,7 @@ Class CreateController4WorkflowControllerView extends CreateController4Workflow 
 					'//チェック',
 					'//TODO:view(ctp)ファイルに対するassert追加',
 					'',
+					'//ログアウト',
 					'TestAuthGeneral::logout($this);',
 				)
 			) .

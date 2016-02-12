@@ -49,6 +49,7 @@ Class CreateController4OtherController extends CreateController4 {
 				),
 				'test' . ucfirst($function) . '()',
 				array(
+					'//ログイン',
 					'TestAuthGeneral::login($this);',
 					'',
 					'//テスト実行',
@@ -58,6 +59,7 @@ Class CreateController4OtherController extends CreateController4 {
 					'//TODO:assert追加',
 					'debug($this->view);',
 					'',
+					'//ログアウト',
 					'TestAuthGeneral::logout($this);',
 				)
 			) .
