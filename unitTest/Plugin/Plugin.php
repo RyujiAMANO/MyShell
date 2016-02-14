@@ -104,7 +104,7 @@ Class Plugin {
 		$dir = dir($dirPath);
 
 		while (false !== ($fileName = $dir->read())) {
-			if (! in_array($fileName, ['.', '..', '.git', 'Schema', 'Migration', 'Test', 'TestSuite'], true) &&
+			if (! in_array($fileName, ['.', '..', '.git', 'Schema', 'Migration', 'Test'], true) &&
 					! is_file($dirPath . '/' . $fileName)) {
 
 				$this->searchFiles($dirName . '/' . $fileName);
