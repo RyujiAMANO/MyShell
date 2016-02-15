@@ -6,9 +6,9 @@
  */
 
 /**
- * その他のテストファイル生成クラス
+ * TestSuiteのテストファイル生成クラス
  */
-Class CreateOther extends CreateObject {
+Class CreateTestSuite extends CreateObject {
 
 	/**
 	 * コンストラクター
@@ -18,7 +18,7 @@ Class CreateOther extends CreateObject {
 	 */
 	public function __construct($testFile = null) {
 		output(chr(10) . '-*-*-*-*-*-*-*-*-*-*-' . chr(10));
-		output(sprintf('## その他のテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
+		output(sprintf('## TestSuiteテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
 		output(print_r($testFile, true));
 
 		parent::__construct($testFile);
@@ -33,6 +33,10 @@ Class CreateOther extends CreateObject {
 		$functions = $this->getFunctions();
 
 		foreach ($functions as $param) {
+			if (in_array(strtolower($param[0]), ['setup', 'teardown'], true)) {
+				continue;
+			}
+
 			output('---------------------' . chr(10));
 			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
 

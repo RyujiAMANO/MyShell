@@ -139,6 +139,7 @@ Class Plugin {
 			'Model',
 			'Controller',
 			'View',
+			'TestSuite',
 		];
 		foreach ($types as $type) {
 			if (substr($dirName, 0, strlen($type)) === $type) {
