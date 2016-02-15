@@ -1,6 +1,6 @@
 <?php
 /**
- * その他のテストファイル生成クラス
+ * TestSuiteのテストファイル生成クラス
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  */
@@ -25,7 +25,7 @@ Class CreateTestSuite extends CreateObject {
 	}
 
 	/**
-	 * その他のテストコード生成
+	 * TestSuiteのテストコード生成
 	 *
 	 * @return bool 成功・失敗
 	 */
