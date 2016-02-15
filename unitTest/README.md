@@ -26,6 +26,7 @@ bash startUnitTest.sh プラグイン名(キャメル記法)
 | Model/Behavior       | Model/Behaviorのテストファイルを作成する |
 | View/Elements        | View/Elementsのテストファイルを作成する |
 | View/Helper          | View/Helperのテストファイルを作成する |
+| TestSuite            | TestSuiteのテストファイルを作成する |
 | Other                | その他のテストファイルを作成する |
 | All or 省略          | 全ファイルのテストファイルを作成する |
 
