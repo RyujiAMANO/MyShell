@@ -331,7 +331,7 @@ Class CreateTestSuite extends CreateObject {
 			) .
 			'?>' . chr(10) .
 			'' . chr(10) .
-			$this->testFile['dir'] . '/' . $this->testFile['file'] . chr(10) .
+			$this->testFile['dir'] . '/' . $this->testFile['file'] . '/' . $action . '.ctp' . chr(10) .
 			'';
 		$this->createTestPluginFile('View/' . $testControllerName . '/' . $action . '.ctp', $output);
 	}
