@@ -36,7 +36,10 @@ Class CreateViewHelper extends CreateObject {
 			output('---------------------' . chr(10));
 			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
 
-			if (substr($param[0], 0, strlen('afterRenderFile')) === 'afterRenderFile') {
+			if (substr($param[0], 0, strlen('afterRenderFile')) === 'afterRenderFile' ||
+					substr($param[0], 0, strlen('beforeRender')) === 'beforeRender') {
+
+				(new CreateViewHelper4Event($this->testFile, false))->createTest($param);
 				continue;
 			}
 			$this->_create($param);

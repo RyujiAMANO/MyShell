@@ -45,7 +45,7 @@ Class CreateController4AppController extends CreateController4 {
 			) .
 			$this->_phpdocClassHeader(
 				'',
-				'NetCommons\\' . $this->plugin . '\\Test\\test_app\\Plugin\\' . $this->plugin . '\\Controller',
+				'NetCommons\\' . $this->plugin . '\\Test\\test_app\\Plugin\\Test' . $this->plugin . '\\Controller',
 				$this->testFile['class'] . '::' . $function . '()テスト用Controller'
 			) .
 			'class ' . $testControllerName . 'Controller extends ' . $this->testFile['class'] . ' {' . chr(10) .

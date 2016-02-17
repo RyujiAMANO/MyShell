@@ -66,7 +66,7 @@ Class CreateModelBehavior extends CreateObject {
 			) .
 			$this->_phpdocClassHeader(
 				'',
-				'NetCommons\\' . $this->plugin . '\\Test\\test_app\\Plugin\\' . $this->plugin . '\\Model',
+				'NetCommons\\' . $this->plugin . '\\Test\\test_app\\Plugin\\Test' . $this->plugin . '\\Model',
 				$this->testFile['class'] . 'テスト用Model'
 			) .
 			'class ' . $testModelName . ' extends AppModel {' . chr(10) .

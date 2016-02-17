@@ -29,32 +29,6 @@ Class CreateModel4Save extends CreateModel4 {
 		}
 		$className = $this->testFile['class'] . Inflector::camelize(ucfirst($function)) . 'Test';
 
-		//メソッドの内容
-		$processes1 = array();
-		$processes1[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
-		$processes1[] = '';
-		$processes1[] = '//TODO:テストパタンを書く';
-		$processes1[] = '$results = array();';
-		$processes1[] = '$results[0] = array($data);';
-		$processes1[] = '';
-		$processes1[] = 'return $results;';
-
-		$processes2 = array();
-		$processes2[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
-		$processes2[] = '';
-		$processes2[] = '//TODO:テストパタンを書く';
-		$processes2[] = 'return array(';
-		$processes2[] = chr(9) . 'array($data, \'' . $this->plugin . '.' . $this->testFile['class'] . '\', \'save\'),';
-		$processes2[] = ');';
-
-		$processes3 = array();
-		$processes3[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
-		$processes3[] = '';
-		$processes3[] = '//TODO:テストパタンを書く';
-		$processes3[] = 'return array(';
-		$processes3[] = chr(9) . 'array($data, \'' . $this->plugin . '.' . $this->testFile['class'] . '\'),';
-		$processes3[] = ');';
-
 		//出力文字列
 		$output =
 			'<?php' . chr(10) .
@@ -71,7 +45,24 @@ Class CreateModel4Save extends CreateModel4 {
 			) .
 			'class ' . $className . ' extends ' . $testSuiteTest . ' {' . chr(10) .
 			'' . chr(10) .
-			$this->_getClassVariable($function) .
+			$this->_getClassVariable($function);
+
+		$processes1 = array();
+		$processes1[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[1];';
+		$processes1[] = '$data[\'' . $this->testFile['class'] . '\'][\'status\'] = \'1\';';
+		$processes1[] = '';
+		$processes1[] = '//TODO:テストパタンを書く';
+		$processes1[] = '$results = array();';
+		$processes1[] = '// * 編集の登録処理';
+		$processes1[] = '$results[0] = array($data);';
+		$processes1[] = '// * 新規の登録処理';
+		$processes1[] = '$results[1] = array($data);';
+		$processes1[] = '$results[1] = Hash::insert($results[1], \'0.' . $this->testFile['class'] . '.id\', null);';
+		$processes1[] = '$results[1] = Hash::insert($results[1], \'0.' . $this->testFile['class'] . '.key\', null);';
+		$processes1[] = '$results[1] = Hash::remove($results[1], \'0.' . $this->testFile['class'] . '.created_user\');';
+		$processes1[] = '';
+		$processes1[] = 'return $results;';
+		$output .=
 			$this->_classMethod(
 				'Save用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -82,7 +73,16 @@ Class CreateModel4Save extends CreateModel4 {
 				),
 				'dataProviderSave()',
 				$processes1
-			) .
+			);
+
+		$processes2 = array();
+		$processes2[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
+		$processes2[] = '';
+		$processes2[] = '//TODO:テストパタンを書く';
+		$processes2[] = 'return array(';
+		$processes2[] = chr(9) . 'array($data, \'' . $this->plugin . '.' . $this->testFile['class'] . '\', \'save\'),';
+		$processes2[] = ');';
+		$output .=
 			$this->_classMethod(
 				'SaveのExceptionError用DataProvider' . chr(10) .
 					' *' . chr(10) .
@@ -95,7 +95,16 @@ Class CreateModel4Save extends CreateModel4 {
 				),
 				'dataProviderSaveOnExceptionError()',
 				$processes2
-			) .
+			);
+
+		$processes3 = array();
+		$processes3[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
+		$processes3[] = '';
+		$processes3[] = '//TODO:テストパタンを書く';
+		$processes3[] = 'return array(';
+		$processes3[] = chr(9) . 'array($data, \'' . $this->plugin . '.' . $this->testFile['class'] . '\'),';
+		$processes3[] = ');';
+		$output .=
 			$this->_classMethod(
 				'SaveのValidationError用DataProvider' . chr(10) .
 					' *' . chr(10) .

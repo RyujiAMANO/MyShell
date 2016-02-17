@@ -1,48 +1,33 @@
 <?php
 /**
- * Controller/Componentのテストファイル生成クラス
+ * View/Helperのテストファイル生成クラス
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  */
 
 /**
- * Controller/Componentのテストファイル生成クラス
+ * View/Helperのテストファイル生成クラス
  */
-Class CreateControllerComponent extends CreateObject {
+Class CreateViewHelper4Event extends CreateObject {
 
 	/**
-	 * コンストラクター
-	 *
-	 * @param array $testFile ファイルデータ
-	 * @return void
+	 * デストラクター.
 	 */
-	public function __construct($testFile = null) {
-		output(chr(10) . '-*-*-*-*-*-*-*-*-*-*-' . chr(10));
-		output(sprintf('## Controller/Componentのテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
-		output(print_r($testFile, true));
-
-		parent::__construct($testFile);
+	function __destruct() {
+		//親クラスの__destruct()を実行させないため
 	}
 
 	/**
-	 * Controller/Componentのテストコード生成
+	 * View/Helperのテストコード生成
 	 *
 	 * @return bool 成功・失敗
 	 */
-	public function create() {
-		$testControllerName = 'Test' . $this->testFile['class'];
+	public function createTest($param) {
+		$testControllerName = 'Test' . $this->testFile['class'] . Inflector::camelize(ucfirst($param[0]));
 
 		$this->_createTestController($testControllerName);
 		$this->_createTestView($testControllerName);
-
-		$functions = $this->getFunctions();
-
-		foreach ($functions as $param) {
-			output('---------------------' . chr(10));
-			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
-
-			$this->_create($testControllerName, $param);
-		}
+		$this->_create($testControllerName, $param);
 	}
 
 	/**
@@ -70,13 +55,13 @@ Class CreateControllerComponent extends CreateObject {
 			'class ' . $testControllerName . 'Controller extends AppController {' . chr(10) .
 			'' . chr(10) .
 			$this->_classVariable(
-					'使用コンポーネント',
+					'使用ヘルパー',
 					'array',
 					'public',
-					'components',
+					'helpers',
 					array(
 						'array(',
-						chr(9) . '\'' .  $this->plugin . '.' . substr($this->testFile['class'], 0, -1 * strlen('Component')) . '\'',
+						chr(9) . '\'' .  $this->plugin . '.' . substr($this->testFile['class'], 0, -1 * strlen('Helper')) . '\'',
 						');',
 					)
 			) .
@@ -113,13 +98,13 @@ Class CreateControllerComponent extends CreateObject {
 			) .
 			'?>' . chr(10) .
 			'' . chr(10) .
-			$this->testFile['dir'] . '/' . $this->testFile['file'] . chr(10) .
+			$this->testFile['dir'] . '/' . $testControllerName . chr(10) .
 			'';
 		$this->createTestPluginFile('View/' . $testControllerName . '/index.ctp', $output);
 	}
 
 	/**
-	 * Controller/Component::xxxxx()のテストコード生成
+	 * View/Helper::xxxxx()のテストコード生成
 	 *
 	 * @param string $testControllerName Testコントローラ名
 	 * @param array $param メソッドデータ配列
@@ -168,19 +153,6 @@ Class CreateControllerComponent extends CreateObject {
 				)
 			) .
 			$this->_classMethod(
-				'tearDown method',
-				array(
-					'@return void',
-				),
-				'tearDown()',
-				array(
-					'//ログアウト',
-					'TestAuthGeneral::logout($this);',
-					'',
-					'parent::tearDown();',
-				)
-			) .
-			$this->_classMethod(
 				$function . '()のテスト',
 				array(
 					'@return void',
@@ -190,9 +162,6 @@ Class CreateControllerComponent extends CreateObject {
 					'//テストコントローラ生成',
 					'$this->generateNc(\'Test' . $this->plugin . '.' . $testControllerName . '\');',
 					'',
-					'//ログイン',
-					'TestAuthGeneral::login($this);',
-					'',
 					'//テスト実行',
 					'$this->_testNcAction(\'/' .
 						Inflector::underscore('Test' . $this->plugin) . '/' .
@@ -201,8 +170,20 @@ Class CreateControllerComponent extends CreateObject {
 					'));',
 					'',
 					'//チェック',
-					'$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $this->testFile['file'] . '\', \'/\') . \'/\';',
+					'$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $testControllerName . '\', \'/\') . \'/\';',
 					'$this->assertRegExp($pattern, $this->view);',
+					'',
+					'//cssのURLチェック',
+					'//TODO:不要だったら削除する',
+					'$pattern = \'/<link.*?\' . preg_quote(\'/' .
+							Inflector::underscore($this->plugin) . '/css/style.css\', \'/\') . \'.*?>/\';',
+					'//$this->assertRegExp($pattern, $this->contents);',
+					'',
+					'//scriptのURLチェック',
+					'//TODO:不要だったら削除する',
+					'$pattern = \'/<script.*?\' . preg_quote(\'/' .
+							Inflector::underscore($this->plugin) . '/js/' . Inflector::underscore($this->plugin) . '.js\', \'/\') . \'.*?>/\';',
+					'//$this->assertRegExp($pattern, $this->contents);',
 					'',
 					'//TODO:必要に応じてassert追加する',
 					'debug($this->view);',
@@ -215,7 +196,7 @@ Class CreateControllerComponent extends CreateObject {
 
 		$this->createFile(Inflector::camelize(ucfirst($function)) . 'Test.php', $output);
 		$this->deleteFile('empty');
-		$this->deleteFile(PLUGIN_TEST_DIR . 'Controller/Component/empty');
+		$this->deleteFile(PLUGIN_TEST_DIR . 'View/Helper/empty');
 	}
 
 }

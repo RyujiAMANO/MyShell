@@ -150,7 +150,7 @@ Class CreateController4UserRolePermission extends CreateController4 {
 			) .
 			$this->_phpdocClassHeader(
 				'',
-				'NetCommons\\' . $this->plugin . '\\Test\\test_app\\Plugin\\' . $this->plugin . '\\Controller',
+				'NetCommons\\' . $this->plugin . '\\Test\\test_app\\Plugin\\Test' . $this->plugin . '\\Controller',
 				'アクセス権限(Permission)テスト用Controller'
 			) .
 			'class ' . $testControllerName . 'Controller extends ' . $this->testFile['class'] . ' {' . chr(10) .

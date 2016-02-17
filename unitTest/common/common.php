@@ -44,6 +44,7 @@ require dirname(__DIR__) . '/Plugin/CreateOther.php';
 require dirname(__DIR__) . '/Plugin/CreateTestSuite.php';
 require dirname(__DIR__) . '/Plugin/CreateViewElements.php';
 require dirname(__DIR__) . '/Plugin/CreateViewHelper.php';
+require dirname(__DIR__) . '/Plugin/CreateViewHelper4Event.php';
 
 /**
  * 出力関数

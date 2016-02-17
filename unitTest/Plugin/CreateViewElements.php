@@ -68,7 +68,7 @@ Class CreateViewElements extends CreateObject {
 			) .
 			$this->_phpdocClassHeader(
 				'',
-				'NetCommons\\' . $this->plugin . '\\Test\\test_app\\Plugin\\' . $this->plugin . '\\Controller',
+				'NetCommons\\' . $this->plugin . '\\Test\\test_app\\Plugin\\Test' . $this->plugin . '\\Controller',
 				$this->testFile['dir'] . '/' . $this->testFile['file'] . 'テスト用Controller'
 			) .
 			'class ' . $testControllerName . 'Controller extends AppController {' . chr(10) .
