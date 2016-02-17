@@ -49,7 +49,7 @@ Class CreateModel4Validate extends CreateModel4 {
 			) .
 			'class ' . $className . ' extends NetCommonsValidateTest {' . chr(10) .
 			'' . chr(10) .
-			$this->_getClassVariable($function) .
+			$this->_getClassVariable('validates') .
 			$this->_classMethod(
 				'ValidationErrorのDataProvider' . chr(10) .
 					' *' . chr(10) .
