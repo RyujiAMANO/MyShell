@@ -94,11 +94,15 @@ Class CreateControllerComponent4Other extends CreateControllerComponent4 {
 		$processes[] = '//ログイン';
 		$processes[] = 'TestAuthGeneral::login($this);';
 		$processes[] = '';
+		$processes[] = '//テストアクション実行';
 		$processes[] = '$this->_testNcAction(\'/' .
 						Inflector::underscore('Test' . $this->plugin) . '/' .
 						Inflector::underscore($testControllerName) . '/index\', array(';
 		$processes[] = chr(9) . '\'method\' => \'get\'';
 		$processes[] = '));';
+		$processes[] = '$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $testControllerName . '\', \'/\') . \'/\';';
+		$processes[] = '$this->assertRegExp($pattern, $this->view);';
+
 		$arguments = explode(', ', $argument);
 		$methodArg = '';
 		foreach ($arguments as $arg) {
@@ -112,22 +116,21 @@ Class CreateControllerComponent4Other extends CreateControllerComponent4 {
 				$methodArg .= ', ' . $matches[1];
 			}
 		}
+
+		$component = substr($this->testFile['class'], 0, -1 * strlen('Component'));
 		$processes[] = '';
 		$processes[] = '//テスト実行';
 		if (preg_match('/@return void/', $param[2])) {
-			$processes[] = '$this->' . $function . '(' . substr($methodArg, 2) . ');';
+			$processes[] = '$this->controller->' . $component . '->' . $function . '(' . substr($methodArg, 2) . ');';
+			$processes[] = '';
+			$processes[] = '//TODO:必要に応じてassert追加する';
+			$processes[] = 'debug($this->controller->viewVars);';
 		} else {
-			$processes[] = '$result = $this->' . $function . '(' . substr($methodArg, 2) . ');';
+			$processes[] = '$result = $this->controller->' . $component . '->' . $function . '(' . substr($methodArg, 2) . ');';
+			$processes[] = '';
+			$processes[] = '//TODO:必要に応じてassert追加する';
 			$processes[] = 'debug($result);';
 		}
-
-		$processes[] = '';
-		$processes[] = '//チェック';
-		$processes[] = '$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $testControllerName . '\', \'/\') . \'/\';';
-		$processes[] = '$this->assertRegExp($pattern, $this->view);';
-		$processes[] = '';
-		$processes[] = '//TODO:必要に応じてassert追加する';
-		$processes[] = 'debug($this->view);';
 
 		$output .=
 			$this->_classMethod(
