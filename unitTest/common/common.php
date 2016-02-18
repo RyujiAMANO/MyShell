@@ -31,6 +31,9 @@ require dirname(__DIR__) . '/Plugin/CreateController4BlockPermissionControllerEd
 require dirname(__DIR__) . '/Plugin/CreateController4OtherController.php';
 require dirname(__DIR__) . '/Plugin/CreateController4UserRolePermission.php';
 require dirname(__DIR__) . '/Plugin/CreateControllerComponent.php';
+require dirname(__DIR__) . '/Plugin/CreateControllerComponent4.php';
+require dirname(__DIR__) . '/Plugin/CreateControllerComponent4Event.php';
+require dirname(__DIR__) . '/Plugin/CreateControllerComponent4Other.php';
 require dirname(__DIR__) . '/Plugin/CreateModel.php';
 require dirname(__DIR__) . '/Plugin/CreateModel4.php';
 require dirname(__DIR__) . '/Plugin/CreateModel4Delete.php';
