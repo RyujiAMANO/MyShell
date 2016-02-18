@@ -36,7 +36,8 @@ Class CreateControllerComponent extends CreateObject {
 			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
 
 			if (substr($param[0], 0, strlen('initialize')) === 'initialize' ||
-					substr($param[0], 0, strlen('startup')) === 'startup') {
+					substr($param[0], 0, strlen('startup')) === 'startup' ||
+					substr($param[0], 0, strlen('beforeRender')) === 'beforeRender') {
 				(new CreateControllerComponent4Event($this->testFile))->createTest($param);
 
 			} else {
