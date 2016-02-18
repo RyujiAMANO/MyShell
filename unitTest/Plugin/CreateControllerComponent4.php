@@ -85,7 +85,7 @@ Class CreateControllerComponent4 extends CreateObject {
 			) .
 			'?>' . chr(10) .
 			'' . chr(10) .
-			$this->testFile['dir'] . '/' . $testControllerName . chr(10) .
+			$this->testFile['dir'] . '/' . $testControllerName . '/index' . chr(10) .
 			'';
 		$this->createTestPluginFile('View/' . $testControllerName . '/index.ctp', $output);
 	}

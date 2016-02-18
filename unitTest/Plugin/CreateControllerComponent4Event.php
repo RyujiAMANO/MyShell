@@ -106,7 +106,7 @@ Class CreateControllerComponent4Event extends CreateControllerComponent4 {
 					'));',
 					'',
 					'//チェック',
-					'$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $testControllerName . '\', \'/\') . \'/\';',
+					'$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $testControllerName . '/index\', \'/\') . \'/\';',
 					'$this->assertRegExp($pattern, $this->view);',
 					'',
 					'//TODO:必要に応じてassert追加する',
