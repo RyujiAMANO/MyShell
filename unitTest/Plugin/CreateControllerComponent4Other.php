@@ -16,28 +16,9 @@ Class CreateControllerComponent4Other extends CreateControllerComponent4 {
 	 * @return bool 成功・失敗
 	 */
 	public function createTest($param) {
-		$function = $param[0];
-		$argument = $param[1];
-		$testControllerName = 'Test' . $this->testFile['class'] . Inflector::camelize(ucfirst($function));
+		$testControllerName = 'Test' . $this->testFile['class'];
 
-		$processes = array();
-		$arguments = explode(', ', $argument);
-		$methodArg = '';
-		foreach ($arguments as $arg) {
-			$matches = array();
-			if (preg_match('/^([\$_0-9a-zA-Z]+)( \= )?(.*)/', $arg, $matches)) {
-				if (count($processes) === 0) {
-					$processes[] = '';
-					$processes[] = '//データ生成';
-				}
-				$processes[] = $matches[1] . ' = ' . ($matches[3] ? $matches[3] : 'null') . ';';
-				$methodArg .= ', ' . $matches[1];
-			}
-		}
-		$processes[] = '//実行';
-		$processes[] = '$this->' . $function . '(' . substr($methodArg, 2) . ');';
-
-		$this->_createTestController($testControllerName, $processes);
+		$this->_createTestController($testControllerName);
 		$this->_createTestView($testControllerName);
 		$this->_create($testControllerName, $param);
 	}
@@ -51,6 +32,7 @@ Class CreateControllerComponent4Other extends CreateControllerComponent4 {
 	 */
 	protected function _create($testControllerName, $param) {
 		$function = $param[0];
+		$argument = $param[1];
 		$className = $this->testFile['class'] . Inflector::camelize(ucfirst($function)) . 'Test';
 
 		//出力文字列
@@ -103,35 +85,58 @@ Class CreateControllerComponent4Other extends CreateControllerComponent4 {
 					'',
 					'parent::tearDown();',
 				)
-			) .
+			);
+
+		$processes = array();
+		$processes[] = '//テストコントローラ生成';
+		$processes[] = '$this->generateNc(\'Test' . $this->plugin . '.' . $testControllerName . '\');';
+		$processes[] = '';
+		$processes[] = '//ログイン';
+		$processes[] = 'TestAuthGeneral::login($this);';
+		$processes[] = '';
+		$processes[] = '$this->_testNcAction(\'/' .
+						Inflector::underscore('Test' . $this->plugin) . '/' .
+						Inflector::underscore($testControllerName) . '/index\', array(';
+		$processes[] = chr(9) . '\'method\' => \'get\'';
+		$processes[] = '));';
+		$arguments = explode(', ', $argument);
+		$methodArg = '';
+		foreach ($arguments as $arg) {
+			$matches = array();
+			if (preg_match('/^([\$_0-9a-zA-Z]+)( \= )?(.*)/', $arg, $matches)) {
+				if ($methodArg === '') {
+					$processes[] = '';
+					$processes[] = '//テストデータ生成';
+				}
+				$processes[] = $matches[1] . ' = ' . ($matches[3] ? $matches[3] : 'null') . ';';
+				$methodArg .= ', ' . $matches[1];
+			}
+		}
+		$processes[] = '';
+		$processes[] = '//テスト実行';
+		if (preg_match('/@return void/', $param[2])) {
+			$processes[] = '$this->' . $function . '(' . substr($methodArg, 2) . ');';
+		} else {
+			$processes[] = '$result = $this->' . $function . '(' . substr($methodArg, 2) . ');';
+			$processes[] = 'debug($result);';
+		}
+
+		$processes[] = '';
+		$processes[] = '//チェック';
+		$processes[] = '$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $testControllerName . '\', \'/\') . \'/\';';
+		$processes[] = '$this->assertRegExp($pattern, $this->view);';
+		$processes[] = '';
+		$processes[] = '//TODO:必要に応じてassert追加する';
+		$processes[] = 'debug($this->view);';
+
+		$output .=
 			$this->_classMethod(
 				$function . '()のテスト',
 				array(
 					'@return void',
 				),
 				'test' . ucfirst($function) . '()',
-				array(
-					'//テストコントローラ生成',
-					'$this->generateNc(\'Test' . $this->plugin . '.' . $testControllerName . '\');',
-					'',
-					'//ログイン',
-					'TestAuthGeneral::login($this);',
-					'',
-					'//テスト実行',
-					'$this->_testNcAction(\'/' .
-						Inflector::underscore('Test' . $this->plugin) . '/' .
-						Inflector::underscore($testControllerName) . '/index\', array(',
-					chr(9) . '\'method\' => \'get\'',
-					'));',
-					'',
-					'//チェック',
-					'$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $testControllerName . '\', \'/\') . \'/\';',
-					'$this->assertRegExp($pattern, $this->view);',
-					'',
-					'//TODO:必要に応じてassert追加する',
-					'debug($this->view);',
-					'',
-				)
+				$processes
 			) .
 			'}' .
 			'' . chr(10) .

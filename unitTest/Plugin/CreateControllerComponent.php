@@ -35,14 +35,13 @@ Class CreateControllerComponent extends CreateObject {
 			output('---------------------' . chr(10));
 			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
 
-			(new CreateControllerComponent4Event($this->testFile))->createTest($param);
-			//if (substr($param[0], 0, strlen('initialize')) === 'initialize' ||
-			//		substr($param[0], 0, strlen('afterSave')) === 'startup') {
-			//	(new CreateControllerComponent4Event($this->testFile))->createTest($param);
-			//
-			//} else {
-			//	(new CreateControllerComponent4Other($this->testFile))->createTest($param);
-			//}
+			if (substr($param[0], 0, strlen('initialize')) === 'initialize' ||
+					substr($param[0], 0, strlen('startup')) === 'startup') {
+				(new CreateControllerComponent4Event($this->testFile))->createTest($param);
+
+			} else {
+				(new CreateControllerComponent4Other($this->testFile))->createTest($param);
+			}
 		}
 	}
 
