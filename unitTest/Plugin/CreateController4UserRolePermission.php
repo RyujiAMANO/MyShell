@@ -309,9 +309,7 @@ Class CreateController4UserRolePermission extends CreateController4 {
 					'//テスト実行',
 					'$this->_testNcAction(\'/' .
 						Inflector::underscore('Test' . $this->plugin) . '/' .
-						Inflector::underscore($testControllerName) . '/index\', array(',
-					chr(9) . '\'method\' => \'get\'',
-					'));',
+						Inflector::underscore($testControllerName) . '/index\', null);',
 					'',
 					'if (! $exception) {',
 					chr(9) . '$this->assertNotEmpty($this->view);',

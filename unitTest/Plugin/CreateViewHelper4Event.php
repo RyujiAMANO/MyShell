@@ -165,9 +165,7 @@ Class CreateViewHelper4Event extends CreateObject {
 					'//テスト実行',
 					'$this->_testNcAction(\'/' .
 						Inflector::underscore('Test' . $this->plugin) . '/' .
-						Inflector::underscore($testControllerName) . '/index\', array(',
-					chr(9) . '\'method\' => \'get\'',
-					'));',
+						Inflector::underscore($testControllerName) . '/index\', null);',
 					'',
 					'//チェック',
 					'$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $testControllerName . '\', \'/\') . \'/\';',

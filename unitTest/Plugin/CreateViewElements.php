@@ -188,9 +188,7 @@ Class CreateViewElements extends CreateObject {
 					'//テスト実行',
 					'$this->_testNcAction(\'/' .
 						Inflector::underscore('Test' . $this->plugin) . '/' .
-						Inflector::underscore($testControllerName) . '/' . $element . '\', array(',
-					chr(9) . '\'method\' => \'get\'',
-					'));',
+						Inflector::underscore($testControllerName) . '/' . $element . '\', null);',
 					'',
 					'//チェック',
 					'$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $element . '\', \'/\') . \'/\';',

@@ -170,11 +170,9 @@ Class CreateController4AppController extends CreateController4 {
 					'//TODO:テストデータ',
 					'',
 					'//テスト実行',
-					'$this->_testNcAction(\'/' .
+					'$this->_testGetAction(\'/' .
 						Inflector::underscore('Test' . $this->plugin) . '/' .
-						Inflector::underscore($testControllerName) . '/' . $action . '\', array(',
-					chr(9) . '\'method\' => \'get\'',
-					'));',
+						Inflector::underscore($testControllerName) . '/' . $action . '\', null);',
 					'',
 					'//チェック',
 					'//TODO:assert追加',

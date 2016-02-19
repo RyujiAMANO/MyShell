@@ -97,9 +97,7 @@ Class CreateControllerComponent4Other extends CreateControllerComponent4 {
 		$processes[] = '//テストアクション実行';
 		$processes[] = '$this->_testNcAction(\'/' .
 						Inflector::underscore('Test' . $this->plugin) . '/' .
-						Inflector::underscore($testControllerName) . '/index\', array(';
-		$processes[] = chr(9) . '\'method\' => \'get\'';
-		$processes[] = '));';
+						Inflector::underscore($testControllerName) . '/index\', null);';
 		$processes[] = '$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $testControllerName . '\', \'/\') . \'/\';';
 		$processes[] = '$this->assertRegExp($pattern, $this->view);';
 
