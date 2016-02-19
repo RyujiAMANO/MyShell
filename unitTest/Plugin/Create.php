@@ -78,11 +78,23 @@ Class CreateObject {
 		if (! $isCreate) {
 			return;
 		}
+
+		//テストディレクトリ作成
 		if (! $this->createTestDir()) {
 			return false;
 		}
+		//emptyファイル作成
 		if (! $this->createFile('empty')) {
 			return false;
+		}
+		//AllTestSuiteファイル作成
+		if (! $this->createAllTestSuiteFile('', $this->testFile['type'])) {
+			return false;
+		}
+		if ($this->testFile['class']) {
+			if (! $this->createAllTestSuiteFile($this->testFile['dir'] . '/', $this->testFile['file'])) {
+				return false;
+			}
 		}
 	}
 
@@ -100,6 +112,60 @@ Class CreateObject {
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * AllTestSuiteファイルの作成
+	 *
+	 * @return bool
+	 */
+	public function createAllTestSuiteFile($dir, $file) {
+		if (! getenv('ALL_TEST_SUITE')) {
+			return true;
+		}
+
+		$className = 'All' . $this->plugin . Inflector::camelize(strtr($dir . $file, '/', '_')) . 'Test';
+		$filePath = PLUGIN_TEST_DIR . $dir . $className . '.php';
+
+		$output =
+			'<?php' . chr(10) .
+			$this->_phpdocFileHeader(
+				'',
+				array(
+					'App::uses(\'NetCommonsTestSuite\', \'NetCommons.TestSuite\')',
+				),
+				'All ' . $file . ' Test suite'
+			) .
+			$this->_phpdocClassHeader(
+				'',
+				'NetCommons\\' . $this->plugin . '\\Test\\Case\\' . str_replace('/', '\\', $file),
+				'All ' . $file . ' Test suite'
+			) .
+			'class ' . $className . ' extends NetCommonsTestSuite {' . chr(10) .
+			'' . chr(10) .
+			$this->_classMethod(
+				'All ' . $file . ' Test suite',
+				array(
+					'@return NetCommonsTestSuite',
+					'@codeCoverageIgnore'
+				),
+				'suite()',
+				array(
+					'$name = preg_replace(\'/^All([\\w]+)Test$/\', \'$1\', __CLASS__);',
+					'$suite = new NetCommonsTestSuite(sprintf(\'All %s tests\', $name));',
+					'$suite->addTestDirectoryRecursive(__DIR__ . DS . \'' . str_replace('/', '\' . DS . \'', $file) . '\');',
+					'return $suite;',
+				),
+				'public static'
+			) .
+			'}' .
+			'' . chr(10) .
+			'';
+
+		$this->createFile($filePath, $output);
+		$this->deleteFile('empty');
+
+		return true;
 	}
 
 	/**

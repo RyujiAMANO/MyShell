@@ -78,15 +78,12 @@ Class Plugin {
 
 		$elementFiles = array();
 		foreach ($this->testFiles as $testFile) {
-			if ($testFile['type']) {
-				$class = 'Create' . Inflector::camelize(strtr($testFile['type'], '/', ' '));
-			} else {
+			$class = 'Create' . Inflector::camelize(strtr($testFile['type'], '/', ' '));
+			if (! class_exists($class)) {
 				$class = 'CreateOther';
 			}
 
-			if (class_exists($class)) {
-				(new $class($testFile))->create();
-			}
+			(new $class($testFile))->create();
 		}
 	}
 
@@ -146,7 +143,11 @@ Class Plugin {
 				return $type;
 			}
 		}
-		return null;
+		if (strpos($dirName, '/') !== false) {
+			return substr($dirName, 0, strpos($dirName, '/'));
+		} else {
+			return $dirName;
+		}
 	}
 
 	/**

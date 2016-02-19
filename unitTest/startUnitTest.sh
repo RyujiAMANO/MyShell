@@ -2,13 +2,29 @@
 CURDIR=`pwd`
 cd /var/www/app/
 
-export PLUGIN_NAME=$1; export PLUGIN_NAME
+if [ "$1" = "--no-all-test" ] ; then
+	export ALL_TEST_SUITE=0; export ALL_TEST_SUITE
+	export PLUGIN_NAME=$2; export PLUGIN_NAME
+	export PLUGIN_TYPE=$3; export PLUGIN_TYPE
+	export TEST_FILE_NAME=$4; export TEST_FILE_NAME
+	export TEST_METHOD=$5; export TEST_METHOD
+else
+	export ALL_TEST_SUITE=1; export ALL_TEST_SUITE
+	export PLUGIN_NAME=$1; export PLUGIN_NAME
+	export PLUGIN_TYPE=$2; export PLUGIN_TYPE
+	export TEST_FILE_NAME=$3; export TEST_FILE_NAME
+	export TEST_METHOD=$4; export TEST_METHOD
+fi
+
 if [ "${PLUGIN_NAME}" = "" ]; then
 	echo "エラー：プラグインを入力してください。"
 	echo ""
 fi
 if [ "${PLUGIN_NAME}" = "" -o "${PLUGIN_NAME}" = "-h" -o "${PLUGIN_NAME}" = "?" ]; then
-	echo "Usage: bash startUnitTest.sh <plugin_name> [<type> [<file> [<method>]]]"
+	echo "Usage: bash startUnitTest.sh [--no-all-test-suite] <plugin_name> [<type> [<file> [<method>]]]"
+	echo ""
+	echo "※ --no-all-test を指定すると、AllXxxxxTest.phpは作成しない。"
+	echo ""
 	echo ""
 	echo "Argments: "
 	echo "  ≪第一引数(plugin_name  キャメル形式)≫"
@@ -38,11 +54,6 @@ if [ ! -d /var/www/app/app/Plugin/${PLUGIN_NAME} ] ; then
 	echo "エラー：プラグインがありません。"
 	exit 1
 fi
-
-export PLUGIN_TYPE=$2; export PLUGIN_TYPE
-export TEST_FILE_NAME=$3; export TEST_FILE_NAME
-export TEST_METHOD=$4; export TEST_METHOD
-
 
 #
 # 作成者
