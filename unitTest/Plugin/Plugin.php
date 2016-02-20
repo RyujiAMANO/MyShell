@@ -133,6 +133,8 @@ Class Plugin {
 	 */
 	protected function _getTestType($dirName) {
 		$types = [
+			'Console/Command/Task',
+			'Console/Command',
 			'Model/Behavior',
 			'Controller/Component',
 			'View/Helper',

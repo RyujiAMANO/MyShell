@@ -14,7 +14,7 @@ require __DIR__ . '/Hash.php';
 
 require dirname(__DIR__) . '/Plugin/Plugin.php';
 require dirname(__DIR__) . '/Plugin/Create.php';
-require dirname(__DIR__) . '/Plugin/CreateConsole.php';
+require dirname(__DIR__) . '/Plugin/CreateConsoleCommand.php';
 require dirname(__DIR__) . '/Plugin/CreateController.php';
 require dirname(__DIR__) . '/Plugin/CreateController4.php';
 require dirname(__DIR__) . '/Plugin/CreateController4AppController.php';
