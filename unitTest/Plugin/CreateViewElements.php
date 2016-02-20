@@ -186,9 +186,10 @@ Class CreateViewElements extends CreateObject {
 				'test' . Inflector::camelize(ucfirst($element)) . '()',
 				array(
 					'//テスト実行',
-					'$this->_testNcAction(\'/' .
+					'$this->_testGetAction(\'/' .
 						Inflector::underscore('Test' . $this->plugin) . '/' .
-						Inflector::underscore($testControllerName) . '/' . $element . '\', null);',
+						Inflector::underscore($testControllerName) . '/' . $element . '\',',
+					chr(9) . chr(9) . 'array(\'method\' => \'assertNotEmpty\'), null, \'view\');',
 					'',
 					'//チェック',
 					'$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $element . '\', \'/\') . \'/\';',

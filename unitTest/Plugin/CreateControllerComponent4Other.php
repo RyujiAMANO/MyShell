@@ -95,9 +95,10 @@ Class CreateControllerComponent4Other extends CreateControllerComponent4 {
 		$processes[] = 'TestAuthGeneral::login($this);';
 		$processes[] = '';
 		$processes[] = '//テストアクション実行';
-		$processes[] = '$this->_testNcAction(\'/' .
+		$processes[] = '$this->_testGetAction(\'/' .
 						Inflector::underscore('Test' . $this->plugin) . '/' .
-						Inflector::underscore($testControllerName) . '/index\', null);';
+						Inflector::underscore($testControllerName) . '/index\',';
+		$processes[] = chr(9) . chr(9) . 'array(\'method\' => \'assertNotEmpty\'), null, \'view\');';
 		$processes[] = '$pattern = \'/\' . preg_quote(\'' . $this->testFile['dir'] . '/' . $testControllerName . '\', \'/\') . \'/\';';
 		$processes[] = '$this->assertRegExp($pattern, $this->view);';
 
