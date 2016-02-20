@@ -66,7 +66,8 @@ Class CreateOther extends CreateObject {
 		$function = $param[0];
 		$argument = $param[1];
 
-		$className = $this->testFile['dir'] . $this->testFile['class'] . Inflector::camelize(ucfirst($function)) . 'Test';
+		$className = $this->plugin . Inflector::camelize(strtr($this->testFile['dir'], '/', '_')) .
+						$this->testFile['class'] . Inflector::camelize(ucfirst($function)) . 'Test';
 
 		//メソッドの内容
 		$processes = array();
@@ -99,7 +100,9 @@ Class CreateOther extends CreateObject {
 			) .
 			$this->_phpdocClassHeader(
 				$function,
-				'NetCommons\\' . $this->plugin . '\\Test\\Case\\' . $this->testFile['dir'] . '\\' . Inflector::camelize(ucfirst($this->testFile['file']))
+				'NetCommons\\' . $this->plugin . '\\Test\\Case\\' .
+						str_replace('/', '\\', $this->testFile['dir']) . '\\' .
+						Inflector::camelize(ucfirst($this->testFile['file']))
 			) .
 			'class ' . $className . ' extends ' . $testSuiteTest . ' {' . chr(10) .
 			'' . chr(10) .
