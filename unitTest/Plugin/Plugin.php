@@ -78,6 +78,10 @@ Class Plugin {
 
 		$elementFiles = array();
 		foreach ($this->testFiles as $testFile) {
+			if ($testFile['type'] === 'View') {
+				continue;
+			}
+
 			$class = 'Create' . Inflector::camelize(strtr($testFile['type'], '/', ' '));
 			if (! class_exists($class)) {
 				$class = 'CreateOther';
