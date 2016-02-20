@@ -1,14 +1,14 @@
 <?php
 /**
- * Console/Commandのテストファイル生成クラス
+ * Console/Command/Taskのテストファイル生成クラス
  *
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  */
 
 /**
- * Console/Commandのテストファイル生成クラス
+ * Console/Command/Taskのテストファイル生成クラス
  */
-Class CreateConsoleCommand extends CreateObject {
+Class CreateConsoleCommandTask extends CreateObject {
 
 	/**
 	 * コンストラクター
@@ -18,14 +18,14 @@ Class CreateConsoleCommand extends CreateObject {
 	 */
 	public function __construct($testFile = null) {
 		output(chr(10) . '-*-*-*-*-*-*-*-*-*-*-' . chr(10));
-		output(sprintf('## Console/Commandのテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
+		output(sprintf('## Console/Command/Taskのテストコード生成(%s)', $testFile['dir'] . '/' . $testFile['file']));
 		output(print_r($testFile, true));
 
 		parent::__construct($testFile);
 	}
 
 	/**
-	 * Console/Commandのテストコード生成
+	 * Console/Command/Taskのテストコード生成
 	 *
 	 * @return bool 成功・失敗
 	 */
@@ -88,7 +88,7 @@ Class CreateConsoleCommand extends CreateObject {
 
 		$output .=
 			$this->_classVariable(
-					'Shell name',
+					'Task name',
 					'string',
 					'protected',
 					'_shellName',
@@ -100,7 +100,7 @@ Class CreateConsoleCommand extends CreateObject {
 		$arguments = explode(', ', $argument);
 		$processes = array(
 			'$shell = $this->_shellName;',
-			'$this->$shell = $this->loadShell($shell);',
+			'$this->$shell = $this->loadTask($shell);',
 			'',
 			'//チェック',
 			'$this->$shell->expects($this->at(0))->method(\'out\')',
