@@ -419,8 +419,8 @@ mv application.yml2 application.yml
 echo "mysql -u${DBUSER} -p${DBPASS} ${DBNAME} < ${CURDIR}/insert_user.sql"
 mysql -u${DBUSER} -p${DBPASS} ${DBNAME} < ${CURDIR}/insert_user.sql
 
-echo "${NC3DIR}/app/Console/cake users.users import ${CURDIR}/import_file.csv"
-${NC3DIR}/app/Console/cake users.users import ${CURDIR}/import_file.csv
+echo "${NC3DIR}/app/Console/cake users.users user_import ${CURDIR}/import_file.csv"
+${NC3DIR}/app/Console/cake users.users user_import ${CURDIR}/import_file.csv
 
 echo "mysql -u${DBUSER} -p${DBPASS} ${DBNAME} < ${CURDIR}/insert_user_post.sql"
 mysql -u${DBUSER} -p${DBPASS} ${DBNAME} < ${CURDIR}/insert_user_post.sql
