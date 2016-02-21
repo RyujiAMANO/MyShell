@@ -397,7 +397,12 @@ Class CreateObject {
 				}
 				if (substr($matches[1][$i], 0, 1) !== '_') {
 					//TODO:privateおよびprotectedは後回し
-					$result[$i] = array($matches[1][$i], $matches[2][$i], $this->getFunctionComment($matches[1][$i]));
+					$result[$i] = array(
+						$matches[1][$i],
+						$matches[2][$i],
+						$this->getFunctionComment($matches[1][$i]),
+						$this->getFunctionProcess($matches[1][$i]),
+					);
 				}
 			}
 		}
@@ -437,6 +442,40 @@ Class CreateObject {
 				$funcCheck = true;
 			} else {
 				$funcCheck = false;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * メソッドの処理取得
+	 *
+	 * @return array メソッドリスト
+	 */
+	public function getFunctionProcess($function) {
+		if (! file_exists($this->testFile['path'])) {
+			return true;
+		}
+
+		$file = file_get_contents($this->testFile['path']);
+		$fileAsArray = explode(chr(10), $file);
+
+		$result = '';
+		$funcCheck = false;
+		foreach ($fileAsArray as $line) {
+			if ($funcCheck) {
+				if (preg_match('/^' . chr(9) . '}$/', $line)) {
+					$result .= chr(10) . $line;
+					break;
+				}
+			}
+
+			if (preg_match('/^' . chr(9) . '.+?' . $function . '.+{' . '$/', $line)) {
+				$result = $line;
+				$funcCheck = true;
+			} elseif ($funcCheck) {
+				$result .= chr(10) . $line;
 			}
 		}
 

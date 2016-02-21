@@ -26,6 +26,9 @@ Class CreateModel4Other extends CreateModel4 {
 
 		//メソッドの内容
 		$processes = array();
+		$processes[] = '$model = $this->_modelName;';
+		$processes[] = '$methodName = $this->_methodName;';
+		$processes[] = '';
 		$processes[] = '//データ生成';
 		$arguments = explode(', ', $argument);
 		$methodArg = '';
@@ -38,8 +41,6 @@ Class CreateModel4Other extends CreateModel4 {
 		}
 		$processes[] = '';
 		$processes[] = '//テスト実施';
-		$processes[] = '$model = $this->_modelName;';
-		$processes[] = '$methodName = $this->_methodName;';
 		$processes[] = '$result = $this->$model->$methodName(' . substr($methodArg, 2) . ');';
 		$processes[] = '';
 		$processes[] = '//チェック';

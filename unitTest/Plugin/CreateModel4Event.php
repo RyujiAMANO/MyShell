@@ -26,12 +26,13 @@ Class CreateModel4Event extends CreateModel4 {
 
 		//メソッドの内容
 		$processes = array();
+		$processes[] = '$model = $this->_modelName;';
+		$processes[] = '$methodName = $this->_methodName;';
+		$processes[] = '';
 		$processes[] = '//データ生成';
 		$processes[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
 		$processes[] = '';
 		$processes[] = '//テスト実施';
-		$processes[] = '$model = $this->_modelName;';
-		$processes[] = '$methodName = $this->_methodName;';
 		$processes[] = '$result = $this->$model->$methodName($data);';
 		$processes[] = '';
 		$processes[] = '//チェック';

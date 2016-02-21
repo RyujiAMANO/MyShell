@@ -25,6 +25,20 @@ Class CreateModel extends CreateObject {
 	}
 
 	/**
+	 * SaveFieldかどうかチェック
+	 *
+	 * @return bool
+	 */
+	public function isSaveField($param) {
+		if (preg_match('/' . preg_quote('->saveField(') . '/', $param[3]) &&
+				! preg_match('/' . preg_quote('->save(') . '/', $param[3])) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Modelのテストコード生成
 	 *
 	 * @return void
@@ -38,6 +52,9 @@ Class CreateModel extends CreateObject {
 
 			if (substr($param[0], 0, strlen('get')) === 'get') {
 				(new CreateModel4Get($this->testFile))->createTest($param);
+
+			} elseif ($this->isSaveField($param)) {
+				(new CreateModel4Other($this->testFile))->createTest($param);
 
 			} elseif (substr($param[0], 0, strlen('save')) === 'save') {
 				(new CreateModel4Save($this->testFile))->createTest($param);
