@@ -22,6 +22,15 @@ elif [ "$1" = "composer" -o "$1" = "comp" ]; then
 else
 	NORMALDEV=1; export NORMALDEV
 fi
+if [ "$NC3DIR" = "" ]; then
+	echo "Chage directory /var/www/MyShell/install"
+	exit
+fi
+if [ ! "$CURDIR" = "/var/www/MyShell/install" ]; then
+	echo "Chage directory /var/www/MyShell/install"
+	exit
+fi
+
 if [ "$2" = "docs" ]; then
 	SKIPDOCS=0; export SKIPDOCS
 else
