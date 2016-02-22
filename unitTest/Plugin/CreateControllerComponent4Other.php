@@ -104,9 +104,14 @@ Class CreateControllerComponent4Other extends CreateControllerComponent4 {
 
 		$arguments = explode(', ', $argument);
 		$methodArg = '';
+		$hasController = false;
 		foreach ($arguments as $arg) {
 			$matches = array();
-			if (preg_match('/^([\$_0-9a-zA-Z]+)( \= )?(.*)/', $arg, $matches)) {
+			if (preg_match('/Controller \$controller/', $arg, $matches)) {
+				$hasController = true;
+				continue;
+			}
+			if (preg_match('/^([\$_0-9a-zA-Z]+)( \= )(.*)/', $arg, $matches)) {
 				if ($methodArg === '') {
 					$processes[] = '';
 					$processes[] = '//テストデータ生成';
@@ -114,6 +119,9 @@ Class CreateControllerComponent4Other extends CreateControllerComponent4 {
 				$processes[] = $matches[1] . ' = ' . ($matches[3] ? $matches[3] : 'null') . ';';
 				$methodArg .= ', ' . $matches[1];
 			}
+		}
+		if ($hasController) {
+			$methodArg .= ', $this->controller';
 		}
 
 		$component = substr($this->testFile['class'], 0, -1 * strlen('Component'));
