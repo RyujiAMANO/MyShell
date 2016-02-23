@@ -30,8 +30,12 @@ Class CreateModel extends CreateObject {
 	 * @return bool
 	 */
 	public function isSaveField($param) {
-		if (preg_match('/' . preg_quote('->saveField(') . '/', $param[3]) &&
-				! preg_match('/' . preg_quote('->save(') . '/', $param[3])) {
+		if (preg_match('/' . preg_quote('->save(') . '/', $param[3])) {
+			return false;
+		}
+
+		if (preg_match('/' . preg_quote('->saveField(') . '/', $param[3]) ||
+				preg_match('/' . preg_quote('->updateAll(') . '/', $param[3])) {
 			return true;
 		} else {
 			return false;
