@@ -62,8 +62,8 @@ fi
 #
 echo "作成者を半角英語で入力してください。[Shohei Nakajima]"
 echo -n "> "
-#read ANS
-ANS=""
+read ANS
+#ANS=""
 if [ "$ANS" = "" ]; then
 	ANS="Shohei Nakajima"
 fi
@@ -75,8 +75,8 @@ echo ""
 # 作成者メールアドレス
 #
 echo "作成者のメールアドレスを入力してください。[nakajimashouhei@gmail.com]"
-echo -n "> "
-#read ANS
+#echo -n "> "
+read ANS
 ANS=""
 if [ "$ANS" = "" ]; then
 	ANS="nakajimashouhei@gmail.com"
