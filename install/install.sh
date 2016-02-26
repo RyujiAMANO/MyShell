@@ -110,8 +110,24 @@ if [ ! "${NORMALDEV}" = "4" ]; then
 	echo "cp -Rpf ${NC3DIR} ./"
 	cp -Rpf ${NC3DIR} ./
 
-	echo "rm -Rf ${NC3DIR}/*"
-	rm -Rf ${NC3DIR}/*
+	for dir in `ls`
+	do
+		case "${aPlugin[0]}" in
+			"nbproject" ) continue ;;
+			"cache" ) continue ;;
+			"backup" ) continue ;;
+			"logs" ) continue ;;
+			"Vagrantfile" ) continue ;;
+			"vagrant-halt.bat" ) continue ;;
+			"vagrant-plugin-install.bat" ) continue ;;
+			"vagrant-provision.bat" ) continue ;;
+			"vagrant-up.bat" ) continue ;;
+			* )
+			
+			echo "rm -Rf ${NC3DIR}/${dir}"
+			rm -Rf ${NC3DIR}/${dir}
+		esac
+	done
 
 	echo "rm -Rf ${NC3DIR}/.git"
 	rm -Rf ${NC3DIR}/.git
