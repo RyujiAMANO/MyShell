@@ -162,15 +162,14 @@ if [ ! "${NORMALDEV}" = "4" ]; then
 	echo "rm -Rf ${CURDIR}/NetCommons3"
 	rm -Rf ${CURDIR}/NetCommons3
 
-	if
-	 [ -d ${BKDIR}/app/nbproject ]; then
-		echo "cp -Rpf ${BKDIR}/app/nbproject ${NC3DIR}/"
-		cp -Rpf ${BKDIR}/app/nbproject ${NC3DIR}/
-	fi
-	if [ -d ${BKDIR}/app/cache ]; then
-		echo "cp -Rpf ${BKDIR}/app/cache ${NC3DIR}/"
-		cp -Rpf ${BKDIR}/app/cache ${NC3DIR}/
-	fi
+	#if [ -d ${BKDIR}/app/nbproject ]; then
+	#	echo "cp -Rpf ${BKDIR}/app/nbproject ${NC3DIR}/"
+	#	cp -Rpf ${BKDIR}/app/nbproject ${NC3DIR}/
+	#fi
+	#if [ -d ${BKDIR}/app/cache ]; then
+	#	echo "cp -Rpf ${BKDIR}/app/cache ${NC3DIR}/"
+	#	cp -Rpf ${BKDIR}/app/cache ${NC3DIR}/
+	#fi
 
 	echo "cd ${CURDIR}"
 	cd ${CURDIR}
@@ -204,6 +203,11 @@ if [ ! "${NORMALDEV}" = "4" ]; then
 
 	echo "cp -apf ${CURDIR}/NetCommons3/. app/"
 	cp -apf ${CURDIR}/NetCommons3/. app/
+
+	if [ -f ${BKDIR}/app/Vagrantfile ]; then
+		echo "cp -pf ${BKDIR}/app/Vagrantfile app/"
+		cp -pf ${BKDIR}/app/Vagrantfile app/
+	fi
 
 	if [ ! "${SKIPDOCS}" = "1" ]; then
 		echo "mv NetCommons3Docs docs"
