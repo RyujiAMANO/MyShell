@@ -110,7 +110,7 @@ if [ ! "${NORMALDEV}" = "4" ]; then
 	echo "cp -Rpf ${NC3DIR} ./"
 	cp -Rpf ${NC3DIR} ./
 
-	for dir in `ls`
+	for dir in "`ls`"
 	do
 		case "${aPlugin[0]}" in
 			"nbproject" ) continue ;;
