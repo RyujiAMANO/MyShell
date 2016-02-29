@@ -4,22 +4,27 @@
 
 <pre>
 cd /var/www/MyShell/unitTest
-bash startUnitTest.sh プラグイン名(キャメル記法)
+bash startUnitTest.sh [--no-all-test-suite] <plugin_name> [<type> [<file> [<method>]]]
 </pre>
 
-### ≪第一引数≫
+※ --no-all-test を指定すると、AllXxxxxTest.phpは作成しない。
+
+
+### ≪第一引数(plugin_name  キャメル形式)≫
 
 プラグイン名(キャメル記法)
 
 (例)bash startUnitTest.sh AccessCounters
 
 
-### ≪第二引数≫
+### ≪第二引数(type)≫
 
 タイプ
 
 | パラメータ           | 説明                    |
 | -------------------- | ----------------------- |
+| Console/Command      | Console/Commandのテストファイルを作成する |
+| Console/Command/Task | Console/Command/Taskのテストファイルを作成する |
 | Controller           | Controllerのテストファイルを作成する |
 | Controller/Component | Controller/Componentのテストファイルを作成する |
 | Model                | Modelのテストファイルを作成する |
@@ -33,7 +38,7 @@ bash startUnitTest.sh プラグイン名(キャメル記法)
 (例)bash startUnitTest.sh AccessCounters Model
 
 
-### ≪第三引数≫
+### ≪第三引数(file)≫
 
 ファイル
 ※省略すると、すべてのファイルが対象となる
@@ -42,7 +47,7 @@ bash startUnitTest.sh プラグイン名(キャメル記法)
 
 
 
-### ≪第四引数≫
+### ≪第四引数(method)≫
 
 メソッド
 ※省略すると、すべてのメソッドが対象となる
