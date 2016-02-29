@@ -4,7 +4,7 @@
 
 <pre>
 cd /var/www/MyShell/unitTest
-bash startUnitTest.sh [--no-all-test-suite] <plugin_name> [<type> [<file> [<method>]]]
+bash startUnitTest.sh [--no-all-test-suite] &lt;plugin_name&gt; [&lt;type&gt; [&lt;file&gt; [&lt;method&gt;]]]
 </pre>
 
 ※ --no-all-test を指定すると、AllXxxxxTest.phpは作成しない。
