@@ -21,7 +21,7 @@ if [ "${PLUGIN_NAME}" = "" ]; then
 	echo ""
 fi
 if [ "${PLUGIN_NAME}" = "" -o "${PLUGIN_NAME}" = "-h" -o "${PLUGIN_NAME}" = "?" ]; then
-	echo "Usage: bash startUnitTest.sh [--no-all-test-suite] <plugin_name> [<type> [<file> [<method>]]]"
+	echo "Usage: bash startUnitTest.sh [--no-all-test] <plugin_name> [<type> [<file> [<method>]]]"
 	echo ""
 	echo "※ --no-all-test を指定すると、AllXxxxxTest.phpは作成しない。"
 	echo ""
