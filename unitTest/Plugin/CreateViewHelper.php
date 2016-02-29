@@ -115,9 +115,11 @@ Class CreateViewHelper extends CreateObject {
 					'//TODO:必要に応じてセットする',
 					'$viewVars = array();',
 					'$requestData = array();',
+					'$params = array();',
 					'',
 					'//Helperロード',
-					'$this->loadHelper(\'' . $this->plugin . '.' . substr($this->testFile['class'], 0, -1 * strlen('Helper')) . '\', $viewVars, $requestData);',
+					'$this->loadHelper(\'' . $this->plugin . '.' . substr($this->testFile['class'], 0, -1 * strlen('Helper')) . '\', ' .
+										'$viewVars, $requestData, $params);',
 				)
 			) .
 			$this->_classMethod(
