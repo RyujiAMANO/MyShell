@@ -3,12 +3,12 @@
 cd /var/www/MyShell/
 sudo -s git pull
 
-#vagrant‚ÌgitƒAƒJƒEƒ“ƒg‚Ìİ’è
+#vagrantã®gitã‚¢ã‚«ã‚¦ãƒ³ãƒˆã®è¨­å®š
 USERNAME="`git config --global --list | grep user.name`"
 USERMAIL="`git config --global --list | grep user.email`"
 
 if [ "$USERNAME" = "" ] ; then
-	echo "Git‚ÌƒAƒJƒEƒ“ƒg–¼‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B"
+	echo "Gitã®ã‚¢ã‚«ã‚¦ãƒ³ãƒˆåã‚’æŒ‡å®šã—ã¦ãã ã•ã„ã€‚"
 	read INPUT_USERNAME
 	if [ ! "$INPUT_USERNAME" = "" ] ; then
 		git config --global user.name "$INPUT_USERNAME"
@@ -16,7 +16,7 @@ if [ "$USERNAME" = "" ] ; then
 fi
 
 if [ "$USERMAIL" = "" ] ; then
-	echo "Git‚Ìƒ[ƒ‹ƒAƒhƒŒƒX‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B"
+	echo "Gitã®ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã‚’æŒ‡å®šã—ã¦ãã ã•ã„ã€‚"
 	read INPUT_USERMAIL
 	if [ ! "$INPUT_USERMAIL" = "" ] ; then
 		git config --global user.email "$INPUT_USERMAIL"
