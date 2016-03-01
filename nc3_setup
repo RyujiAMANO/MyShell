@@ -1,8 +1,5 @@
 #!/bin/bash
 
-cd /var/www/MyShell/
-sudo -s git pull
-
 #vagrantのgitアカウントの設定
 USERNAME="`git config --global --list | grep user.name`"
 USERMAIL="`git config --global --list | grep user.email`"
