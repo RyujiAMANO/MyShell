@@ -43,24 +43,44 @@ Class CreateController4OtherController extends CreateController4 {
 			'' . chr(10) .
 			$this->_getClassVariable($function) .
 			$this->_classMethod(
+				'setUp method',
+				array(
+					'@return void',
+				),
+				'setUp()',
+				array(
+					'parent::setUp();',
+					'',
+					'//ログイン',
+					'TestAuthGeneral::login($this);',
+				)
+			) .
+			$this->_classMethod(
+				'tearDown method',
+				array(
+					'@return void',
+				),
+				'tearDown method()',
+				array(
+					'//ログアウト',
+					'TestAuthGeneral::logout($this);',
+					'',
+					'parent::tearDown();',
+				)
+			) .
+			$this->_classMethod(
 				$action . '()アクションのテスト',
 				array(
 					'@return void',
 				),
 				'test' . ucfirst($function) . '()',
 				array(
-					'//ログイン',
-					'TestAuthGeneral::login($this);',
-					'',
 					'//テスト実行',
 					'$this->_testGetAction(array(\'action\' => \'' . $action . '\'), array(\'method\' => \'assertNotEmpty\'), null, \'view\');',
 					'',
 					'//チェック',
 					'//TODO:assert追加',
 					'debug($this->view);',
-					'',
-					'//ログアウト',
-					'TestAuthGeneral::logout($this);',
 				)
 			) .
 			'}' .
