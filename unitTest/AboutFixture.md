@@ -140,3 +140,35 @@ array(
 ),
 ````
 その他、使用できるFrameデータは、<a href="https://github.com/NetCommons3/Frames/blob/master/Test/Fixture/FrameFixture.php#L47-L178">こちら</a>を参考に設定して下さい。
+
+
+### テストで使用する主なFrameデータ
+````
+//メイン
+array(
+	'id' => '6',
+	'language_id' => '2',
+	'room_id' => '1',
+	'box_id' => '3',
+	'plugin_key' => 'test_plugin',
+	'block_id' => '2',
+	'key' => 'frame_3',
+	'name' => 'Test frame main',
+	'weight' => '1',
+	'is_deleted' => '0',
+),
+//フレームのブロックなし
+array(
+	'id' => '14',
+	'language_id' => '2',
+	'room_id' => '1',
+	'box_id' => '3',
+	'plugin_key' => 'test_plugin',
+	'block_id' => null,
+	'key' => 'frame_7',
+	'name' => 'Test frame main 3',
+	'weight' => '2',
+	'is_deleted' => '0',
+),
+````
+
