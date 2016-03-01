@@ -24,7 +24,7 @@ if (! $file = file_get_contents('/var/www/app/app/webroot/coverage/' . $plugin .
 	}
 }
 if ($displayUrl) {
-	echo "\nhttp://app.local:9090/coverage/${plugin}/${fileName}\n\n";
+	echo "\nhttp://127.0.0.1:9090/coverage/${plugin}/${fileName}\n\n";
 }
 
 function html_truncate($html) {

@@ -334,9 +334,9 @@ do
 				echo ""
 				echo "[MySQL coverage report]"
 				#if [ -f app/Plugin/${plugin}/phpunit.xml.dist ]; then
-				#	echo "http://app.local:9090/coverage/${plugin}/index.html"
+				#	echo "http://127.0.0.1:9090/coverage/${plugin}/index.html"
 				#else
-				#	echo "http://app.local:9090/coverage/${plugin}/Plugin.html"
+				#	echo "http://127.0.0.1:9090/coverage/${plugin}/Plugin.html"
 				#fi
 				#echo ""
 
@@ -359,9 +359,9 @@ do
 			echo "##################################"
 			echo ""
 			if [ $phpdocerr -ne 0 ]; then
-				echo "http://app.local:9090/phpdoc/${plugin}/reports/errors.html"
+				echo "http://127.0.0.1:9090/phpdoc/${plugin}/reports/errors.html"
 			else
-				echo "http://app.local:9090/phpdoc/${plugin}/index.html"
+				echo "http://127.0.0.1:9090/phpdoc/${plugin}/index.html"
 			fi
 			echo ""
 		fi
