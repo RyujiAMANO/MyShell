@@ -29,11 +29,13 @@ Class CreateController4BlocksControllerEdit extends CreateController4Blocks {
 				$function,
 				array(
 					'App::uses(\'' . $testSuiteTest . '\', \'' . $testSuitePlugin . '.TestSuite\')',
-				)
+				),
+				$this->testFile['class'] . '::add(),edit(),delete()'
 			) .
 			$this->_phpdocClassHeader(
 				$function,
-				'NetCommons\\' . $this->plugin . '\\Test\\Case\\Controller\\' . Inflector::camelize(ucfirst($this->testFile['file']))
+				'NetCommons\\' . $this->plugin . '\\Test\\Case\\Controller\\' . Inflector::camelize(ucfirst($this->testFile['file'])),
+				$this->testFile['class'] . '::add(),edit(),delete()'
 			) .
 			'class ' . $className . ' extends ' . $testSuiteTest . ' {' . chr(10) .
 			'' . chr(10) .
@@ -162,6 +164,7 @@ Class CreateController4BlocksControllerEdit extends CreateController4Blocks {
 					chr(9) . chr(9) . '\'id\' => \'4\',',
 					chr(9) . chr(9) . '\'key\' => \'block_2\',',
 					chr(9) . '),',
+					chr(9) . '//TODO:必要に応じてパラメータ変更する',
 					chr(9) . '\'' . Inflector::classify($this->plugin) . '\' => array(',
 					chr(9) . chr(9) . '\'key\' => \'' . $this->pluginSingularizeUnderscore . '_key_2\',',
 					chr(9) . '),',

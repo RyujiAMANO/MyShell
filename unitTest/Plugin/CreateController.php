@@ -152,7 +152,7 @@ Class CreateController extends CreateObject {
 
 				} elseif (substr($param[0], 0, strlen('add')) === 'add' ||
 						substr($param[0], 0, strlen('edit')) === 'edit' ||
-						substr($param[0], 0, strlen('add')) === 'delete') {
+						substr($param[0], 0, strlen('delete')) === 'delete') {
 					$param[0] = 'edit';
 					$class = 'CreateController4BlocksControllerEdit';
 				} else {
