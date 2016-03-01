@@ -143,7 +143,7 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 				)
 			) .
 			$this->_classMethod(
-				'view(ctp)ファイルのテスト' . chr(10),
+				'view(ctp)ファイルのテスト',
 				array(
 					'@return void',
 				),
