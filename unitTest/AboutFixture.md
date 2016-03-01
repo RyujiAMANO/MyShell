@@ -171,4 +171,5 @@ array(
 	'is_deleted' => '0',
 ),
 ````
+その他、使用できるFrameデータは、<a href="https://github.com/NetCommons3/Frames/blob/master/Test/Fixture/FrameFixture.php#L47-L178">こちら</a>を参考に設定して下さい。
 
