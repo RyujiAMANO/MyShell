@@ -9,6 +9,7 @@ USERMAIL="`git config --global --list | grep user.email`"
 
 if [ "$USERNAME" = "" ] ; then
 	echo "Gitのアカウント名を指定してください。"
+	echo -n "> "
 	read INPUT_USERNAME
 	if [ ! "$INPUT_USERNAME" = "" ] ; then
 		git config --global user.name "$INPUT_USERNAME"
@@ -17,6 +18,7 @@ fi
 
 if [ "$USERMAIL" = "" ] ; then
 	echo "Gitのメールアドレスを指定してください。"
+	echo -n "> "
 	read INPUT_USERMAIL
 	if [ ! "$INPUT_USERMAIL" = "" ] ; then
 		git config --global user.email "$INPUT_USERMAIL"
