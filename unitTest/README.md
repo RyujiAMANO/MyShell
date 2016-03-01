@@ -55,8 +55,8 @@ bash startUnitTest.sh [--no-all-test] &lt;plugin_name&gt; [&lt;type&gt; [&lt;fil
 (例)bash startUnitTest.sh AccessCounters Model AccessCounter saveAccessCounter
 
 <br>
-<br>
 
 ## Fixtureについて
+一般プラグインについて、各プラグインで必要なFixtureを作る必要があります。
 
 https://github.com/s-nakajima/MyShell/blob/master/unitTest/AboutFixture.md
