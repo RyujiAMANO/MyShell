@@ -8,7 +8,7 @@ USERNAME="`git config --global --list | grep user.name`"
 USERMAIL="`git config --global --list | grep user.email`"
 
 if [ "$USERNAME" = "" ] ; then
-	echo "Gitのアカウント名を指定してください。"
+	echo "github.comのアカウントを入力してください。"
 	echo -n "> "
 	read INPUT_USERNAME
 	if [ ! "$INPUT_USERNAME" = "" ] ; then
@@ -17,7 +17,7 @@ if [ "$USERNAME" = "" ] ; then
 fi
 
 if [ "$USERMAIL" = "" ] ; then
-	echo "Gitのメールアドレスを指定してください。"
+	echo "github.comのメールアドレスを入力してください。"
 	echo -n "> "
 	read INPUT_USERMAIL
 	if [ ! "$INPUT_USERMAIL" = "" ] ; then
