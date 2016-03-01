@@ -54,3 +54,9 @@ bash startUnitTest.sh [--no-all-test] &lt;plugin_name&gt; [&lt;type&gt; [&lt;fil
 
 (例)bash startUnitTest.sh AccessCounters Model AccessCounter saveAccessCounter
 
+<br>
+<br>
+
+## Fixtureについて
+
+https://github.com/s-nakajima/MyShell/blob/master/unitTest/AboutFixture.md
