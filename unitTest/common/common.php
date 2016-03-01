@@ -25,6 +25,7 @@ require dirname(__DIR__) . '/Plugin/CreateController4WorkflowControllerView.php'
 require dirname(__DIR__) . '/Plugin/CreateController4WorkflowControllerEdit.php';
 require dirname(__DIR__) . '/Plugin/CreateController4WorkflowControllerAdd.php';
 require dirname(__DIR__) . '/Plugin/CreateController4WorkflowControllerDelete.php';
+require dirname(__DIR__) . '/Plugin/CreateController4FrameSettingsController.php';
 require dirname(__DIR__) . '/Plugin/CreateController4Blocks.php';
 require dirname(__DIR__) . '/Plugin/CreateController4BlocksController.php';
 require dirname(__DIR__) . '/Plugin/CreateController4BlocksPaginatorController.php';

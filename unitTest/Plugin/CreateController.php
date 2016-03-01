@@ -67,6 +67,20 @@ Class CreateController extends CreateObject {
 	}
 
 	/**
+	 * FrameSettingコントローラかどうかチェック
+	 *
+	 * @return bool
+	 */
+	public function isFrameSetting() {
+		if (! file_exists($this->testFile['path'])) {
+			return false;
+		}
+
+		$file = file_get_contents($this->testFile['path']);
+		return (bool)preg_match('/class ' . Inflector::classify($this->plugin) . 'FrameSettingsController extends LinksAppController/', $file);
+	}
+
+	/**
 	 * AppControllerにNetCommons.Permissionの有無チェック
 	 *
 	 * @return bool
@@ -141,6 +155,8 @@ Class CreateController extends CreateObject {
 						$class = 'CreateController4OtherController';
 					}
 				}
+			} elseif ($this->isFrameSetting()) {
+				$class = 'CreateController4FrameSettingsController';
 
 			} elseif ($this->isBlock()) {
 				if (substr($param[0], 0, strlen('index')) === 'index') {

@@ -47,7 +47,7 @@ Class CreateController4WorkflowControllerView extends CreateController4Workflow 
 				array(
 					'$frameId = \'6\';',
 					'$blockId = \'2\';',
-					'$contentKey = \'' . $this->pluginSingularizeUnderscore . '_content_key_1\'; //TODO:keyをセットする',
+					'$contentKey = \'' . 'content_key_1\';',
 					'',
 					'$data = array(',
 					chr(9) . '\'frame_id\' => $frameId,',
