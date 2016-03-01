@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd /var/www/MyShell/
+sudo -s git pull
+
+cd /var/www/MyShell/install
+sudo -s bash install.sh $1
