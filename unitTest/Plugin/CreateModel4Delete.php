@@ -41,7 +41,7 @@ Class CreateModel4Delete extends CreateModel4 {
 		$processes1[] = 'return $results;';
 
 		$processes2 = array();
-		$processes2[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
+		$processes2[] = '$data = $this->dataProviderDelete()[0][0];';
 		$processes2[] = '';
 		$processes2[] = '//TODO:テストパタンを書く';
 		$processes2[] = 'return array(';
