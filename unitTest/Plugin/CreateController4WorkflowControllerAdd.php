@@ -270,6 +270,7 @@ Class CreateController4WorkflowControllerAdd extends CreateController4Workflow {
 					'$this->assertInput(\'button\', \'save_\' . WorkflowComponent::STATUS_APPROVED, null, $this->view);',
 					'',
 					'//TODO:上記以外に必要なassert追加',
+					'debug($this->view);',
 					'',
 					'TestAuthGeneral::logout($this);',
 				)
@@ -301,6 +302,7 @@ Class CreateController4WorkflowControllerAdd extends CreateController4Workflow {
 					'$this->assertInput(\'button\', \'save_\' . WorkflowComponent::STATUS_PUBLISHED, null, $this->view);',
 					'',
 					'//TODO:上記以外に必要なassert追加',
+					'debug($this->view);',
 					'',
 					'//ログアウト',
 					'TestAuthGeneral::logout($this);',

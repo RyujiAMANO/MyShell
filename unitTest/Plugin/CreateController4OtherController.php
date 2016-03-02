@@ -60,7 +60,7 @@ Class CreateController4OtherController extends CreateController4 {
 				array(
 					'@return void',
 				),
-				'tearDown method()',
+				'tearDown()',
 				array(
 					'//ログアウト',
 					'TestAuthGeneral::logout($this);',

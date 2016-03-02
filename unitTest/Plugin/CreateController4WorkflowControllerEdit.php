@@ -448,6 +448,7 @@ Class CreateController4WorkflowControllerEdit extends CreateController4Workflow 
 					'$this->assertInput(\'input\', \'_method\', \'DELETE\', $this->view);',
 					'',
 					'//TODO:上記以外に必要なassert追加',
+					'debug($this->view);',
 					'',
 					'//ログアウト',
 					'TestAuthGeneral::logout($this);',
