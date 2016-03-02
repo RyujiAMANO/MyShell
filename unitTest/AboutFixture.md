@@ -40,7 +40,8 @@ array(
 	//TODO:その他のフィールドデータ
 	'created_user' => '4'
 ),
-// * 一般が書いたコンテンツ＆公開している
+// * 一般が書いたコンテンツ＆公開して、一時保存
+//   (id=4とid=5で区別できるものをセットする)
 array(
 	'id' => '4',
 	'block_id' => '2',
@@ -48,14 +49,25 @@ array(
 	'language_id' => '2',
 	'status' => '1',
 	'is_active' => true,
+	'is_latest' => false,
+	//TODO:その他のフィールドデータ
+	'created_user' => '4'
+),
+array(
+	'id' => '5',
+	'block_id' => '2',
+	'key' => 'content_key_3',
+	'language_id' => '2',
+	'status' => '3',
+	'is_active' => false,
 	'is_latest' => true,
 	//TODO:その他のフィールドデータ
 	'created_user' => '4'
 ),
 // * 編集者が書いたコンテンツ＆一度公開して、差し戻し
-//   (id=5とid=6で区別できるものをセットする)
+//   (id=6とid=7で区別できるものをセットする)
 array(
-	'id' => '5',
+	'id' => '6',
 	'block_id' => '2',
 	'key' => 'content_key_4',
 	'language_id' => '2',
@@ -67,7 +79,7 @@ array(
 	'created_user' => '3'
 ),
 array(
-	'id' => '6',
+	'id' => '7',
 	'block_id' => '2',
 	'key' => 'content_key_4',
 	'language_id' => '2',
@@ -79,7 +91,7 @@ array(
 ),
 // * 編集長が書いたコンテンツ＆一度も公開していない（下書き中）
 array(
-	'id' => '7',
+	'id' => '8',
 	'block_id' => '2',
 	'key' => 'content_key_5',
 	'language_id' => '2',
