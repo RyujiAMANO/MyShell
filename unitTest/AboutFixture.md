@@ -74,7 +74,7 @@ array(
 	'category_id' => '1',
 	'status' => '1',
 	'is_active' => true,
-	'is_latest' => true,
+	'is_latest' => false,
 	//TODO:その他のフィールドデータ
 	'created_user' => '3'
 ),
