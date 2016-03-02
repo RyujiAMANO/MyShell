@@ -52,7 +52,7 @@ array(
 	//TODO:その他のフィールドデータ
 	'created_user' => '4'
 ),
-// * 一般が書いたコンテンツ＆一度公開して、差し戻し
+// * 編集者が書いたコンテンツ＆一度公開して、差し戻し
 //   (id=5とid=6で区別できるものをセットする)
 array(
 	'id' => '5',
@@ -64,7 +64,7 @@ array(
 	'is_active' => true,
 	'is_latest' => true,
 	//TODO:その他のフィールドデータ
-	'created_user' => '4'
+	'created_user' => '3'
 ),
 array(
 	'id' => '6',
@@ -75,9 +75,9 @@ array(
 	'is_active' => false,
 	'is_latest' => true,
 	//TODO:その他のフィールドデータ
-	'created_user' => '4'
+	'created_user' => '3'
 ),
-// * 編集者が書いたコンテンツ＆一度も公開していない（下書き中）
+// * 編集長が書いたコンテンツ＆一度も公開していない（下書き中）
 array(
 	'id' => '7',
 	'block_id' => '2',
@@ -87,7 +87,7 @@ array(
 	'is_active' => false,
 	'is_latest' => true,
 	//TODO:その他のフィールドデータ
-	'created_user' => '3'
+	'created_user' => '2'
 ),
 ````
 
