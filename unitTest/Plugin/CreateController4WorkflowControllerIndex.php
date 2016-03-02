@@ -86,6 +86,26 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 				)
 			) .
 			$this->_classMethod(
+				'indexアクションのテスト',
+				array(
+					'@param array $urlOptions URLオプション',
+					'@param array $assert テストの期待値',
+					'@param string|null $exception Exception',
+					'@param string $return testActionの実行後の結果',
+					'@dataProvider dataProviderIndex',
+					'@return void',
+				),
+				'testIndex($urlOptions, $assert, $exception = null, $return = \'view\')',
+				array(
+					'//テスト実行',
+					'parent::testIndex($urlOptions, $assert, $exception, $return);',
+					'',
+					'//チェック',
+					'//TODO:view(ctp)ファイルに対するassert追加',
+					'debug($this->view);',
+				)
+			) .
+			$this->_classMethod(
 				'indexアクションのテスト(編集権限あり)用DataProvider' . chr(10) .
 					' *' . chr(10) .
 					' * ### 戻り値' . chr(10) .
@@ -110,6 +130,26 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 					'//TODO:必要なテストデータ追加',
 					'',
 					'return $results;',
+				)
+			) .
+			$this->_classMethod(
+				'indexアクションのテスト(作成権限のみ)',
+				array(
+					'@param array $urlOptions URLオプション',
+					'@param array $assert テストの期待値',
+					'@param string|null $exception Exception',
+					'@param string $return testActionの実行後の結果',
+					'@dataProvider dataProviderIndex',
+					'@return void',
+				),
+				'testIndexByCreatable($urlOptions, $assert, $exception = null, $return = \'view\')',
+				array(
+					'//テスト実行',
+					'parent::testIndexByCreatable($urlOptions, $assert, $exception, $return);',
+					'',
+					'//チェック',
+					'//TODO:view(ctp)ファイルに対するassert追加',
+					'debug($this->view);',
 				)
 			) .
 			$this->_classMethod(
@@ -140,25 +180,23 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 				)
 			) .
 			$this->_classMethod(
-				'view(ctp)ファイルのテスト',
+				'indexアクションのテスト(編集権限あり)',
 				array(
+					'@param array $urlOptions URLオプション',
+					'@param array $assert テストの期待値',
+					'@param string|null $exception Exception',
+					'@param string $return testActionの実行後の結果',
+					'@dataProvider dataProviderIndex',
 					'@return void',
 				),
-				'testViewFile()',
+				'testIndexByEditable($urlOptions, $assert, $exception = null, $return = \'view\')',
 				array(
-					'//ログイン',
-					'TestAuthGeneral::login($this);',
-					'',
 					'//テスト実行',
-					'$data = $this->__data();',
-					'$this->_testGetAction($data, array(\'method\' => \'assertNotEmpty\'));',
+					'parent::testIndexByEditable($urlOptions, $assert, $exception, $return);',
 					'',
 					'//チェック',
 					'//TODO:view(ctp)ファイルに対するassert追加',
 					'debug($this->view);',
-					'',
-					'//ログアウト',
-					'TestAuthGeneral::logout($this);',
 				)
 			) .
 			'}' .
