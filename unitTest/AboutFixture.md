@@ -4,7 +4,7 @@
 
 ### コンテンツのFixture
 ````
-// * ルーム管理者が書いたコンテンツ
+// * ルーム管理者が書いたコンテンツ＆一度公開して、下書き中
 array(
 	'id' => '1',
 	'block_id' => '2',
@@ -21,19 +21,19 @@ array(
 	'block_id' => '2',
 	'key' => 'content_key_1',
 	'language_id' => '2',
-	'status' => '4',
+	'status' => '3',
 	'is_active' => false,
 	'is_latest' => true,
 	//TODO:その他のフィールドデータ
 	'created_user' => '1'
 ),
-// * 一般が書いたコンテンツ＆一度も公開していない
+// * 一般が書いたコンテンツ＆一度も公開していない（承認待ち）
 array(
 	'id' => '3',
 	'block_id' => '2',
 	'key' => 'content_key_2',
 	'language_id' => '2',
-	'status' => '3',
+	'status' => '2',
 	'is_active' => false,
 	'is_latest' => true,
 	//TODO:その他のフィールドデータ
@@ -51,7 +51,7 @@ array(
 	//TODO:その他のフィールドデータ
 	'created_user' => '4'
 ),
-// * 一般が書いたコンテンツ＆一度公開して、下書き中
+// * 一般が書いたコンテンツ＆一度公開して、差し戻し
 array(
 	'id' => '5',
 	'block_id' => '2',
@@ -69,13 +69,13 @@ array(
 	'block_id' => '2',
 	'key' => 'content_key_4',
 	'language_id' => '2',
-	'status' => '3',
+	'status' => '4',
 	'is_active' => false,
 	'is_latest' => true,
 	//TODO:その他のフィールドデータ
 	'created_user' => '4'
 ),
-// * 編集長が書いたコンテンツ＆一度も公開していない
+// * 編集長が書いたコンテンツ＆一度も公開していない（下書き中）
 array(
 	'id' => '7',
 	'block_id' => '2',
