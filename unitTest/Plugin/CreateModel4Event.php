@@ -29,11 +29,17 @@ Class CreateModel4Event extends CreateModel4 {
 		$processes[] = '$model = $this->_modelName;';
 		$processes[] = '$methodName = $this->_methodName;';
 		$processes[] = '';
-		$processes[] = '//データ生成';
-		$processes[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
-		$processes[] = '';
-		$processes[] = '//テスト実施';
-		$processes[] = '$result = $this->$model->$methodName($data);';
+		if ($function === 'delete') {
+			$processes[] = '//テスト実施';
+			$processes[] = '$id = (new ' . $this->testFile['class'] . 'Fixture())->records[0][\'id\'];';
+			$processes[] = '$result = $this->$model->$methodName($id);';
+		} else {
+			$processes[] = '//データ生成';
+			$processes[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
+			$processes[] = '';
+			$processes[] = '//テスト実施';
+			$processes[] = '$result = $this->$model->$methodName($data);';
+		}
 		$processes[] = '';
 		$processes[] = '//チェック';
 		$processes[] = '//TODO:Assertを書く';

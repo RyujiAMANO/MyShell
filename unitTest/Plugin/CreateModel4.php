@@ -28,7 +28,7 @@ Class CreateModel4 extends CreateObject {
 		}
 
 		$file = file_get_contents($this->testFile['path']);
-		return (bool)preg_match('/Workflow\.Workflow/', $file);
+		return (bool)preg_match('/' . chr(9) . '\'Workflow\.Workflow/', $file);
 	}
 
 	/**
