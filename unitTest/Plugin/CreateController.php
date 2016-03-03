@@ -123,7 +123,7 @@ Class CreateController extends CreateObject {
 				continue;
 			}
 
-			if (substr($param[0], 0, strlen('beforeFilter')) === 'beforeFilter') {
+			if ($param[0] === 'beforeFilter') {
 				(new CreateController4OtherController($this->testFile, false))->createTest($param, 'index');
 				continue;
 			}
@@ -178,6 +178,8 @@ Class CreateController extends CreateObject {
 			} elseif ($this->isBlockPermission()) {
 				$param[0] = 'edit';
 				$class = 'CreateController4BlockPermissionControllerEdit';
+			} elseif (substr($param[0], 0, strlen('edit')) === 'edit') {
+				$class = 'CreateController4EditController';
 			} else {
 				$class = 'CreateController4OtherController';
 			}

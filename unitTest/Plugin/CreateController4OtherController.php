@@ -69,11 +69,11 @@ Class CreateController4OtherController extends CreateController4 {
 				)
 			) .
 			$this->_classMethod(
-				$action . '()アクションのテスト',
+				$action . '()アクションのGetリクエストテスト',
 				array(
 					'@return void',
 				),
-				'test' . ucfirst($function) . '()',
+				'test' . ucfirst($function) . 'Get()',
 				array(
 					'//テスト実行',
 					'$this->_testGetAction(array(\'action\' => \'' . $action . '\'), array(\'method\' => \'assertNotEmpty\'), null, \'view\');',
