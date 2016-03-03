@@ -80,7 +80,7 @@ Class CreateModel4Save extends CreateModel4 {
 			);
 
 		$processes2 = array();
-		$processes2[] = '$data = $this->dataProviderSave()[0];';
+		$processes2[] = '$data = $this->dataProviderSave()[0][0];';
 		$processes2[] = '';
 		$processes2[] = '//TODO:テストパタンを書く';
 		$processes2[] = 'return array(';
@@ -102,7 +102,7 @@ Class CreateModel4Save extends CreateModel4 {
 			);
 
 		$processes3 = array();
-		$processes3[] = '$data = $this->dataProviderSave()[0];';
+		$processes3[] = '$data = $this->dataProviderSave()[0][0];';
 		$processes3[] = '';
 		$processes3[] = '//TODO:テストパタンを書く';
 		$processes3[] = 'return array(';
