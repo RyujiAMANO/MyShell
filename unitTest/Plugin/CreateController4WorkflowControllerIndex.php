@@ -106,7 +106,7 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 				)
 			) .
 			$this->_classMethod(
-				'indexアクションのテスト(編集権限あり)用DataProvider' . chr(10) .
+				'indexアクションのテスト(作成権限あり)用DataProvider' . chr(10) .
 					' *' . chr(10) .
 					' * ### 戻り値' . chr(10) .
 					' *  - urlOptions: URLオプション' . chr(10) .
@@ -116,20 +116,9 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 				array(
 					'@return array',
 				),
-				'dataProviderIndexByEditable()',
+				'dataProviderIndexByCreatable()',
 				array(
-					'$data = $this->__data();',
-					'',
-					'//テストデータ',
-					'$results = array();',
-					'$results[0] = array(',
-					chr(9) . '\'urlOptions\' => $data,',
-					chr(9) . '\'assert\' => array(\'method\' => \'assertNotEmpty\'),',
-					');',
-					'',
-					'//TODO:必要なテストデータ追加',
-					'',
-					'return $results;',
+					'return array($this->dataProviderIndex()[0]);',
 				)
 			) .
 			$this->_classMethod(
@@ -139,7 +128,7 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 					'@param array $assert テストの期待値',
 					'@param string|null $exception Exception',
 					'@param string $return testActionの実行後の結果',
-					'@dataProvider dataProviderIndex',
+					'@dataProvider dataProviderIndexByCreatable',
 					'@return void',
 				),
 				'testIndexByCreatable($urlOptions, $assert, $exception = null, $return = \'view\')',
@@ -153,7 +142,7 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 				)
 			) .
 			$this->_classMethod(
-				'indexアクションのテスト(作成権限のみ)用DataProvider' . chr(10) .
+				'indexアクションのテスト(編集権限あり)用DataProvider' . chr(10) .
 					' *' . chr(10) .
 					' * ### 戻り値' . chr(10) .
 					' *  - urlOptions: URLオプション' . chr(10) .
@@ -163,20 +152,9 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 				array(
 					'@return array',
 				),
-				'dataProviderIndexByCreatable()',
+				'dataProviderIndexByEditable()',
 				array(
-					'$data = $this->__data();',
-					'',
-					'//テストデータ',
-					'$results = array();',
-					'$results[0] = array(',
-					chr(9) . '\'urlOptions\' => $data,',
-					chr(9) . '\'assert\' => array(\'method\' => \'assertNotEmpty\'),',
-					');',
-					'',
-					'//TODO:必要なテストデータ追加',
-					'',
-					'return $results;',
+					'return array($this->dataProviderIndex()[0]);',
 				)
 			) .
 			$this->_classMethod(
@@ -186,7 +164,7 @@ Class CreateController4WorkflowControllerIndex extends CreateController4Workflow
 					'@param array $assert テストの期待値',
 					'@param string|null $exception Exception',
 					'@param string $return testActionの実行後の結果',
-					'@dataProvider dataProviderIndex',
+					'@dataProvider dataProviderIndexByEditable',
 					'@return void',
 				),
 				'testIndexByEditable($urlOptions, $assert, $exception = null, $return = \'view\')',
