@@ -49,7 +49,9 @@ Class CreateModel4Save extends CreateModel4 {
 
 		$processes1 = array();
 		$processes1[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[1];';
-		$processes1[] = '$data[\'' . $this->testFile['class'] . '\'][\'status\'] = \'1\';';
+		if ($this->isWorkflow()) {
+			$processes1[] = '$data[\'' . $this->testFile['class'] . '\'][\'status\'] = \'1\';';
+		}
 		$processes1[] = '';
 		$processes1[] = '//TODO:テストパタンを書く';
 		$processes1[] = '$results = array();';
@@ -58,7 +60,7 @@ Class CreateModel4Save extends CreateModel4 {
 		$processes1[] = '// * 新規の登録処理';
 		$processes1[] = '$results[1] = array($data);';
 		$processes1[] = '$results[1] = Hash::insert($results[1], \'0.' . $this->testFile['class'] . '.id\', null);';
-		$processes1[] = '$results[1] = Hash::insert($results[1], \'0.' . $this->testFile['class'] . '.key\', null);';
+		$processes1[] = '$results[1] = Hash::insert($results[1], \'0.' . $this->testFile['class'] . '.key\', null); //TODO:不要なら削除する';
 		$processes1[] = '$results[1] = Hash::remove($results[1], \'0.' . $this->testFile['class'] . '.created_user\');';
 		$processes1[] = '';
 		$processes1[] = 'return $results;';
