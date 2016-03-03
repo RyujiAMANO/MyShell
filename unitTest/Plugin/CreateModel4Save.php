@@ -48,9 +48,11 @@ Class CreateModel4Save extends CreateModel4 {
 			$this->_getClassVariable($function);
 
 		$processes1 = array();
-		$processes1[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[1];';
 		if ($this->isWorkflow()) {
+			$processes1[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[1];';
 			$processes1[] = '$data[\'' . $this->testFile['class'] . '\'][\'status\'] = \'1\';';
+		} else {
+			$processes1[] = '$data[\'' . $this->testFile['class'] . '\'] = (new ' . $this->testFile['class'] . 'Fixture())->records[0];';
 		}
 		$processes1[] = '';
 		$processes1[] = '//TODO:テストパタンを書く';
