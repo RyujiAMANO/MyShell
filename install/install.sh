@@ -118,10 +118,16 @@ if [ ! "${NORMALDEV}" = "4" ]; then
 			"backup" ) continue ;;
 			"logs" ) continue ;;
 			"Vagrantfile" ) continue ;;
+			"Vagrantfile.win" ) continue ;;
+			"Vagrantfile.mac" ) continue ;;
 			"vagrant-halt.bat" ) continue ;;
-			"vagrant-plugin-install.bat" ) continue ;;
+			"vagrant-halt.command" ) continue ;;
+			"vagrant-install.bat" ) continue ;;
+			"vagrant-install.command" ) continue ;;
 			"vagrant-provision.bat" ) continue ;;
+			"vagrant-provision.command" ) continue ;;
 			"vagrant-up.bat" ) continue ;;
+			"vagrant-up.command" ) continue ;;
 			* )
 			
 			echo "rm -Rf ${NC3DIR}/${file}"
