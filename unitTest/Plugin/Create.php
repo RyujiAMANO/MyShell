@@ -387,7 +387,7 @@ Class CreateObject {
 		$file = file_get_contents($this->testFile['path']);
 		$matches = array();
 		$result = array();
-		if (preg_match_all('/.*?function ([_a-zA-Z0-9]+)?\((.*)?\)/', $file, $matches)) {
+		if (preg_match_all('/.*? function ([_a-zA-Z0-9]+)?\((.*)?\)/', $file, $matches)) {
 			foreach (array_keys($matches[0]) as $i) {
 				if (preg_match('/\//', $matches[0][$i]) || $matches[1][$i] === '__construct') {
 					continue;

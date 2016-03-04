@@ -358,6 +358,9 @@ Class CreateController4WorkflowControllerEdit extends CreateController4Workflow 
 				),
 				'__assertEditGet($data)',
 				array(
+					'//TODO:必要に応じてassert書く',
+					'debug($this->view);',
+					'',
 					'$this->assertInput(',
 					chr(9) . '\'input\', \'data[Frame][id]\', $data[\'Frame\'][\'id\'], $this->view',
 					');',

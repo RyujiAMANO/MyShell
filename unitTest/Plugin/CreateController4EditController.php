@@ -131,6 +131,10 @@ Class CreateController4EditController extends CreateController4 {
 					),
 					'__assertEditGet($frameId, $blockId, $blockKey)',
 					array(
+						'//TODO:必要に応じてassert書く',
+						'debug($this->view);',
+						'debug($this->controller->request->data);',
+						'',
 						'$this->assertInput(\'form\', null, \'' . Inflector::underscore($this->plugin) . '/' . $controller . '/edit/\' . $blockId, $this->view);',
 						'$this->assertInput(\'input\', \'_method\', \'PUT\', $this->view);',
 						'$this->assertInput(\'input\', \'data[Frame][id]\', $frameId, $this->view);',
