@@ -77,7 +77,7 @@ echo ""
 echo "作成者のメールアドレスを入力してください。[nakajimashouhei@gmail.com]"
 #echo -n "> "
 read ANS
-ANS=""
+#ANS=""
 if [ "$ANS" = "" ]; then
 	ANS="nakajimashouhei@gmail.com"
 fi
