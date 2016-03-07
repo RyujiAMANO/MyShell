@@ -54,12 +54,12 @@ Class CreateModel4Event extends CreateModel4 {
 					'App::uses(\'' . $testSuiteTest . '\', \'' . $testSuitePlugin . '.TestSuite\')',
 					'App::uses(\'' . $this->testFile['class'] . 'Fixture\', \'' . $this->plugin . '.Test/Fixture\')',
 				),
-				'before' . ucfirst($function) . '()とafter' . ucfirst($function) . '()のテスト'
+				$this->testFile['class'] . '::' . 'before' . ucfirst($function) . '()とafter' . ucfirst($function) . '()のテスト'
 			) .
 			$this->_phpdocClassHeader(
 				$function,
 				'NetCommons\\' . $this->plugin . '\\Test\\Case\\Model\\' . Inflector::camelize(ucfirst($this->testFile['file'])),
-				'before' . ucfirst($function) . '()とafter' . ucfirst($function) . '()のテスト'
+				$this->testFile['class'] . '::' . 'before' . ucfirst($function) . '()とafter' . ucfirst($function) . '()のテスト'
 			) .
 			'class ' . $className . ' extends ' . $testSuiteTest . ' {' . chr(10) .
 			'' . chr(10) .
