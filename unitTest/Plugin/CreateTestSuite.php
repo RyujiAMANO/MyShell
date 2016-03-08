@@ -147,7 +147,8 @@ Class CreateTestSuite extends CreateObject {
 		$processes[] = '';
 		$processes[] = '//チェック';
 		$processes[] = '//TODO:assertを書く';
-		if (in_array($testSuiteTest, ['NetCommonsControllerTestCase', 'ControllerTestCase'], true)) {
+		if (substr($function, 0, strlen('dataProvider')) !== 'dataProvider' &&
+				in_array($testSuiteTest, ['NetCommonsControllerTestCase', 'ControllerTestCase'], true)) {
 			$processes[] = 'debug($result->view);';
 		} else {
 			$processes[] = 'debug($result);';
@@ -260,15 +261,24 @@ Class CreateTestSuite extends CreateObject {
 			);
 
 		foreach ($functions as $function) {
-			$output .=
-				preg_replace('/@return .*/', '@return mixed テスト結果', $function[2]) . chr(10) .
-				chr(9) . 'public function ' . $function[0] . '(' . $function[1] . ') {' . chr(10) .
-				chr(9) . chr(9) . '//テストコントローラ生成' . chr(10) .
-				chr(9) . chr(9) . '$this->generateNc(\'Test' . $this->plugin . '.' . $testClassName . '\');' . chr(10) .
-				chr(9) . chr(9) . 'parent::' . $function[0] . '(' . preg_replace('/ = ([_\'"\-\(\)a-zA-Z0-9])+/', '', $function[1]) . ');' . chr(10) .
-				chr(9) . chr(9) . 'return $this;' . chr(10) .
-				chr(9) . '}' . chr(10) .
-				'' . chr(10);
+			if (substr($function[0], 0, strlen('dataProvider')) === 'dataProvider') {
+				$output .=
+					preg_replace('/@return .*/', '@return mixed テスト結果', $function[2]) . chr(10) .
+					chr(9) . 'public function ' . $function[0] . '(' . $function[1] . ') {' . chr(10) .
+					chr(9) . chr(9) . 'return parent::' . $function[0] . '(' . preg_replace('/ = ([_\'"\-\(\)a-zA-Z0-9])+/', '', $function[1]) . ');' . chr(10) .
+					chr(9) . '}' . chr(10) .
+					'' . chr(10);
+			} else {
+				$output .=
+					preg_replace('/@return .*/', '@return mixed テスト結果', $function[2]) . chr(10) .
+					chr(9) . 'public function ' . $function[0] . '(' . $function[1] . ') {' . chr(10) .
+					chr(9) . chr(9) . '//テストコントローラ生成' . chr(10) .
+					chr(9) . chr(9) . '$this->generateNc(\'Test' . $this->plugin . '.' . $testClassName . '\');' . chr(10) .
+					chr(9) . chr(9) . 'parent::' . $function[0] . '(' . preg_replace('/ = ([_\'"\-\(\)a-zA-Z0-9])+/', '', $function[1]) . ');' . chr(10) .
+					chr(9) . chr(9) . 'return $this;' . chr(10) .
+					chr(9) . '}' . chr(10) .
+					'' . chr(10);
+			}
 		}
 
 		$output .=
