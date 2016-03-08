@@ -35,7 +35,11 @@ Class CreateTestSuite extends CreateObject {
 
 		$matches = array();
 		if (preg_match('/^[A-Za-z0-9]+Controller([A-Za-z0-9]+)?Test$/', $this->testFile['class'], $matches)) {
-			$action = Inflector::underscore(strtolower($matches[1]));
+			if (isset($matches[1])) {
+				$action = Inflector::underscore(strtolower($matches[1]));
+			} else {
+				$action = 'index';
+			}
 			$this->_createTestController($testClassName, $action);
 			$this->_createTestView($testClassName, $action);
 			$this->_createTestSuiteControllerTestCase($testClassName, $functions);
