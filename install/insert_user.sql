@@ -34,13 +34,19 @@ SET NAMES utf8;
 #-- --------------------
 #-- pages
 #-- --------------------
-INSERT INTO pages(room_id, lft, rght, permalink, slug, is_published)
-SELECT 1, (@i := @i + 1), (@i := @i + 1), concat('slug_', `key`), concat('slug_', `key`), 1
-FROM (select @i:=max(rght) from pages) as dummy, `plugins`
+INSERT INTO pages(root_id, parent_id, room_id, lft, rght, permalink, slug, is_published)
+SELECT 1, 1, 1, (@i := @i + 1), (@i := @i + 1), concat('slug_', `key`), concat('slug_', `key`), 1
+FROM (select @i:=max(rght) from pages where parent_id = 1) as dummy, `plugins`
 WHERE plugins.type = 1
 AND plugins.key != 'menus'
 AND plugins.language_id = '2'
 ORDER BY plugins.id;
+
+UPDATE pages, (select max(rght)+1 as max_rght from pages where parent_id = 1) as dummy
+SET pages.rght = dummy.max_rght WHERE id = 1;
+
+UPDATE pages, (select max(rght)+1 as max_rght from pages) as dummy
+SET pages.lft = dummy.max_rght, pages.rght = dummy.max_rght + 1 WHERE id = 3;
 
 #-- INSERT INTO pages(room_id, lft, rght, permalink, slug, is_published)
 #-- SELECT (@r := @r + 1), (@i := @i + 1), (@i := @i + 1), concat('slug_', `username`), concat('slug_', `username`), 1
