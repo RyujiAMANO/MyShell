@@ -34,8 +34,8 @@ SET NAMES utf8;
 #-- --------------------
 #-- pages
 #-- --------------------
-INSERT INTO pages(root_id, parent_id, room_id, lft, rght, permalink, slug, is_published)
-SELECT 1, 1, 1, (@i := @i + 1), (@i := @i + 1), concat('slug_', `key`), concat('slug_', `key`), 1
+INSERT INTO pages(root_id, parent_id, room_id, lft, rght, permalink, slug)
+SELECT 1, 1, 1, (@i := @i + 1), (@i := @i + 1), concat('slug_', `key`), concat('slug_', `key`)
 FROM (select @i:=max(rght) from pages where parent_id = 1) as dummy, `plugins`
 WHERE plugins.type = 1
 AND plugins.key != 'menus'
