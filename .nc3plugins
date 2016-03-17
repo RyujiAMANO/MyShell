@@ -89,7 +89,7 @@ LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "ThemeSettings https://github.com/s-n
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "UserRoles https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Users https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Videos https://github.com/s-nakajima")
-LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Workflow https://github.com/s-nakajima")
+#LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Workflow https://github.com/s-nakajima")
 #LOCALDEV_PLUGINS=("${LOCALDEV_PLUGINS[@]}" "Wysiwyg https://github.com/s-nakajima develop")
 
 #composer.json
