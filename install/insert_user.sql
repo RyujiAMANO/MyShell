@@ -52,10 +52,11 @@ UPDATE pages, (select max(rght)+1 as max_rght from pages) as dummy
 SET pages.lft = dummy.max_rght, pages.rght = dummy.max_rght + 1 WHERE id = 5;
 
 UPDATE pages, (select max(rght)+1 as max_rght from pages) as dummy
-SET pages.rght = dummy.max_rght + 1 WHERE id = 2;
+SET pages.rght = dummy.max_rght WHERE id = 2;
 
 UPDATE pages, (select max(rght)+1 as max_rght from pages) as dummy
 SET pages.lft = dummy.max_rght, pages.rght = dummy.max_rght + 1 WHERE id = 3;
+
 
 #-- INSERT INTO pages(room_id, lft, rght, permalink, slug, is_published)
 #-- SELECT (@r := @r + 1), (@i := @i + 1), (@i := @i + 1), concat('slug_', `username`), concat('slug_', `username`), 1
@@ -110,7 +111,7 @@ SELECT pages.id, containers.id, 1
 FROM pages, plugins, containers
 WHERE pages.slug = concat('slug_', plugins.key)
 AND plugins.language_id = '2'
-AND containers.type != 3
+#-- AND containers.type != 3;
 AND containers.id IN (1, 2, 4, 5);
 
 INSERT INTO containers_pages(page_id, container_id, is_published)
