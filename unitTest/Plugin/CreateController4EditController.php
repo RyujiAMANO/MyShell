@@ -193,8 +193,8 @@ Class CreateController4EditController extends CreateController4 {
 				'',
 				'//チェック',
 				'$header = $this->controller->response->header();',
-				'$pattern = \'/\' . preg_quote(\'/' . $this->pluginSingularizeUnderscore . '/' . $this->pluginSingularizeUnderscore . '/index\', \'/\') . \'/\';',
-				'$this->assertRegExp($pattern, $header[\'Location\']);',
+				'$pattern = \'' . $this->pluginSingularizeUnderscore . '/' . $this->pluginSingularizeUnderscore . '/index/\' . $blockId;',
+				'$this->assertTextContains($pattern, $header[\'Location\']);',
 			);
 		} else {
 			$process = array(
@@ -208,9 +208,8 @@ Class CreateController4EditController extends CreateController4 {
 				'',
 				'//チェック',
 				'$header = $this->controller->response->header();',
-				'$pattern = \'/\' . preg_quote(\'/' .
-						$this->pluginSingularizeUnderscore . '/' . $this->pluginSingularizeUnderscore . '/index/\' . $blockId, \'/\') . \'/\';',
-				'$this->assertRegExp($pattern, $header[\'Location\']);',
+				'$pattern = \'' . $this->pluginSingularizeUnderscore . '/' . $this->pluginSingularizeUnderscore . '/index/\' . $blockId;',
+				'$this->assertTextContains($pattern, $header[\'Location\']);',
 			);
 		}
 		$output .=
@@ -234,7 +233,12 @@ Class CreateController4EditController extends CreateController4 {
 			);
 		} else {
 			$process = array(
-				'$this->_mockForReturnFalse(\'TODO:MockにするModel名書く\', \'TODO:Mockにするメソッド名書く\');',
+				'$this->_mockForReturnCallback(\'TODO:MockにするModel名書く\', \'TODO:Mockにするメソッド名書く\', function () {',
+				chr(9) . '$model = \'TODO:ValidationErrorのModel\';',
+				chr(9) . '$message = \'TODO:ValidationErrorのメッセージ\';',
+				chr(9) . '$this->controller->$model->invalidate(\'TODO:ValidationErrorのField\', $message);',
+				chr(9) . 'return false;',
+				'});',
 				'',
 				'//テストデータ',
 				'$frameId = \'6\';',
@@ -246,6 +250,10 @@ Class CreateController4EditController extends CreateController4 {
 				chr(9) . chr(9) . 'array(\'action\' => \'edit\', \'block_id\' => $blockId, \'frame_id\' => $frameId), null, \'view\');',
 				'//$this->_testPostAction(\'put\', $this->__data(),',
 				'//' . chr(9) . chr(9) . 'array(\'action\' => \'edit\', \'block_id\' => $blockId, \'frame_id\' => $frameId), \'BadRequestException\', \'view\');',
+				'',
+				'//チェック',
+				'$message = \'TODO:ValidationErrorのメッセージ\';',
+				'$this->assertTextContains($message, $this->view);',
 				'',
 				'//TODO:必要に応じてassert書く',
 			);
