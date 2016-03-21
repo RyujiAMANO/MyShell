@@ -37,7 +37,9 @@ Class CreateViewHelper extends CreateObject {
 			output(sprintf('#### テストファイル生成  %s(%s)', $param[0], $param[1]) . chr(10));
 
 			if (substr($param[0], 0, strlen('afterRenderFile')) === 'afterRenderFile' ||
-					substr($param[0], 0, strlen('beforeRender')) === 'beforeRender') {
+					substr($param[0], 0, strlen('beforeRender')) === 'beforeRender' ||
+					substr($param[0], 0, strlen('afterRender')) === 'afterRender' ||
+					substr($param[0], 0, strlen('beforeLayout')) === 'beforeLayout') {
 
 				(new CreateViewHelper4Event($this->testFile, false))->createTest($param);
 				continue;
