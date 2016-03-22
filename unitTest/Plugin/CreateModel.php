@@ -58,7 +58,11 @@ Class CreateModel extends CreateObject {
 				(new CreateModel4Get($this->testFile))->createTest($param);
 
 			} elseif (substr($param[0], 0, strlen('save')) === 'save') {
-				(new CreateModel4Save($this->testFile))->createTest($param);
+				if ($this->isSaveField($param)) {
+					(new CreateModel4Other($this->testFile))->createTest($param);
+				} else {
+					(new CreateModel4Save($this->testFile))->createTest($param);
+				}
 
 			} elseif (substr($param[0], 0, strlen('delete')) === 'delete') {
 				(new CreateModel4Delete($this->testFile))->createTest($param);
@@ -82,9 +86,6 @@ Class CreateModel extends CreateObject {
 
 			} elseif (substr($param[0], 0, strlen('beforeValidate')) === 'beforeValidate') {
 				(new CreateModel4Validate($this->testFile))->createTest(array('validate', ''));
-
-			} elseif ($this->isSaveField($param)) {
-				(new CreateModel4Other($this->testFile))->createTest($param);
 
 			} else {
 				output(sprintf('%sは、どのタイプのテストですか。', $param[0] . '()'));
