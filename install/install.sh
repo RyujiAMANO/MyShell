@@ -15,7 +15,7 @@ if [ "$1" = "mathjax" ]; then
 	NORMALDEV=2; export NORMALDEV
 elif [ "$1" = "install" ]; then
 	NORMALDEV=4; export NORMALDEV
-elif [ "$1" = "develop" -o "$1" = "dev" ]; then
+elif [ "$1" = "develop" -o "$1" = "develop2" -o "$1" = "dev" ]; then
 	NORMALDEV=0; export NORMALDEV
 elif [ "$1" = "composer" -o "$1" = "comp" ]; then
 	NORMALDEV=3; export NORMALDEV
@@ -221,15 +221,18 @@ if [ ! "${NORMALDEV}" = "4" ]; then
 	fi
 
 	if [ "${NORMALDEV}" = "2" -o "${NORMALDEV}" = "0" ]; then
-	#	echo "cp -Rf ${CURDIR}/Themed/* app/app/View/Themed/"
-	#	cp -Rf ${CURDIR}/Themed/* app/app/View/Themed/
-		for theme in `ls ${CURDIR}/Themed/`
-		do
-			if [ ! "${theme}" = "README.md" ]; then
-				echo "ln -s ${CURDIR}/Themed/${theme} app/app/View/Themed/${theme}"
-				ln -s ${CURDIR}/Themed/${theme} app/app/View/Themed/${theme}
-			fi
-		done
+		if [ "$1" = "develop2" ]; then
+			echo "cp -Rf ${CURDIR}/Themed/* app/app/View/Themed/"
+			cp -Rf ${CURDIR}/Themed/* app/app/View/Themed/
+		else
+			for theme in `ls ${CURDIR}/Themed/`
+			do
+				if [ ! "${theme}" = "README.md" ]; then
+					echo "ln -s ${CURDIR}/Themed/${theme} app/app/View/Themed/${theme}"
+					ln -s ${CURDIR}/Themed/${theme} app/app/View/Themed/${theme}
+				fi
+			done
+		fi
 	fi
 
 	echo "chown ${OWNER}:${GROUP} -R app"
