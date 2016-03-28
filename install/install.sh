@@ -221,8 +221,15 @@ if [ ! "${NORMALDEV}" = "4" ]; then
 	fi
 
 	if [ "${NORMALDEV}" = "2" -o "${NORMALDEV}" = "0" ]; then
-		echo "cp -Rf ${CURDIR}/Themed/* app/app/View/Themed/"
-		cp -Rf ${CURDIR}/Themed/* app/app/View/Themed/
+	#	echo "cp -Rf ${CURDIR}/Themed/* app/app/View/Themed/"
+	#	cp -Rf ${CURDIR}/Themed/* app/app/View/Themed/
+		for theme in `ls ${CURDIR}/Themed/`
+		do
+			if [ ! "${theme}" = "README.md" ]; then
+				echo "ln -s ${CURDIR}/Themed/${theme} app/app/View/Themed/${theme}"
+				ln -s ${CURDIR}/Themed/${theme} app/app/View/Themed/${theme}
+			fi
+		done
 	fi
 
 	echo "chown ${OWNER}:${GROUP} -R app"
