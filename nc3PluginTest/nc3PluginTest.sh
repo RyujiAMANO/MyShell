@@ -1,5 +1,6 @@
 #!/bin/bash -ex
 CURDIR=`pwd`
+SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
 
 cd /var/www/app/
 #cd /var/www/NetCommons3/
@@ -341,11 +342,11 @@ do
 				#echo ""
 
 				if [ "${CMDPARAM}" = "caverageAll" -o "${CMDPARAM}" = "list.caverageAll" ]; then
-					echo "php ${CURDIR}/parse_caverage.php ${plugin} 1"
-					php ${CURDIR}/parse_caverage_tree.php ${plugin} 1
+					echo "php ${SCRIPT_DIR}/parse_caverage.php ${plugin} 1"
+					php ${SCRIPT_DIR}/parse_caverage_tree.php ${plugin} 1
 				else
-					echo "php ${CURDIR}/parse_caverage.php ${plugin} 0"
-					php ${CURDIR}/parse_caverage_tree.php ${plugin} 0
+					echo "php ${SCRIPT_DIR}/parse_caverage.php ${plugin} 0"
+					php ${SCRIPT_DIR}/parse_caverage_tree.php ${plugin} 0
 					#echo "php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}.html 0"
 					#php ${CURDIR}/parse_caverage.php ${plugin} Plugin_${plugin}.html 0
 				fi
